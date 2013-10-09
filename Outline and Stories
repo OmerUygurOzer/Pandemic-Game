@@ -1,0 +1,17 @@
+I suggest we start on the pieces of the board game and then work on the mechanics of gameplay.
+7 Role cards and 7 pawns. I believe we can store both in a struct. We'll probably need a location marker to keep track of players and maybe use names to id each player.
+59 player cards. An array of 59 in the class file should be able to handle storage. We'll use member funcs to draw 
+4 reference cards. Can be in an array or written seperately
+48 infection cards.An array of 48 in the class file should be able to handle storage. We'll use member funcs to draw 
+96 disease cubes. I'm thinking we have a counter to keep track so that we do not exceed 24 for each color. The map struct will have a marker of how many disease cube per 
+
+location.
+1 board. Im thinking we need to implement the map using graphs. The board looks like a graph where you can only move towards a location's edge. Unless they pull a card that 
+
+says otherwise.
+
+Not sure what they do yet
+4 cure markers. 
+1 infection rate marker
+1 outbreaks marker
+6 research stations
