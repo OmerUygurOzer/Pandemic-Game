@@ -1,0 +1,55 @@
+48 Cities:
+G = Grey
+O = Orange
+Y = Yellow
+B = Blue
+
+
+Algiers	G
+Atlanta	B
+Baghdad	G
+Bangkok	O
+Beijing	O
+Bogota	Y
+Buenosaires	Y
+Cairo	G
+Chennai	G
+Chicago	B
+Delhi	G
+Essen	B
+Hochiminhcity	O
+Hongkong	O
+Istanbul	G
+Jakarta	O
+Johannesburg	Y
+Karachi	G	
+Khartoum	Y
+Kinshasa	Y
+Kolkata	G
+Lagos	Y
+Lima	Y
+London	B
+Los Angeles	Y
+Madrid	B
+Manila	O
+Mexico City	Y
+Miami	Y
+Milan	B
+Moscow	G
+Mumbai	G
+New York	B
+Osaka	O
+Paris	B
+Riyadh	G
+San Francisco	B
+Santiago	Y
+Saopaulo	Y
+Seoul	O
+Shanghai	O
+St Petersburg	B
+Sydney	O
+Taipei	O
+Tehran	G
+Tokyo	O
+Toronto	B
+Washing B
