@@ -1,0 +1,11 @@
+Going with Mode View Controller design.
+Pandemic class will be in Model.h
+Game logic will be in Controller.h
+All Screen output in View.h
+
+Design for the map will be an array of city names, and an array of integers for neighboring cities. There will be markers for cubes, research centers, city colors, player position.
+
+User will have the option to undo moves if not finished with all 4 player moves.
+Maybe store moves in a queue and after last move confirmed, execute moves.
+
+
