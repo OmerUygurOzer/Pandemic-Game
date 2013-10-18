@@ -1,3 +1,5 @@
+#ifndef MODEL_H
+#define MODEL_H
 #include <string>
 
 struct city//empty city container
@@ -19,26 +21,22 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	//If player draws a card and num of cards > 7, player can use cards until less than 7, or discard.
 };
 
-class PandemicMap
+class PandModel
 {
 	city cities[48];//48 cities, will fill in values with the constructor
-	//int value; //The city's ID number. Will be used with cards
-	//int color; //Based on the number, this will determine the color of the city.
-
-	//Basically when you try to move to another city via ground, a function will be called to check if the move
-	//is valid, using adjacentCities.
+	
 public:
-	PandemicMap();
+	PandModel();
 	//observers
-	city getCityInfo();//maybe seperate into getcityname, getadjcities, getcubes...etc
+	city getCityInfo(int citynum) {return cities[citynum];}//maybe seperate into getcityname, getadjcities, getcubes...etc
 	Playerchar getPlayerInfo();
 	void PrintAdjacent();
 	void FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum);
-	void FillValue(int x) {value = x;};
+	//void FillValue(int x) {value = x;};
 	bool isAdjacent(int x);	//For ground travel, will check if desired destination is included in adjacentCities
 };
 
-PandemicMap::PandemicMap()//constructor
+PandModel::PandModel()//constructor
 {
 	 std::string cityname[48] = {"Algiers", "Atlanta", "Baghdad", "Bangkok", "Beijing", "Bogota", "Buenos Aires", "Cairo", "Chennai", "Chicago", "Delhi", "Essen", "Ho Chi Minh City",
                             "Hong Kong", "Istanbul", "Jakarta", "Johannesburg", "Karachi", "Khartoum", "Kinshasa", "Kolkata", "Lagos", "Lima", "London", "Los Angeles", "Madrid",
@@ -99,21 +97,9 @@ PandemicMap::PandemicMap()//constructor
 
 }
 
-/*void PandemicMap::PrintAdjacent()/////////////////moving this to view.h
-	{
-		cout << "Adjacent cities are: | ";
-		for(int i = 0; i < 4; i++)
-		{
-			if(adjacentCities[i] != -1)
-			{
-			cout << adjacentCities[i] << " | ";
-			}
-		}
-		cout << endl;
 
-	};*/
 
-void PandemicMap::FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum)
+void PandModel::FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum)
 	{
 		cities[citynum].adjacentCities[0] = a;
 		cities[citynum].adjacentCities[1] = b;
@@ -124,50 +110,7 @@ void PandemicMap::FillAdjacent(int a, int b, int c, int d, int e, int f, int g, 
 		cities[citynum].adjacentCities[6] = g;
 	};
 
-	
-
-bool PandemicMap::isAdjacent(int x)	//For ground travel, will check if desired destination is included in adjacentCities
-	{
-		int hold = 20;
-
-		for(int i = 0; i < 4; i++)
-		{
-			if(adjacentCities[i] == x)
-			{hold = 1;}
-			//cout << "Holdvalue: " << hold << endl;
-			//Use this to test if hold is updating properly to show true
-		}
-		if(hold == 1)
-		{
-			return true;
-		}
-		else if(hold ==20)
-			return false;
-	}
 
 
-
-
-void valuetoname(int x); //Converts by integer value into the city's name.
-//Problem right now: All the city names are at the bottom of this program.
-//It might be handier to house all of the information in another class above, then have Cities inherit the information
-//and call the name with a function.
-//I would say just put it in the Cities class itself, but we're going to have an array of those.
-//We'd have the 48 city names  X 48 instances of the class, wasting memory
-
-//////////////////////////////////////////////////////////////////////////////////////////
-//Considered Functions? Other classes?
-//////////////////////////////////////////////////////////////////////////////////////////
-//Insert here-
-//
-//void GenerateCities(Cities); //Some way to generate all Cities data (value, adjacent, etc out of main?)
-//
-//
-//Deck
-//Draw card
-//Game End?
-//Card effects, Profession effects
-//////////////////////////////////////////////////////////////////////////////////////////
-
-
+#endif
 
