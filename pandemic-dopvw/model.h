@@ -38,12 +38,19 @@ public:
 
 PandModel::PandModel()//constructor
 {
+	char citycolors[48];
 	 std::string cityname[48] = {"Algiers", "Atlanta", "Baghdad", "Bangkok", "Beijing", "Bogota", "Buenos Aires", "Cairo", "Chennai", "Chicago", "Delhi", "Essen", "Ho Chi Minh City",
                             "Hong Kong", "Istanbul", "Jakarta", "Johannesburg", "Karachi", "Khartoum", "Kinshasa", "Kolkata", "Lagos", "Lima", "London", "Los Angeles", "Madrid",
                             "Manila", "Mexico City", "Miami", "Milan", "Moscow", "Mumbai", "New York", "Osaka", "Paris", "Riyadh", "San Francisco", "Santiago",
                             "Sao Paulo", "Seoul", "Shanghai", "St. Petersburg", "Sydney", "Taipei", "Tehran", "Tokyo", "Toronto", "Washington"};
 	for(int i = 0; i < 48; i++)
+	{
 		cities[i].cityName = cityname[i];
+		cities[i].diseasecubes = 0;//I believe we need to radomize the cubes location.
+		cities[i].cityColor = 'Z';//will update when array of colors matches cities 
+		cities[i].researchcenter = 0;
+
+	}
 	//-1 Is a filler
         FillAdjacent(25,34,14,7, -1, -1, -1, 0);
         FillAdjacent( 9, 47, 28, -1, -1, -1, -1, 1);
