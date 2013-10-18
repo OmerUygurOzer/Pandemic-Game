@@ -11,6 +11,7 @@ void PandController::updateView(){
 
 int PandController::whereIsPlayer(){
 	// not done yet
+	return 0;
 }
 
 void PandController::setPlayerLocation(){
@@ -23,4 +24,12 @@ void PandController::setPlayerMoves(){
 
 void PandController::NextTurn(){
 	// not done yet
+}
+
+int main()
+{
+	PandModel GameInstance;
+	PandView Screens;
+	Screens.showCityInfo(1);
+	return 0;
 }
