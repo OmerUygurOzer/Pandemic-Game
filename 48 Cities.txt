@@ -1,10 +1,3 @@
-48 Cities:
-G = Grey
-O = Orange
-Y = Yellow
-B = Blue
-
-
 Algiers	G
 Atlanta	B
 Baghdad	G
@@ -18,7 +11,7 @@ Chicago	B
 Delhi	G
 Essen	B
 Hochiminhcity	O
-Hongkong	O
+Hong Kong	O
 Istanbul	G
 Jakarta	O
 Johannesburg	Y
@@ -43,7 +36,7 @@ Paris	B
 Riyadh	G
 San Francisco	B
 Santiago	Y
-Saopaulo	Y
+Sao Paulo	Y
 Seoul	O
 Shanghai	O
 St Petersburg	B
@@ -52,4 +45,13 @@ Taipei	O
 Tehran	G
 Tokyo	O
 Toronto	B
-Washing B
+Washington B
+
+
+48 Cities:
+G = Grey
+O = Orange
+Y = Yellow
+B = Blue
+
+
