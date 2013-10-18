@@ -40,7 +40,7 @@ void PandView::showNeighbors(int citynum)
 	int i = 0;
 	while(temp.adjacentCities[i] != -1)
 	{
-		std::cout<<"City: " << cityname[i] <<std::endl;
+		std::cout<<"City: " << cityname[temp.adjacentCities[i]] <<std::endl;
 		i++;
 	}
 }
@@ -54,23 +54,6 @@ void PandView::showActionMenu(int citynum)
 	std::cout<<"5. list infected cities " << std::endl;
 	std::cout<<"6. list other things " << std::endl;//expansion for later
 	std::cout<<"What would you like to do : " << std::endl;
-	int answer;
-	std::cin>>answer;//modify to restrict input from 1-6
-	//use answer to bring up other menu items.
-	switch (answer)
-	{
-	case 1: showNeighbors(citynum);//and move to neighbor
-		break;
-	case 2: //use citycard
-		break;
-	case 3://remove cube
-		break;
-	case 4: //build research
-		break;
-	case 5: //show infected cities
-		break;
-	case 6://misc
-		break;
-	}
+	
 }
 #endif
