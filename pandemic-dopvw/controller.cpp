@@ -28,10 +28,68 @@ void PandController::NextTurn(){
 
 int main()
 {
+	int numberofplayers;
+	string player1, player2, player3, player4;
+	// Opening introduction and asking for number of players
+	cout << "Welcome to Pandemic!" << endl; 
+	cout << "Let's get started!" << endl; 
+	cout << "How many Players will be playing?"<< endl;
+
+	// Number of players input and validation
+	cin >> numberofplayers;
+        if (numberofplayers < 2 )
+                {
+                        cout << "There must be at least 2 players!" << endl;
+                }
+        else if (numberofplayers > 4)
+                {
+                        cout << "There cannont be more than 4 players!" << endl;
+                }
+
+	// Asking for Playyer names according to how many players 
+	// there are.
+	if (numberofplayers == 2)
+        {
+                cout << "Please enter the name of the first player" << endl;
+                cin >> player1;
+                cout << "Please enter the name of the second player" << endl;
+                cin >> player2;
+        }
+	if (numberofplayers == 3)
+			{
+                cout << "Please enter the name of the first player" << endl;
+                cin >> player1;
+                cout << "Please enter the name of the second player" << endl;
+                cin >> player2;
+                cout << "Please enter the name of the third player" << endl;
+                cin >> player3;
+			}
+	if (numberofplayers == 4)
+			{
+                cout << "Please enter the name of the first player" << endl;
+                cin >> player1;
+                cout << "Please enter the name of the second player" << endl;
+                cin >> player2;
+                cout << "Please enter the name of the third player" << endl;
+                cin >> player3;
+                cout << "Please enter the name of the fourth player" << endl;
+                cin >> player4;
+			}
+	
 	PandModel GameInstance;
-	PandView Screens;
+	GameInstance.setPlayerName(1,player1);
+	GameInstance.setPlayerName(2,player2);
+	//GameInstance.setPlayerName(3,player3);
+	//GameInstance.setPlayerName(4,player4);
+
+	
+	PandView Screens(GameInstance);//need to copy current state of game
+	//after each action, Screens will need to be updated to show current state of game
+
+	Screens.showPlayerInfo(1);
+	Screens.showPlayerInfo(2);
 	Screens.showCityInfo(1);
-	Screens.showNeighbors(1);
+
 	Screens.showActionMenu(1);
 	int answer;
 	std::cin>>answer;//modify to restrict input from 1-6
