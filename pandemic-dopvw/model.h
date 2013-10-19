@@ -13,6 +13,7 @@ struct city//empty city container
 };
 struct Playerchar  //Probably want to change to a class when we do the cards in hand data
 {
+	std::string playerName;
 	int profession; //Player's profession will be designated by a value. Something else will transfer the value to
 	//the data holding all of the professions and all of their effects
 	int location; //This will be the ID number of the city the character is currently located.
@@ -24,16 +25,21 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 class PandModel
 {
 	city cities[48];//48 cities, will fill in values with the constructor
+	Playerchar players[4];//maximum 4 players
 	
 public:
 	PandModel();
 	//observers
 	city getCityInfo(int citynum) {return cities[citynum];}//maybe seperate into getcityname, getadjcities, getcubes...etc
-	Playerchar getPlayerInfo();
+	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	void PrintAdjacent();
 	void FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum);
 	//void FillValue(int x) {value = x;};
 	bool isAdjacent(int x);	//For ground travel, will check if desired destination is included in adjacentCities
+	//setters
+	void setPlayerName(int playernum, std::string name);
+	void setPlayerRole();
+	void setPlayerLocation(int playernum, int location);//use to set new location
 };
 
 PandModel::PandModel()//constructor
@@ -101,7 +107,10 @@ PandModel::PandModel()//constructor
         FillAdjacent( 32, 47, 9, -1, -1, -1, -1, 46);
         FillAdjacent( 46, 32, 28, 1, -1, -1, -1, 47);
 
-
+		players[0].location = 1;//default start location Atlanta CDC
+		players[1].location = 1;//default start location Atlanta CDC
+		players[2].location = 1;//default start location Atlanta CDC
+		players[3].location = 1;//default start location Atlanta CDC
 }
 
 
@@ -117,7 +126,14 @@ void PandModel::FillAdjacent(int a, int b, int c, int d, int e, int f, int g, in
 		cities[citynum].adjacentCities[6] = g;
 	};
 
+void PandModel::setPlayerName(int playernum, std::string name)
+{
+	players[playernum-1].playerName = name;
+}
 
-
+void PandModel::setPlayerLocation(int playernum, int location)
+{
+	players[playernum-1].location = location;
+}
 #endif
 
