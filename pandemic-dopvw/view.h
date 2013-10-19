@@ -13,7 +13,7 @@ public:
 	
 	
 	void showCityInfo(int citynum);
-	void showActionMenu(int citynum);
+	void showActionMenu();
 	void showPlayerInfo(int playernum);
 	void showNeighbors(int citynum);
 	void showCubeLocations();
@@ -61,7 +61,7 @@ void PandView::showNeighbors(int citynum)
 	}
 }
 
-void PandView::showActionMenu(int citynum)
+void PandView::showActionMenu()
 {
 	std::cout<<std::endl;
 	std::cout<<"1. move to adjacent" << std::endl;
