@@ -31,6 +31,8 @@ public:
 	PandModel();
 	//observers
 	city getCityInfo(int citynum) {return cities[citynum];}//maybe seperate into getcityname, getadjcities, getcubes...etc
+	int getNeighbor(int currentcity, int nextcity){return cities[currentcity].adjacentCities[nextcity];}
+
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	void PrintAdjacent();
 	void FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum);
