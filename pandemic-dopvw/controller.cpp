@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "roleactions.h"
 
 PandController::PandController(PandModel m, PandView v){
 	model = m;
@@ -47,7 +48,36 @@ int main()
                 }
 
 	// Asking for Playyer names according to how many players 
-	// there are.
+	// there are
+   
+   
+  //Added this part for role actions .
+  char roles [7] = {'a','a' ,'a', 'a', 'a', 'a', 'a'};   //To keep a track of roles that are still available
+	string rolenames[7] = {"Contingency Plan" , "Dispatcher" , "Medic" , "Operations Expert" , "Quarantine Specialist" , "Researcher" , "Scientist"}; //RoleNames
+	RoleActions Role[numberofplayers];//Role Actions are being managed
+   
+  //Assigning the roles for both players
+	// 't' means the profession is already taken
+	// randomly assigns a profession to every player
+	
+	
+	
+	for (int ply = 0 ; ply<numberofplayers ; ply++){
+		srand (time(NULL));
+		bool taken = false;
+		while (taken == false){
+			int p = rand() % 7;
+				if (!(roles [p] == 't')){
+					//cout <<p<<endl;
+					Players[ply].profession = p ;
+					Role[ply].setPlayer(ply);
+					Role[ply].setProfession(p);        
+					roles[p] = 't';
+					taken = true;
+			}
+		}
+	}
+   
 	if (numberofplayers == 2)
         {
                 cout << "Please enter the name of the first player" << endl;
