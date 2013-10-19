@@ -1,0 +1,114 @@
+#include "controller.h"
+
+PandController::PandController(PandModel m, PandView v){
+	model = m;
+	view = v;
+}
+
+void PandController::updateView(){
+	// not done yet
+}
+
+int PandController::whereIsPlayer(){
+	// not done yet
+	return 0;
+}
+
+void PandController::setPlayerLocation(){
+	// not done yet
+}
+
+void PandController::setPlayerMoves(){
+	// not done yet
+}
+
+void PandController::NextTurn(){
+	// not done yet
+}
+
+int main()
+{
+	int numberofplayers;
+	string player1, player2, player3, player4;
+	// Opening introduction and asking for number of players
+	cout << "Welcome to Pandemic!" << endl; 
+	cout << "Let's get started!" << endl; 
+	cout << "How many Players will be playing?"<< endl;
+
+	// Number of players input and validation
+	cin >> numberofplayers;
+        if (numberofplayers < 2 )
+                {
+                        cout << "There must be at least 2 players!" << endl;
+                }
+        else if (numberofplayers > 4)
+                {
+                        cout << "There cannont be more than 4 players!" << endl;
+                }
+
+	// Asking for Playyer names according to how many players 
+	// there are.
+	if (numberofplayers == 2)
+        {
+                cout << "Please enter the name of the first player" << endl;
+                cin >> player1;
+                cout << "Please enter the name of the second player" << endl;
+                cin >> player2;
+        }
+	if (numberofplayers == 3)
+			{
+                cout << "Please enter the name of the first player" << endl;
+                cin >> player1;
+                cout << "Please enter the name of the second player" << endl;
+                cin >> player2;
+                cout << "Please enter the name of the third player" << endl;
+                cin >> player3;
+			}
+	if (numberofplayers == 4)
+			{
+                cout << "Please enter the name of the first player" << endl;
+                cin >> player1;
+                cout << "Please enter the name of the second player" << endl;
+                cin >> player2;
+                cout << "Please enter the name of the third player" << endl;
+                cin >> player3;
+                cout << "Please enter the name of the fourth player" << endl;
+                cin >> player4;
+			}
+	
+	PandModel GameInstance;
+	GameInstance.setPlayerName(1,player1);
+	GameInstance.setPlayerName(2,player2);
+
+
+	for(int i = 1; i<3; i++)
+	{
+		for(int j = 0; j<4; j++)
+		{
+			PandView newScreen(GameInstance);
+			Playerchar temp = GameInstance.getPlayerInfo(i-1);
+			city tempcity = GameInstance.getCityInfo(i);
+			newScreen.showPlayerInfo(i);
+			newScreen.showCityInfo(temp.location);
+
+			newScreen.showActionMenu();
+			int ans;
+			cin>>ans;
+			if(ans == 1)
+			{
+				cout<<"Where would you like to move :" <<endl;//will move to view.h
+				newScreen.showNeighbors(temp.location);
+				int moveto;
+				cin>>moveto;
+				GameInstance.setPlayerLocation(i, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
+				//PandView tempview(GameInstance);
+				//temp = GameInstance.getPlayerInfo(i-1);
+				//tempview.showPlayerInfo(i);
+				//tempview.showCityInfo(temp.location);
+			}
+		}
+
+	}
+	system("pause");
+	return 0;
+}
