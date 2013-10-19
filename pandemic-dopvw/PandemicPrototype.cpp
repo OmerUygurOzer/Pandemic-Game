@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 #include <string>
+#include <time.h>
+#include <stdlib.h>
+
 
 
 class Cities
@@ -104,8 +107,78 @@ void valuetoname(int x); //Converts by integer value into the city's name.
 //Card effects, Profession effects
 //////////////////////////////////////////////////////////////////////////////////////////
 
+class RoleActions{ //What each player can do with their roles.
+	int player;
+	int profession;
+	
+	public:
+		
+		void setProfession(int x){
+			profession = x;
+		};
+		void setPlayer(int y){
+			player=y;	
+		};
+		int getAction(){
+			int c;
+			cout <<endl<< "What would you like to do?   ";
+			cin >>c;
+			return c;	
+		};
+		void performAction(){ //This is temporary. it will be improved
+			int action;
+			action = getAction();
+			cout <<endl<< "Action performed!"<<endl<<endl ;
+			
+		};
+		void listActions(){
+			cout <<endl;
+			if (profession==0){
+				cout <<"A player who has the 'Contigency Plan' role can take any discarded Event card"<<endl;
+				cout <<"and store it with this card."<<endl;
+				cout <<"The stored Event card will be discarded once used!"<<endl;
+			}
+			if (profession==1){
+				cout <<"A player who has the 'Dispatcher' role can move their fellow player pawns on your"<<endl;
+				cout <<"turns as if they were their own."<<endl;
+				cout <<"They can also move any pawn to another city containing a pawn for 1 action."<<endl;
+			}
+			if (profession==2){
+				cout <<"A player who has the 'Medic' role can remove all cubes of a single color when they treat a city."<<endl;
+				cout <<"They can administer known cures for free."<<endl;
+			
+			}
+			if (profession==3){
+				cout <<"A player who has the 'Operations Expert' can build a research station in their current city for"<<endl;
+				cout <<"one action."<<endl;
+				
+			}
+			if (profession==4){
+				cout <<"A player who has the 'Quarantine Specialist' role can prevent disease cube placemenets in the city"<<endl;
+				cout <<"they are in and all of the ones connected to it"<<endl;
+				
+			}
+			if (profession==5){
+				cout <<"A player who has the 'Researcher' role can give a player cards from their hands for 1 action per card."<<endl;
+				cout <<"Both of their pawns must be in the same city but it doesn't matter which city they are in."<<endl;
+			}
+			if (profession==6){
+				cout <<"A player who has the 'Scientist' role need only 4 cards of the same color to discover a cure."<<endl;
+			}
+		
+					
+		};
+		
+		
+	
+};
+
 int main ()
 {
+  char roles [7] = {'a','a' ,'a', 'a', 'a', 'a', 'a'};   //To keep a track of roles that are still available
+	string rolenames[7] = {"Contingency Plan" , "Dispatcher" , "Medic" , "Operations Expert" , "Quarantine Specialist" , "Researcher" , "Scientist"}; //RoleNames
+	RoleActions Role[2];//Role Actions are being managed
+
 	Cities City[48]; //Initialize the 48 cities
 
 	//int NUMPLAYERS
@@ -115,6 +188,30 @@ int main ()
 						//Just going to use 2 for this example
 
 
+  //Assigning the roles for both players
+	// 't' means the profession is already taken
+	// randomly assigns a profession to every player
+ 
+  for (int ply = 0 ; ply<2 ; ply++){
+		srand (time(NULL));
+		bool taken = false;
+		while (taken == false){
+			int p = rand() % 7;
+				if (!(roles [p] == 't')){
+					//cout <<p<<endl;
+					Players[ply].profession = p ;
+					Role[ply].setPlayer(ply);
+					Role[ply].setProfession(p);        
+					roles[p] = 't';
+					taken = true;
+			}
+		}
+	}
+
+	//cout << "Player 1 is a " << rolenames[(Players[0].profession)]<<endl;
+	//Role[0].listActions(); cout<<endl;
+	//cout << "Player 2 is a " << rolenames[(Players[1].profession)]<<endl;
+	//Role[1].listActions(); cout<<endl;
 
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -250,6 +347,12 @@ movement:
 
 
 		*/
+      
+      /* I'm adding this part to make the game seem more realistic. 
+		it will need to be improved obviously but we'll get back to it later */
+		cout << "Player 1 is a " << rolenames[(Players[0].profession)]<<endl;
+		Role[0].listActions(); cout<<endl;
+		Role[0].performAction();
 
 	}
 
