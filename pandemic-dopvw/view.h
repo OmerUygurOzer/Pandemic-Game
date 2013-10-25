@@ -16,11 +16,11 @@ public:
 	void showActionMenu();
 	void showPlayerInfo(int playernum);
 	void showNeighbors(int citynum);
-	void showCubeLocations();
-	void showPlayersLocation();
-	void showInfectionLevel();
-	void showHowManyCardsLeft();
-	void showDiscardedCards();
+	void showCubeLocations();//stub
+	void showPlayersLocation();//stub
+	void showInfectionLevel();//stub
+	void showHowManyCardsLeft();//stub
+	void showDiscardedCards();//stub
 
 };
 
@@ -87,6 +87,25 @@ void PandView::showPlayerInfo(int playernum)
 	//::cout<<"Player cards: " << temp.playerName << std::endl;
 }
 
-
+void PandView::showCubeLocations()
+{
+	std::cout<<"This function will show infection cube location \n";
+}
+void PandView::showPlayersLocation()
+{
+	std::cout<<"This function will show all players current location \n";
+}
+void PandView::showInfectionLevel()
+{
+	std::cout<<"This function will show the current infection level \n";
+}
+void PandView::showHowManyCardsLeft()
+{
+	std::cout<<"This function will show how many cards are remaining in the deck \n";
+}
+void PandView::showDiscardedCards()
+{
+	std::cout<<"This function will show the cards that have been discarded \n";
+}
 
 #endif
