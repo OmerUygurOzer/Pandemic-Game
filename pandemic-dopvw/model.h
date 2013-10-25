@@ -22,10 +22,17 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	//If player draws a card and num of cards > 7, player can use cards until less than 7, or discard.
 };
 
+struct playerCard
+{
+	std::string cardType;
+	std::string cardDescription;
+};
+
 class PandModel
 {
 	city cities[48];//48 cities, will fill in values with the constructor
 	Playerchar players[4];//maximum 4 players
+	playerCard Deck[59];
 	
 public:
 	PandModel();
@@ -51,7 +58,12 @@ PandModel::PandModel()//constructor
                             "Hong Kong", "Istanbul", "Jakarta", "Johannesburg", "Karachi", "Khartoum", "Kinshasa", "Kolkata", "Lagos", "Lima", "London", "Los Angeles", "Madrid",
                             "Manila", "Mexico City", "Miami", "Milan", "Moscow", "Mumbai", "New York", "Osaka", "Paris", "Riyadh", "San Francisco", "Santiago",
                             "Sao Paulo", "Seoul", "Shanghai", "St. Petersburg", "Sydney", "Taipei", "Tehran", "Tokyo", "Toronto", "Washington"};
-	for(int i = 0; i < 48; i++)
+	 for(int i = 0; i<48; i++)
+	 {
+		 Deck->cardType = "City";
+		 Deck->cardDescription = cityname[i];
+	 }
+	 for(int i = 0; i < 48; i++)
 	{
 		cities[i].cityName = cityname[i];
 		cities[i].diseasecubes = 0;//I believe we need to radomize the cubes location.
