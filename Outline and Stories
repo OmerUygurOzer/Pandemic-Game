@@ -17,3 +17,7 @@ Not sure what they do yet
 6 research stations
 
 In designing the map, I tried anticipating that after a player makes a move but decides he wanted to do something else before completing all his moves that the game board allows players to undo moves on the game board. Player will not be able to undo drawing cards. That would just be cheating. I believe it may be easier to implement on the controller or in main. The map would only be a list of available moves.
+
+In the UI I would like to implement a clear screen after each player finishes their move, so that when it's the next player's turn it would be clearer. -Phat
+
+
