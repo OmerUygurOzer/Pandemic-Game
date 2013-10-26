@@ -1,13 +1,17 @@
-
-class RoleActions{ //What each player can do with their roles.
+class RoleActions{ //What each player can do with their roles. Role Action stubs
 	int player;
-	int profession;
+	int profession; 
 	
 	public:
 		
 		void setProfession(int x){
 			profession = x;
 		};
+    
+    int getProfession(){
+    return profession;
+    };
+    
 		void setPlayer(int y){
 			player=y;	
 		};
