@@ -11,6 +11,20 @@ void PandController::updateView(){
 	/* Will update view from information from model
 		and prompt current player for his action
 	*/
+	int playerchoice, currentplayer;
+
+	currentplayer = currentPlayer(); // sets current player
+
+	// Show menu and prompt player for action (4 actions) 
+	for(int i = 0; i < 4; i++){
+		view.showActionMenu();  // display the action menu
+		cin >> playerchoice;
+		cout << "Player " << currentplayer << " has chosen action " << playerchoice << ".";
+		// will have a call to the model here depending on action
+	}
+
+	NextTurn(); // starts next players turn
+
 }
 
 int PandController::whereIsPlayer(){
