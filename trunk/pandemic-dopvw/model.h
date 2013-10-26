@@ -149,5 +149,11 @@ void PandModel::setPlayerLocation(int playernum, int location)
 {
 	players[playernum-1].location = location;
 }
+
+void RandomizeCubes()
+{
+     // Randomizing the cubes. 
+     // Something we'll need??
+}
 #endif
 
