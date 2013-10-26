@@ -16,9 +16,10 @@ public:
 	void updateView();  // updates the interface
 	int whereIsPlayer();  // returns which city current player is in
 
-	// * * functions to update model * *
-	void setPlayerLocation();  // updates model where player has chosen to go
-	void setPlayerMoves();  // updates model on how many moves player has left
+	// * * functions to interact with model * *
+	int currentPlayer(); // returns current player id
+	void setPlayerLocation(int player);  // updates model where player has chosen to go
+	void setPlayerMoves(int player);  // updates model on how many moves player has left
 	void NextTurn();  // ends current players turn and starts next players turn
 
 

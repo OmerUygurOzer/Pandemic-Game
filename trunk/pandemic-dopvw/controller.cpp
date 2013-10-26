@@ -4,10 +4,13 @@
 PandController::PandController(PandModel m, PandView v){
 	model = m;
 	view = v;
+	updateView(); // updates the interface with starting information from model
 }
 
 void PandController::updateView(){
-	// not done yet
+	/* Will update view from information from model
+		and prompt current player for his action
+	*/
 }
 
 int PandController::whereIsPlayer(){
@@ -15,11 +18,16 @@ int PandController::whereIsPlayer(){
 	return 0;
 }
 
-void PandController::setPlayerLocation(){
+int PandController::currentPlayer(){
+	// not done yet
+	return 0;
+}
+
+void PandController::setPlayerLocation(int player){
 	// not done yet
 }
 
-void PandController::setPlayerMoves(){
+void PandController::setPlayerMoves(int player){
 	// not done yet
 }
 
