@@ -137,12 +137,40 @@ int main()
 	
 	PandView Screens(GameInstance);//need to copy current state of game
 	//after each action, Screens will need to be updated to show current state of game
+	for(int i = 1; i<3; i++)
+	{
+		for(int j = 0; j<4; j++)
+		{
+			PandView newScreen(GameInstance);
+			Playerchar temp = GameInstance.getPlayerInfo(i-1);
+			city tempcity = GameInstance.getCityInfo(i);
+			newScreen.showPlayerInfo(i);
+			newScreen.showCityInfo(temp.location);
 
-	Screens.showPlayerInfo(1);
+			newScreen.showActionMenu();
+			int ans;
+			cin>>ans;
+			if(ans == 1)
+			{
+				cout<<"Where would you like to move :" <<endl;//will move to view.h
+				newScreen.showNeighbors(temp.location);
+				int moveto;
+				cin>>moveto;
+				GameInstance.setPlayerLocation(i, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
+				//PandView tempview(GameInstance);
+				//temp = GameInstance.getPlayerInfo(i-1);
+				//tempview.showPlayerInfo(i);
+				//tempview.showCityInfo(temp.location);
+			}
+		}
+
+	}
+	system("pause");
+	/*Screens.showPlayerInfo(1);
 	Screens.showPlayerInfo(2);
 	Screens.showCityInfo(1);
 
-	Screens.showActionMenu(1);
+	Screens.showActionMenu();
 	int answer;
 	std::cin>>answer;//modify to restrict input from 1-6
 	//use answer to bring up other menu items.
@@ -160,6 +188,6 @@ int main()
 		break;
 	case 6://misc
 		break;
-	}
+	}*/
 	return 0;
 }
