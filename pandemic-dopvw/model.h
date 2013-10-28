@@ -18,8 +18,9 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	//the data holding all of the professions and all of their effects
 	int location; //This will be the ID number of the city the character is currently located.
 
-	int cardsonhand[7]; //Player can hold 7 cards
+	playerCard cardsonhand[7]; //Player can hold 7 cards
 	//If player draws a card and num of cards > 7, player can use cards until less than 7, or discard.
+	bool cardSlotAvailable[7];//if player uses a card from anywhere but end we'll need to keep track or use a shift
 };
 
 struct playerCard
