@@ -52,11 +52,13 @@ void PandController::NextTurn(){
 int main()
 {
 	int numberofplayers;
-	string player1, player2, player3, player4;
+	string player[4];
+	PandModel GameInstance;//start game
+	PandView Screens(GameInstance);//need to copy current state of game
+	//after each action, Screens will need to be updated to show current state of game
+
 	// Opening introduction and asking for number of players
-	cout << "Welcome to Pandemic!" << endl; 
-	cout << "Let's get started!" << endl; 
-	cout << "How many Players will be playing?"<< endl;
+	Screens.showIntro();
 
 	// Number of players input and validation
 	cin >> numberofplayers;
@@ -69,14 +71,11 @@ int main()
                         cout << "There cannont be more than 4 players!" << endl;
                 }
 
-	// Asking for Playyer names according to how many players 
-	// there are
-   
-   
-  //Added this part for role actions .
+
+  //Added this part for role actions ./////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   char roles [7] = {'a','a' ,'a', 'a', 'a', 'a', 'a'};   //To keep a track of roles that are still available
 	string rolenames[7] = {"Contingency Plan" , "Dispatcher" , "Medic" , "Operations Expert" , "Quarantine Specialist" , "Researcher" , "Scientist"}; //RoleNames
-	RoleActions Role[numberofplayers];//Role Actions are being managed
+	//RoleActions Role[numberofplayers];//Role Actions are being managed
    
   //Assigning the roles for both players
 	// 't' means the profession is already taken
@@ -84,7 +83,7 @@ int main()
 	
 	
 	
-	for (int ply = 0 ; ply<numberofplayers ; ply++){
+	/*for (int ply = 0 ; ply<numberofplayers ; ply++){
 		srand (time(NULL));
 		bool taken = false;
 		while (taken == false){
@@ -98,50 +97,30 @@ int main()
 					taken = true;
 			}
 		}
-	}
-   
-	if (numberofplayers == 2)
-        {
-                cout << "Please enter the name of the first player" << endl;
-                cin >> player1;
-                cout << "Please enter the name of the second player" << endl;
-                cin >> player2;
-        }
-	if (numberofplayers == 3)
-			{
-                cout << "Please enter the name of the first player" << endl;
-                cin >> player1;
-                cout << "Please enter the name of the second player" << endl;
-                cin >> player2;
-                cout << "Please enter the name of the third player" << endl;
-                cin >> player3;
-			}
-	if (numberofplayers == 4)
-			{
-                cout << "Please enter the name of the first player" << endl;
-                cin >> player1;
-                cout << "Please enter the name of the second player" << endl;
-                cin >> player2;
-                cout << "Please enter the name of the third player" << endl;
-                cin >> player3;
-                cout << "Please enter the name of the fourth player" << endl;
-                cin >> player4;
-			}
-	
-	PandModel GameInstance;
-	GameInstance.setPlayerName(1,player1);
-	GameInstance.setPlayerName(2,player2);
-	//GameInstance.setPlayerName(3,player3);
-	//GameInstance.setPlayerName(4,player4);
+	}*/
+   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+	for(int i = 0; i < numberofplayers; i++)
+	{
+		cout << "Please enter the name of player " <<i+1<< endl;
+		cin >> player[i];
+		GameInstance.setPlayerName(i,player[i]);//set player names
+	}
+
+	//card draw test. Should pull Atlanta city card
+	PandView tempCard;
+	playerCard tempHand = tempCard.drawPlayerCard(1);
+	cout<<tempHand.cardType<<endl;
+	cout<<tempHand.cardDescription<<endl;
 	
-	PandView Screens(GameInstance);//need to copy current state of game
-	//after each action, Screens will need to be updated to show current state of game
-	for(int i = 1; i<3; i++)
+	
+	
+	for(int i = 1; i<3; i++)////////////////////goes through 2 players 4 action of moving to neighboring cities. Will merge to updateview()
 	{
 		for(int j = 0; j<4; j++)
 		{
-			PandView newScreen(GameInstance);
+			PandView newScreen(GameInstance);//will refresh when it goes through loop
 			Playerchar temp = GameInstance.getPlayerInfo(i-1);
 			city tempcity = GameInstance.getCityInfo(i);
 			newScreen.showPlayerInfo(i);
@@ -157,37 +136,10 @@ int main()
 				int moveto;
 				cin>>moveto;
 				GameInstance.setPlayerLocation(i, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
-				//PandView tempview(GameInstance);
-				//temp = GameInstance.getPlayerInfo(i-1);
-				//tempview.showPlayerInfo(i);
-				//tempview.showCityInfo(temp.location);
 			}
 		}
-
+		system("CLS");
 	}
 	system("pause");
-	/*Screens.showPlayerInfo(1);
-	Screens.showPlayerInfo(2);
-	Screens.showCityInfo(1);
-
-	Screens.showActionMenu();
-	int answer;
-	std::cin>>answer;//modify to restrict input from 1-6
-	//use answer to bring up other menu items.
-	switch (answer)
-	{
-	case 1: Screens.showNeighbors(1);//and move to neighbor
-		break;
-	case 2: //use citycard
-		break;
-	case 3://remove cube
-		break;
-	case 4: //build research
-		break;
-	case 5: //show infected cities
-		break;
-	case 6://misc
-		break;
-	}*/
 	return 0;
 }

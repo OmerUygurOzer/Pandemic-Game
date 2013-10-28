@@ -11,7 +11,7 @@ public:
 	PandView();
 	PandView(PandModel m);
 	
-	
+	void showIntro();
 	void showCityInfo(int citynum);
 	void showActionMenu();
 	void showPlayerInfo(int playernum);
@@ -34,7 +34,12 @@ PandView::PandView(PandModel m)
 	model = m;
 }
 
-
+void PandView::showIntro()
+{
+	std::cout << "Welcome to Pandemic!" << std::endl; 
+	std::cout << "Let's get started!" << std::endl; 
+	std::cout << "How many Players will be playing?"<< std::endl;
+}
 void PandView::showCityInfo(int citynum)
 {
 	city temp = getCityInfo(citynum);
@@ -70,7 +75,7 @@ void PandView::showActionMenu()
 	std::cout<<"4. build research center " << std::endl;
 	std::cout<<"5. list infected cities " << std::endl;
 	std::cout<<"6. list other things " << std::endl;//expansion for later
-	std::cout<<"What would you like to do : " << std::endl;
+	std::cout<<"What would you like to do : ";
 	
 }
 
