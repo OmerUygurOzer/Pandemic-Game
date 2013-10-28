@@ -27,12 +27,19 @@ struct playerCard
 	std::string cardType;
 	std::string cardDescription;
 };
+struct infectionCard
+{
+	std::string cardType;
+	std::string cardDescription;
+};
 
 class PandModel
 {
 	city cities[48];//48 cities, will fill in values with the constructor
 	Playerchar players[4];//maximum 4 players
-	playerCard Deck[59];
+	playerCard playerDeck[59];//59 Player cards
+	infectionCard infectionDeck[48];//48 infection cards
+
 	
 public:
 	PandModel();
@@ -41,6 +48,10 @@ public:
 	int getNeighbor(int currentcity, int nextcity){return cities[currentcity].adjacentCities[nextcity];}
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
+	playerCard drawPlayerCard(int random);//use a random number generator between 0-58 without replacement and store in a stack otherwise forecast special event can not preview top  6 cards.
+	infectionCard drawInfectionCard(int random);//use a random number generator between 0-47 without replacement and store in a vector otherwise epidemic card can not draw from bottom of deck.
+
+
 	void PrintAdjacent();
 	void FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum);
 	//void FillValue(int x) {value = x;};
@@ -49,6 +60,7 @@ public:
 	void setPlayerName(int playernum, std::string name);
 	void setPlayerRole();
 	void setPlayerLocation(int playernum, int location);//use to set new location
+
 };
 
 PandModel::PandModel()//constructor
@@ -58,11 +70,34 @@ PandModel::PandModel()//constructor
                             "Hong Kong", "Istanbul", "Jakarta", "Johannesburg", "Karachi", "Khartoum", "Kinshasa", "Kolkata", "Lagos", "Lima", "London", "Los Angeles", "Madrid",
                             "Manila", "Mexico City", "Miami", "Milan", "Moscow", "Mumbai", "New York", "Osaka", "Paris", "Riyadh", "San Francisco", "Santiago",
                             "Sao Paulo", "Seoul", "Shanghai", "St. Petersburg", "Sydney", "Taipei", "Tehran", "Tokyo", "Toronto", "Washington"};
-	 for(int i = 0; i<48; i++)
+
+	 for(int i = 0; i<48; i++)//city cards for infection deck
 	 {
-		 Deck->cardType = "City";
-		 Deck->cardDescription = cityname[i];
+		 infectionDeck[i].cardType = "City";
+		 infectionDeck[i].cardDescription = cityname[i];
 	 }
+	 for(int i = 0; i<48; i++)//city cards for player deck
+	 {
+		 playerDeck[i].cardType = "City";
+		 playerDeck[i].cardDescription = cityname[i];
+	 }
+	 for(int i = 48; i<54; i++)//epidemic cards for player deck
+	 {
+		 playerDeck[i].cardType = "Epidemic";
+		 playerDeck[i].cardDescription = "1.Increase\n 2.Infect\n 3.Intensify\n";
+	 }
+	 ////////////////////////////////////////////////Special Event Cards for player deck
+	 playerDeck[54].cardType = "Special Event";
+	 playerDeck[54].cardDescription = "Airlift: ";
+	 playerDeck[55].cardType = "Special Event";
+	 playerDeck[55].cardDescription = "Forecast: ";
+	 playerDeck[56].cardType = "Special Event";
+	 playerDeck[56].cardDescription = "Government Grant: ";
+	 playerDeck[57].cardType = "Special Event";
+	 playerDeck[57].cardDescription = "One Quiet Night: ";
+	 playerDeck[58].cardType = "Special Event";
+	 playerDeck[58].cardDescription = "Resilient Population: ";
+
 	 for(int i = 0; i < 48; i++)
 	{
 		cities[i].cityName = cityname[i];
@@ -142,7 +177,7 @@ void PandModel::FillAdjacent(int a, int b, int c, int d, int e, int f, int g, in
 
 void PandModel::setPlayerName(int playernum, std::string name)
 {
-	players[playernum-1].playerName = name;
+	players[playernum].playerName = name;
 }
 
 void PandModel::setPlayerLocation(int playernum, int location)
@@ -150,10 +185,15 @@ void PandModel::setPlayerLocation(int playernum, int location)
 	players[playernum-1].location = location;
 }
 
-void RandomizeCubes()
+void RandomizeCubes()//<------------needs to be a member function
 {
      // Randomizing the cubes. 
      // Something we'll need??
+}
+
+playerCard PandModel::drawPlayerCard(int random)
+{
+	return playerDeck[random];
 }
 #endif
 
