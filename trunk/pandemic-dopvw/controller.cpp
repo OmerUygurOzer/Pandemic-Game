@@ -108,12 +108,13 @@ int main()
 		GameInstance.setPlayerName(i,player[i]);//set player names
 	}
 
-	//card draw test. Should pull Atlanta city card
+	//card draw test. Should pull Atlanta city card///////////
 	PandView tempCard;
 	playerCard tempHand = tempCard.drawPlayerCard(1);
 	cout<<tempHand.cardType<<endl;
 	cout<<tempHand.cardDescription<<endl;
-	
+	cout<<endl;
+	//////////////////////////////////////////////////////////
 	
 	
 	for(int i = 1; i<3; i++)////////////////////goes through 2 players 4 action of moving to neighboring cities. Will merge to updateview()
