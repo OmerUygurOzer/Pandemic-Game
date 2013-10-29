@@ -115,9 +115,9 @@ int main()
 	cout<<tempHand.cardDescription<<endl;
 	cout<<endl;
 	//////////////////////////////////////////////////////////
+	system("CLS");
 	
-	
-	for(int i = 1; i<3; i++)////////////////////goes through 2 players 4 action of moving to neighboring cities. Will merge to updateview()
+	for(int i = 1; i<numberofplayers+1; i++)////////////////////goes through 2 players 4 action of moving to neighboring cities. Will merge to updateview()
 	{
 		for(int j = 0; j<4; j++)
 		{
