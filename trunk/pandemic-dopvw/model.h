@@ -11,6 +11,18 @@ struct city//empty city container
 	int diseasecubes; //Number of disease cubes currently
 	int researchcenter; //Could be a bool instead, 0 or 1 to indicate presence of a research center
 };
+
+struct playerCard
+{
+	std::string cardType;
+	std::string cardDescription;
+};
+struct infectionCard
+{
+	std::string cardType;
+	std::string cardDescription;
+};
+
 struct Playerchar  //Probably want to change to a class when we do the cards in hand data
 {
 	std::string playerName;
@@ -23,16 +35,6 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	bool cardSlotAvailable[7];//if player uses a card from anywhere but end we'll need to keep track or use a shift
 };
 
-struct playerCard
-{
-	std::string cardType;
-	std::string cardDescription;
-};
-struct infectionCard
-{
-	std::string cardType;
-	std::string cardDescription;
-};
 
 class PandModel
 {
