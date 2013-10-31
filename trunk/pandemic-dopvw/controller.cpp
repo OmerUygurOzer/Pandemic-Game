@@ -61,7 +61,13 @@ int main()
 	Screens.showIntro();
 
 	// Number of players input and validation
-	cin >> numberofplayers;
+	//cin >> numberofplayers;
+	bool validPlayer;
+	validPlayer = false;
+
+	while(validPlayer == false)
+	{
+		cin >> numberofplayers;
         if (numberofplayers < 2 )
                 {
                         cout << "There must be at least 2 players!" << endl;
@@ -70,7 +76,9 @@ int main()
                 {
                         cout << "There cannont be more than 4 players!" << endl;
                 }
-
+		if(numberofplayers >= 2 && numberofplayers <= 4) //if 2 or higher and 4 or less, approve
+		{validPlayer = true;}
+	}
 
   //Added this part for role actions ./////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   char roles [7] = {'a','a' ,'a', 'a', 'a', 'a', 'a'};   //To keep a track of roles that are still available
@@ -117,10 +125,16 @@ int main()
 	//////////////////////////////////////////////////////////
 	system("CLS");
 	
+
+
+	//Going to replace this with a while loop that checks for player's remaining moves
+	//We just need to pay attention and have the actions remaining counter reset     -Vu
 	for(int i = 1; i<numberofplayers+1; i++)////////////////////goes through 2 players 4 action of moving to neighboring cities. Will merge to updateview()
 	{
 		for(int j = 0; j<4; j++)
 		{
+			std::cout << std::string(50, '\n'); //temporary solution to reduce screen clutter
+
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
 			Playerchar temp = GameInstance.getPlayerInfo(i-1);
 			city tempcity = GameInstance.getCityInfo(i);

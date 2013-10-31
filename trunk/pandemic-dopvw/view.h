@@ -2,7 +2,7 @@
 #define VIEW_H
 #include "Model.h"
 #include <iostream>
-
+using namespace std;
 
 class PandView: public PandModel //not sure if Im inheriting correctly. Will modify as I go.
 {
@@ -21,7 +21,7 @@ public:
 	void showInfectionLevel();//stub
 	void showHowManyCardsLeft();//stub
 	void showDiscardedCards();//stub
-
+	void pActionCount(); //stub for player actions remaining per turn counter
 };
 
 PandView::PandView()

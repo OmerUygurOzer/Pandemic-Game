@@ -33,6 +33,8 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	playerCard cardsonhand[7]; //Player can hold 7 cards
 	//If player draws a card and num of cards > 7, player can use cards until less than 7, or discard.
 	bool cardSlotAvailable[7];//if player uses a card from anywhere but end we'll need to keep track or use a shift
+
+	int ActionsLeft; //This is an int that we'll be accessing to determine the remaining actions a player has left
 };
 
 
@@ -50,6 +52,8 @@ public:
 	//observers
 	city getCityInfo(int citynum) {return cities[citynum];}//maybe seperate into getcityname, getadjcities, getcubes...etc
 	int getNeighbor(int currentcity, int nextcity){return cities[currentcity].adjacentCities[nextcity];}
+
+	bool validNeighbor(int currentcity, int nextcity); //stub - need function to work with Ly's new movement function to check adjacency
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	playerCard drawPlayerCard(int random);//use a random number generator between 0-58 without replacement and store in a stack otherwise forecast special event can not preview top  6 cards.
