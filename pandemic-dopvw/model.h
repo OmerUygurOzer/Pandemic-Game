@@ -69,6 +69,10 @@ public:
 	void setPlayerRole();
 	void setPlayerLocation(int playernum, int location);//use to set new location
 
+	void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
+	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
+	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
+
 };
 
 PandModel::PandModel()//constructor
@@ -191,6 +195,11 @@ void PandModel::setPlayerName(int playernum, std::string name)
 void PandModel::setPlayerLocation(int playernum, int location)
 {
 	players[playernum-1].location = location;
+}
+
+void PandModel::setActionsLeft(int playernum, int addAction)
+{
+	players[playernum].ActionsLeft += addAction;
 }
 
 void RandomizeCubes()//<------------needs to be a member function

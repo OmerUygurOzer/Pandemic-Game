@@ -125,7 +125,8 @@ int main()
 	//////////////////////////////////////////////////////////
 	system("CLS");
 	
-
+	//Old Turn System
+	/*
 
 	//Going to replace this with a while loop that checks for player's remaining moves
 	//We just need to pay attention and have the actions remaining counter reset     -Vu
@@ -155,6 +156,85 @@ int main()
 		}
 		system("CLS");
 	}
+
+	*/
+
+
+	////////////////////////////////////////////////////////////////////
+//New Turn system		
+
+	int charnum; //temp variable
+	charnum = 0;
+
+	//Initialize all turns to 0.
+	//Could someone do a constructor to automatically set this up?
+	for(int i = 0; i < numberofplayers; i++)
+	{
+		GameInstance.ActionsInitialize(i);
+	}
+
+
+//	for(int i = 1; i<numberofplayers+1; i++)  //Loop for current player?
+	//while(game not ended yet)
+	while(charnum != -1) //Temp infinite loop
+	{
+
+		//for(int j = 0; j<4; j++)  //Loop for current player's moves
+
+		//if player = special profession, give them a different num of moves
+		// { GameInstance.setActionsLeft(charnum, 6); }
+		//else
+		GameInstance.setActionsLeft(charnum, 3); //player is given base of 5 moves. Leaving it at 3 for now for
+		//quicker debugging
+
+
+
+		while(GameInstance.getActionsLeft(charnum != 0) ) //while player is not out of actions
+		{
+			std::cout << std::string(50, '\n'); //temporary solution to reduce screen clutter
+			cout << "Playnum " << charnum << endl; //debug output
+
+			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
+			PandView newScreen(GameInstance);//will refresh when it goes through loop
+			Playerchar temp = GameInstance.getPlayerInfo(charnum);
+			city tempcity = GameInstance.getCityInfo(charnum+1);
+			newScreen.showPlayerInfo(charnum+1);
+			newScreen.showCityInfo(temp.location);
+
+			newScreen.showActionMenu();
+			int ans;
+			cin>>ans;
+			if(ans == 1)
+			{
+				cout<<"Where would you like to move :" <<endl;//will move to view.h
+				newScreen.showNeighbors(temp.location);
+				int moveto;
+				cin>>moveto;
+				GameInstance.setPlayerLocation(charnum+1, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
+			}
+
+
+			////////////Exit Function//////////////////////
+			if(ans == 10)
+			{
+				charnum = -2; //Will add up to -1 and cause while loop to end
+			}
+
+			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
+		}
+
+		//Next Player
+		if(charnum == (numberofplayers-1) ) //If last player, go to first player
+		{charnum = 0;} //0
+		else	//Else, go to next player
+		charnum += 1;
+
+
+
+		system("CLS");
+	}
+
+
 	system("pause");
 	return 0;
 }
