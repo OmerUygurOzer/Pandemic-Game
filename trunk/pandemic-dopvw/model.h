@@ -42,6 +42,7 @@ class PandModel
 	Playerchar players[4];//maximum 4 players
 	playerCard playerDeck[59];//59 Player cards
 	infectionCard infectionDeck[48];//48 infection cards
+	int infectionLevel;
 
 	
 public:
