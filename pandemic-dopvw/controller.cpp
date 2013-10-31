@@ -178,21 +178,20 @@ int main()
 	//while(game not ended yet)
 	while(charnum != -1) //Temp infinite loop
 	{
-
-		//for(int j = 0; j<4; j++)  //Loop for current player's moves
-
 		//if player = special profession, give them a different num of moves
 		// { GameInstance.setActionsLeft(charnum, 6); }
 		//else
 		GameInstance.setActionsLeft(charnum, 3); //player is given base of 5 moves. Leaving it at 3 for now for
 		//quicker debugging
 
+		//Debug output to show actions left of current player, need to see if above function works
+		cout << "Debug actionsleft:" << GameInstance.getActionsLeft(charnum) << endl << endl;
 
 
-		while(GameInstance.getActionsLeft(charnum != 0) ) //while player is not out of actions
+		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
-			std::cout << std::string(50, '\n'); //temporary solution to reduce screen clutter
-			cout << "Playnum " << charnum << endl; //debug output
+			//std::cout << std::string(50, '\n'); //temporary solution to reduce screen clutter
+			cout << endl << endl << "Debug output - charnum: " << charnum << endl; //debug output
 
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
@@ -204,6 +203,10 @@ int main()
 			newScreen.showActionMenu();
 			int ans;
 			cin>>ans;
+
+
+			/////////////////////////////
+			///////////Adjacent Movement
 			if(ans == 1)
 			{
 				cout<<"Where would you like to move :" <<endl;//will move to view.h
@@ -212,6 +215,16 @@ int main()
 				cin>>moveto;
 				GameInstance.setPlayerLocation(charnum+1, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
 			}
+
+			////////////
+			//Use card
+
+			////////////
+			//Profession Ability
+
+
+
+			/////////
 
 
 			////////////Exit Function//////////////////////
@@ -223,15 +236,16 @@ int main()
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
 		}
 
+		//Debug outputs show the current # of player before and after the changes
+		cout << "debug charnum before" << charnum << endl;
 		//Next Player
-		if(charnum == (numberofplayers-1) ) //If last player, go to first player
-		{charnum = 0;} //0
-		else	//Else, go to next player
-		charnum += 1;
+		if(charnum != (numberofplayers-1) ) //If last player, go to first player
+		{charnum++;} //0
+		else if(charnum == numberofplayers-1){charnum = 0;} //go to next player
+		cout << "debug charnum after" << charnum << endl;
 
 
-
-		system("CLS");
+		//system("CLS");
 	}
 
 

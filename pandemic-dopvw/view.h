@@ -21,7 +21,7 @@ public:
 	void showInfectionLevel();//stub
 	void showHowManyCardsLeft();//stub
 	void showDiscardedCards();//stub
-	void pActionCount(); //stub for player actions remaining per turn counter
+
 };
 
 PandView::PandView()

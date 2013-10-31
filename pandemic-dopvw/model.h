@@ -30,7 +30,12 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	//the data holding all of the professions and all of their effects
 	int location; //This will be the ID number of the city the character is currently located.
 
+
+	////change cardsonhand to linked list
 	playerCard cardsonhand[7]; //Player can hold 7 cards
+
+
+
 	//If player draws a card and num of cards > 7, player can use cards until less than 7, or discard.
 	bool cardSlotAvailable[7];//if player uses a card from anywhere but end we'll need to keep track or use a shift
 
@@ -101,12 +106,16 @@ PandModel::PandModel()//constructor
 	 ////////////////////////////////////////////////Special Event Cards for player deck
 	 playerDeck[54].cardType = "Special Event";
 	 playerDeck[54].cardDescription = "Airlift: ";
+
 	 playerDeck[55].cardType = "Special Event";
 	 playerDeck[55].cardDescription = "Forecast: ";
+
 	 playerDeck[56].cardType = "Special Event";
 	 playerDeck[56].cardDescription = "Government Grant: ";
+
 	 playerDeck[57].cardType = "Special Event";
 	 playerDeck[57].cardDescription = "One Quiet Night: ";
+
 	 playerDeck[58].cardType = "Special Event";
 	 playerDeck[58].cardDescription = "Resilient Population: ";
 
@@ -199,7 +208,7 @@ void PandModel::setPlayerLocation(int playernum, int location)
 
 void PandModel::setActionsLeft(int playernum, int addAction)
 {
-	players[playernum].ActionsLeft += addAction;
+	players[playernum].ActionsLeft = players[playernum].ActionsLeft + addAction;
 }
 
 void RandomizeCubes()//<------------needs to be a member function
