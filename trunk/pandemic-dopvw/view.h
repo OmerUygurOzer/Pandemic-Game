@@ -2,7 +2,7 @@
 #define VIEW_H
 #include "Model.h"
 #include <iostream>
-using namespace std;
+
 
 class PandView: public PandModel //not sure if Im inheriting correctly. Will modify as I go.
 {
@@ -101,7 +101,7 @@ void PandView::showCubeLocations()
 		temp = getCityInfo(i);
 		if (temp.diseasecubes > 0)
 		{
-			std::cout<<"City: " << temp.cityName << "cubes: "<<temp.diseasecubes << endl;
+			std::cout<<"City: " << temp.cityName << "cubes: "<<temp.diseasecubes << std::endl;
 		}
 	}
 }
@@ -114,7 +114,7 @@ void PandView::showPlayersLocation(int numberofplayers)
 	{
 		temp = getPlayerInfo(i);
 		tempcity = getCityInfo(temp.location);
-		std::cout<<"Player: "<<temp.playerName << "City: " << tempcity.cityName << endl;
+		std::cout<<"Player: "<<temp.playerName << "City: " << tempcity.cityName << std::endl;
 	}
 }
 void PandView::showInfectionLevel()
