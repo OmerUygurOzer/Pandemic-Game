@@ -16,8 +16,8 @@ public:
 	void showActionMenu();
 	void showPlayerInfo(int playernum);
 	void showNeighbors(int citynum);
-	void showCubeLocations();//stub
-	void showPlayersLocation();//stub
+	void showCubeLocations();//
+	void showPlayersLocation(int numberofplayers);//
 	void showInfectionLevel();//stub
 	void showHowManyCardsLeft();//stub
 	void showDiscardedCards();//stub
@@ -95,10 +95,27 @@ void PandView::showPlayerInfo(int playernum)
 void PandView::showCubeLocations()
 {
 	std::cout<<"This function will show infection cube location \n";
+	city temp;
+	for (int i = 0; i < 48; i++)
+	{
+		temp = getCityInfo(i);
+		if (temp.diseasecubes > 0)
+		{
+			std::cout<<"City: " << temp.cityName << "cubes: "<<temp.diseasecubes << endl;
+		}
+	}
 }
-void PandView::showPlayersLocation()
+void PandView::showPlayersLocation(int numberofplayers)
 {
 	std::cout<<"This function will show all players current location \n";
+	Playerchar temp;
+	city tempcity;
+	for(int i = 0; i < numberofplayers; i++)
+	{
+		temp = getPlayerInfo(i);
+		tempcity = getCityInfo(temp.location);
+		std::cout<<"Player: "<<temp.playerName << "City: " << tempcity.cityName << endl;
+	}
 }
 void PandView::showInfectionLevel()
 {
