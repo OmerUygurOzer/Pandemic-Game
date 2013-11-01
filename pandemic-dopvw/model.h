@@ -77,6 +77,8 @@ public:
 	void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
 	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
+	int getInfectionLevel(){return infectionLevel;}//for view to access/display infection level
+	void setInfectionLevel();//stub
 
 };
 
