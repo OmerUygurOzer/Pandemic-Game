@@ -29,7 +29,7 @@ class RoleActions{ //What each player can do with their roles. Role Action stubs
 			cout <<endl<< "Action performed!"<<endl<<endl ;
 			
 		};
-		void listActions(){
+		/*void listActions(){
 			cout <<endl;
 			if (profession==0){
 				cout <<"A player who has the 'Contigency Plan' role can take any discarded Event card"<<endl;
@@ -65,7 +65,7 @@ class RoleActions{ //What each player can do with their roles. Role Action stubs
 			}
 		
 					
-		};
+		};*/
 		
 		
 	
