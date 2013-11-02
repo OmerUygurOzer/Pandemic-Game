@@ -1,5 +1,6 @@
 #include "controller.h"
 #include "roleactions.h"
+#include <time.h>
 
 PandController::PandController(PandModel m, PandView v){
 	model = m;
@@ -17,7 +18,7 @@ void PandController::updateView(){
 
 	// Show menu and prompt player for action (4 actions) 
 	for(int i = 0; i < 4; i++){
-		view.showActionMenu();  // display the action menu
+		//view.showActionMenu();  // display the action menu ========TEMPORARILY DISABLED=============
 		cin >> playerchoice;
 		cout << "Player " << currentplayer << " has chosen action " << playerchoice << ".";
 		// will have a call to the model here depending on action
@@ -81,7 +82,7 @@ int main()
 	}
 
   //Added this part for role actions ./////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  char roles [7] = {'a','a' ,'a', 'a', 'a', 'a', 'a'};   //To keep a track of roles that are still available
+    char roles [7] = {'a','a' ,'a', 'a', 'a', 'a', 'a'};   //To keep a track of roles that are still available
 	string rolenames[7] = {"Contingency Plan" , "Dispatcher" , "Medic" , "Operations Expert" , "Quarantine Specialist" , "Researcher" , "Scientist"}; //RoleNames
 	//RoleActions Role[numberofplayers];//Role Actions are being managed
    
@@ -109,11 +110,21 @@ int main()
    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	for(int i = 0; i < numberofplayers; i++)
+	for(int i = 0; i < numberofplayers; i++) 
 	{
 		cout << "Please enter the name of player " <<i+1<< endl;
 		cin >> player[i];
 		GameInstance.setPlayerName(i,player[i]);//set player names
+		srand(time(NULL));
+		bool taken = false;
+		while (taken == false){ //Player roles are set(randomly)
+			int p = rand() % 7;
+			if (!(roles[p] == 't')){
+				GameInstance.setPlayerRole(i, p, rolenames[p]);
+				roles[p] = 't';
+				taken = true;
+			}
+		}
 	}
 
 	//card draw test. Should pull Atlanta city card///////////
@@ -200,7 +211,7 @@ int main()
 			newScreen.showPlayerInfo(charnum+1);
 			newScreen.showCityInfo(temp.location);
 
-			newScreen.showActionMenu();
+			newScreen.showActionMenu(temp.profession);
 			int ans;
 			cin>>ans;
 

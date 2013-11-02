@@ -28,6 +28,7 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	std::string playerName;
 	int profession; //Player's profession will be designated by a value. Something else will transfer the value to
 	//the data holding all of the professions and all of their effects
+	std::string profName; //The name of their profession
 	int location; //This will be the ID number of the city the character is currently located.
 
 
@@ -71,13 +72,14 @@ public:
 	bool isAdjacent(int x);	//For ground travel, will check if desired destination is included in adjacentCities
 	//setters
 	void setPlayerName(int playernum, std::string name);
-	void setPlayerRole();
+	void setPlayerRole(int playernum, int profession, std::string profName);
 	void setPlayerLocation(int playernum, int location);//use to set new location
 
 	void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
 	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
 	int getInfectionLevel(){return infectionLevel;}//for view to access/display infection level
+	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
 	void setInfectionLevel();//stub
 
 };
@@ -221,6 +223,12 @@ void RandomizeCubes()//<------------needs to be a member function
 {
      // Randomizing the cubes. 
      // Something we'll need??
+}
+
+void PandModel::setPlayerRole(int playernum, int profession, std::string pName){
+	players[playernum].profession = profession;
+	players[playernum].profName = pName;
+
 }
 
 playerCard PandModel::drawPlayerCard(int random)
