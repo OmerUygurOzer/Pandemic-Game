@@ -18,7 +18,7 @@ void PandController::updateView(){
 
 	// Show menu and prompt player for action (4 actions) 
 	for(int i = 0; i < 4; i++){
-		//view.showActionMenu();  // display the action menu ========TEMPORARILY DISABLED=============
+		view.showActionMenu(model.getPlayerRole(i));  // display the action menu 
 		cin >> playerchoice;
 		cout << "Player " << currentplayer << " has chosen action " << playerchoice << ".";
 		// will have a call to the model here depending on action
