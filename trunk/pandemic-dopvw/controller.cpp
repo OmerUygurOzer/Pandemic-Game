@@ -225,8 +225,33 @@ int main()
 				int moveto;
 				cin>>moveto;
 				GameInstance.setPlayerLocation(charnum+1, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
+
 			}
 
+			// WILL WORK ON IT LATER
+			/*if (ans == 7)
+			{
+				if ((temp.profession == 0) & !(temp.extracardFlag)){
+					
+					cout << endl << "Pick a card:";
+					GameInstance.performRoleActions(charnum, 7,0);
+
+				}
+				if ((temp.profession == 0) & (temp.extracardFlag)){
+					cout << endl << "You already have a card!";
+				}
+				if (temp.profession == 1){
+
+					Screens.showPlayersLocation(numberofplayers);
+					cout << 
+					GameInstance.performRoleActions(charnum, 7,0);
+
+				}
+
+			
+			}
+
+			*/
 			////////////
 			//Use card
 

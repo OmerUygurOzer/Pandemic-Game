@@ -10,6 +10,7 @@ struct city//empty city container
 	char cityColor;//city color
 	int diseasecubes; //Number of disease cubes currently
 	int researchcenter; //Could be a bool instead, 0 or 1 to indicate presence of a research center
+	
 };
 
 struct playerCard
@@ -30,11 +31,12 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	//the data holding all of the professions and all of their effects
 	std::string profName; //The name of their profession
 	int location; //This will be the ID number of the city the character is currently located.
-
+	
 
 	////change cardsonhand to linked list
 	playerCard cardsonhand[7]; //Player can hold 7 cards
-
+	playerCard CPextracard; //Extra card for the contigency planner
+	bool extracardFlag = false; //whether a card is chosen already or not
 
 
 	//If player draws a card and num of cards > 7, player can use cards until less than 7, or discard.
@@ -81,7 +83,10 @@ public:
 	int getInfectionLevel(){return infectionLevel;}//for view to access/display infection level
 	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
 	void setInfectionLevel();//stub
-
+	
+	//Role action:
+	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
+	
 };
 
 PandModel::PandModel()//constructor
@@ -228,6 +233,16 @@ void RandomizeCubes()//<------------needs to be a member function
 void PandModel::setPlayerRole(int playernum, int profession, std::string pName){
 	players[playernum].profession = profession;
 	players[playernum].profName = pName;
+
+}
+
+void PandModel::performRoleActions(int playernum, int actionNo, int loc){
+	int temp;
+	temp = players[playernum].profession;
+
+	if ((temp == 0) & (actionNo)){ //Will come back here
+
+	}
 
 }
 
