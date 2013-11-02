@@ -4,7 +4,7 @@
 #include "model.h"
 #include "view.h"
 
-using namespace std;
+
 
 class PandController
 {

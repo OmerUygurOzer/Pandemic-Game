@@ -253,5 +253,10 @@ playerCard PandModel::drawPlayerCard(int random)
 {
 	return playerDeck[random];
 }
+
+infectionCard PandModel::drawInfectionCard(int random)
+{
+	return infectionDeck[random];
+}
 #endif
 
