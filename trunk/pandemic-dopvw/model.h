@@ -9,7 +9,7 @@ struct city//empty city container
 						  //adjacentCities will house the values of cities that are adjacent to the selected city
 	char cityColor;//city color
 	int diseasecubes; //Number of disease cubes currently
-	int researchcenter; //Could be a bool instead, 0 or 1 to indicate presence of a research center
+	bool researchcenter; //Could be a bool instead, 0 or 1 to indicate presence of a research center
 	
 };
 
@@ -36,7 +36,7 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	////change cardsonhand to linked list
 	playerCard cardsonhand[7]; //Player can hold 7 cards
 	playerCard CPextracard; //Extra card for the contigency planner
-	bool extracardFlag = false; //whether a card is chosen already or not
+	bool extracardFlag;// = false; //whether a card is chosen already or not
 
 
 	//If player draws a card and num of cards > 7, player can use cards until less than 7, or discard.
@@ -83,6 +83,7 @@ public:
 	int getInfectionLevel(){return infectionLevel;}//for view to access/display infection level
 	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
 	void setInfectionLevel();//stub
+	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
 	
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
@@ -194,6 +195,8 @@ PandModel::PandModel()//constructor
 		players[1].location = 1;//default start location Atlanta CDC
 		players[2].location = 1;//default start location Atlanta CDC
 		players[3].location = 1;//default start location Atlanta CDC
+		
+		addResearchCenter(1);//Atlanta CDC research center default
 }
 
 
