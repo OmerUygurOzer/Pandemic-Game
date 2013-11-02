@@ -1,4 +1,4 @@
-#include <iostream>
+/*#include <iostream>
 
 class RoleActions{ //What each player can do with their roles. Role Action stubs
 	int player;
@@ -65,8 +65,8 @@ class RoleActions{ //What each player can do with their roles. Role Action stubs
 			}
 		
 					
-		};*/
+		};
 		
 		
 	
-};
+};*/

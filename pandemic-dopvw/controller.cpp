@@ -1,6 +1,8 @@
 #include "controller.h"
 #include "roleactions.h"
 #include <time.h>
+#include <stack>
+using namespace std;
 
 PandController::PandController(PandModel m, PandView v){
 	model = m;
@@ -86,28 +88,7 @@ int main()
 	string rolenames[7] = {"Contingency Plan" , "Dispatcher" , "Medic" , "Operations Expert" , "Quarantine Specialist" , "Researcher" , "Scientist"}; //RoleNames
 	//RoleActions Role[numberofplayers];//Role Actions are being managed
    
-  //Assigning the roles for both players
-	// 't' means the profession is already taken
-	// randomly assigns a profession to every player
-	
-	
-	
-	/*for (int ply = 0 ; ply<numberofplayers ; ply++){
-		srand (time(NULL));
-		bool taken = false;
-		while (taken == false){
-			int p = rand() % 7;
-				if (!(roles [p] == 't')){
-					//cout <<p<<endl;
-					Players[ply].profession = p ;
-					Role[ply].setPlayer(ply);
-					Role[ply].setProfession(p);        
-					roles[p] = 't';
-					taken = true;
-			}
-		}
-	}*/
-   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 	for(int i = 0; i < numberofplayers; i++) 
@@ -135,43 +116,41 @@ int main()
 	cout<<endl;
 	//////////////////////////////////////////////////////////
 	system("CLS");
-	
-	//Old Turn System
-	/*
 
-	//Going to replace this with a while loop that checks for player's remaining moves
-	//We just need to pay attention and have the actions remaining counter reset     -Vu
-	for(int i = 1; i<numberofplayers+1; i++)////////////////////goes through 2 players 4 action of moving to neighboring cities. Will merge to updateview()
+	//shuffled infection deck ////////may turn this into a function in model.h void shuffledeck(int array[], maxnum);
+	int shuffleInfection[48];
+	const int infectionMax = 48;
 	{
-		for(int j = 0; j<4; j++)
+		srand(time(NULL));
+		for(int i = 0; i<48;i++)
 		{
-			std::cout << std::string(50, '\n'); //temporary solution to reduce screen clutter
-
-			PandView newScreen(GameInstance);//will refresh when it goes through loop
-			Playerchar temp = GameInstance.getPlayerInfo(i-1);
-			city tempcity = GameInstance.getCityInfo(i);
-			newScreen.showPlayerInfo(i);
-			newScreen.showCityInfo(temp.location);
-
-			newScreen.showActionMenu();
-			int ans;
-			cin>>ans;
-			if(ans == 1)
+			bool taken;
+			int infectcardnum;
+			do
 			{
-				cout<<"Where would you like to move :" <<endl;//will move to view.h
-				newScreen.showNeighbors(temp.location);
-				int moveto;
-				cin>>moveto;
-				GameInstance.setPlayerLocation(i, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
-			}
+				infectcardnum = rand()%infectionMax;
+				taken = true;
+				for(int j = 0; j<i; j++)
+					if(infectcardnum == shuffleInfection[j])
+					{
+						taken = false;
+						break;
+					}
+			}while(!taken);
+			shuffleInfection[i] = infectcardnum;
 		}
-		system("CLS");
-	}
+	}///////////////////////////////////////////////////////////////////////////////
 
-	*/
-
-
-	////////////////////////////////////////////////////////////////////
+	stack<int> infectionDeck;////storing the array of randoms in a stack
+	stack<int> discardInfectionDeck;//store discarded infection cards
+	for(int i = 0; i <48; i++)
+		infectionDeck.push(shuffleInfection[i]);
+	////test draw infection card
+	PandView tempinfect;
+	infectionCard tempinfechand = tempinfect.drawInfectionCard(infectionDeck.top());
+	cout<<tempinfechand.cardDescription<<" infected city \n";
+	system("CLS");
+	
 //New Turn system		
 
 	int charnum; //temp variable
