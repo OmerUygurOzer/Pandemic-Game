@@ -76,7 +76,7 @@ void PandView::showActionMenu(int p)
 	std::cout<<"4. build research center " << std::endl;
 	std::cout<<"5. list infected cities " << std::endl;
 	std::cout<<"6. list other things " << std::endl;//expansion for later
-	listActions(p);
+	listActions(p); //additional actions that are unique to each player are being shown here
 	std::cout<<"What would you like to do : ";
 	
 }
@@ -94,6 +94,14 @@ void PandView::showPlayerInfo(int playernum)
 	//std::cout << "Player role(int): " << temp.profession << std::endl; //Added to help with debug 
 	std::cout << "Role details: " << std::endl;
 	listDescriptions(temp.profession);
+	if (temp.profession == 0){
+		if (temp.extracardFlag){
+			std::cout << "Extra event card: " << temp.CPextracard.cardType << std::endl;
+		}
+		else{
+			std::cout << "Extra event card: " << "None" << std::endl;
+		}
+	}
 
     //std::cout<<"Player role: " << temp.playerName << std::endl;
 	//::cout<<"Player cards: " << temp.playerName << std::endl;
@@ -151,8 +159,8 @@ void PandView::listActions(int role){
 	}
 	if (role == 2){
 		std::cout << "Passive abilities:" << std::endl;
-	    std::cout << "					* When a city is treated, all cubes of the same color are treated " << std::endl;
-		std::cout << "					* Known cures are administered with no action cost " << std::endl;
+	    std::cout << "* When a city is treated, all cubes of the same color are treated " << std::endl;
+		std::cout << "* Known cures are administered with no action cost " << std::endl;
 		
 
 	}
@@ -163,7 +171,7 @@ void PandView::listActions(int role){
 	}
 	if (role == 4){
 		std::cout << "Passive abilities:" << std::endl;
-		std::cout << "					* Prevents disease cube placemenets in the city and the ones surrounding " << std::endl;
+		std::cout << "* Prevents disease cube placemenets in the city and the ones surrounding " << std::endl;
 	
 
 	}
@@ -173,7 +181,7 @@ void PandView::listActions(int role){
 	}
 	if (role == 6){
 		std::cout << "Passive abilities:" << std::endl;
-		std::cout << "					* Needs only 4 cards of the same color to discover a cure " << std::endl;
+		std::cout << "* Needs only 4 cards of the same color to discover a cure " << std::endl;
 	}
 
 }
