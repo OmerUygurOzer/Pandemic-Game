@@ -22,6 +22,8 @@ struct infectionCard
 {
 	std::string cardType;
 	std::string cardDescription;
+	int city; // city of the card
+	int color; // color of the card (0,1,2,3 = red,black,blue,yellow)
 };
 
 struct Playerchar  //Probably want to change to a class when we do the cards in hand data
@@ -65,7 +67,7 @@ public:
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	playerCard drawPlayerCard(int random);//use a random number generator between 0-58 without replacement and store in a stack otherwise forecast special event can not preview top  6 cards.
-	infectionCard drawInfectionCard(int random);//use a random number generator between 0-47 without replacement and store in a vector otherwise epidemic card can not draw from bottom of deck.
+	infectionCard drawInfectionCard();//use a random number generator between 0-47 without replacement and store in a vector otherwise epidemic card can not draw from bottom of deck.
 
 
 	void PrintAdjacent();
@@ -106,6 +108,8 @@ PandModel::PandModel()//constructor
 	 {
 		 infectionDeck[i].cardType = "City";
 		 infectionDeck[i].cardDescription = cityname[i];
+		 infectionDeck[i].city = i;
+		 infectionDeck[i].color = 'b';  // needs to be set to correct color depending on city name
 	 }
 	 for(int i = 0; i<48; i++)//city cards for player deck
 	 {
@@ -136,11 +140,22 @@ PandModel::PandModel()//constructor
 	 for(int i = 0; i < 48; i++)
 	{
 		cities[i].cityName = cityname[i];
-		cities[i].diseasecubes = 0;//I believe we need to radomize the cubes location.
 		cities[i].cityColor = citycolors[i];
 		cities[i].researchcenter = 0;
 
 	}
+
+	 // ** Place starting infection cubes **
+	for(int i = 3; i > 0; i--){
+		infectionCard current;
+		for(int f = 0; f < 3; f++){
+			//Draw next card in infection deck
+			current = drawInfectionCard();
+			//place i cubes of color and city matching drawn card
+			cities[current.city].diseasecubes[current.color] = i;
+		}
+	}
+
 	//-1 Is a filler
         FillAdjacent(25,34,14,7, -1, -1, -1, 0);
         FillAdjacent( 9, 47, 28, -1, -1, -1, -1, 1);
@@ -254,9 +269,9 @@ playerCard PandModel::drawPlayerCard(int random)
 	return playerDeck[random];
 }
 
-infectionCard PandModel::drawInfectionCard(int random)
+infectionCard PandModel::drawInfectionCard()
 {
-	return infectionDeck[random];
+	return infectionDeck[0];  // 0 is placeholder
 }
 #endif
 
