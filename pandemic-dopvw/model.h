@@ -8,7 +8,7 @@ struct city//empty city container
 	int adjacentCities[7];//I don't think any city has more than 6 adjacent cities, so 7
 						  //adjacentCities will house the values of cities that are adjacent to the selected city
 	char cityColor;//city color
-	int diseasecubes; //Number of disease cubes currently
+	int diseasecubes[4]; //Number of disease cubes currently for each of the 4 colors(0,1,2,3 = red,black,blue,yellow)
 	bool researchcenter; //Could be a bool instead, 0 or 1 to indicate presence of a research center
 	
 };
