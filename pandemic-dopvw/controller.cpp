@@ -147,7 +147,7 @@ int main()
 		infectionDeck.push(shuffleInfection[i]);
 	////test draw infection card
 	PandView tempinfect;
-	infectionCard tempinfechand = tempinfect.drawInfectionCard(infectionDeck.top());
+	infectionCard tempinfechand = tempinfect.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
 	cout<<tempinfechand.cardDescription<<" infected city \n";
 	system("CLS");
 	
