@@ -54,7 +54,7 @@ class PandModel
 	Playerchar players[4];//maximum 4 players
 	playerCard playerDeck[59];//59 Player cards
 	infectionCard infectionDeck[48];//48 infection cards
-	int infectionLevel;
+	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 
 	
 public:
@@ -104,6 +104,10 @@ PandModel::PandModel()//constructor
                             "Manila", "Mexico City", "Miami", "Milan", "Moscow", "Mumbai", "New York", "Osaka", "Paris", "Riyadh", "San Francisco", "Santiago",
                             "Sao Paulo", "Seoul", "Shanghai", "St. Petersburg", "Sydney", "Taipei", "Tehran", "Tokyo", "Toronto", "Washington"};
 
+	 for(int i = 0; i<4; i++){ // have 24 disease cubes of each color at start of game
+		 diseaseCubes[i] = 24;
+	 }
+
 	 for(int i = 0; i<48; i++)//city cards for infection deck
 	 {
 		 infectionDeck[i].cardType = "City";
@@ -149,10 +153,9 @@ PandModel::PandModel()//constructor
 	for(int i = 3; i > 0; i--){
 		infectionCard current;
 		for(int f = 0; f < 3; f++){
-			//Draw next card in infection deck
-			current = drawInfectionCard();
-			//place i cubes of color and city matching drawn card
-			cities[current.city].diseasecubes[current.color] = i;
+			current = drawInfectionCard();  // Draw next card in infection deck
+			cities[current.city].diseasecubes[current.color] = i;  // place i cubes of color and city matching drawn card
+			diseaseCubes[current.color] -= i;  // remove the disease cubes from remaining
 		}
 	}
 
