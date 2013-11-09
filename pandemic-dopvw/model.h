@@ -55,6 +55,7 @@ class PandModel
 	playerCard playerDeck[59];//59 Player cards
 	infectionCard infectionDeck[48];//48 infection cards
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
+	int outbreakLevel;
 
 	
 public:
@@ -85,6 +86,7 @@ public:
 	int getInfectionLevel(){return infectionLevel;}//for view to access/display infection level
 	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
 	void setInfectionLevel();//stub
+	void setOutbreakLevel();//stub
 	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
 	
 	//Role action:
@@ -275,6 +277,11 @@ playerCard PandModel::drawPlayerCard(int random)
 infectionCard PandModel::drawInfectionCard()
 {
 	return infectionDeck[0];  // 0 is placeholder
+}
+
+void PandModel::setOutbreakLevel()//stub
+{
+	std::cout<<"Outbreak Level Increases \n";
 }
 #endif
 
