@@ -88,7 +88,7 @@ public:
 	void setInfectionLevel();//stub
 	void setOutbreakLevel();//stub
 	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
-	
+	void outbreak(int city);//stub
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
 	
@@ -283,5 +283,12 @@ void PandModel::setOutbreakLevel()//stub
 {
 	std::cout<<"Outbreak Level Increases \n";
 }
+
+void PandModel::outbreak(int city)//stub
+{
+	std::cout<<"Outbreak will infect neighboring cities with current city color infection \n";
+}
+
+
 #endif
 
