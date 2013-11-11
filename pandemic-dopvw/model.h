@@ -55,7 +55,8 @@ class PandModel
 	playerCard playerDeck[59];//59 Player cards
 	infectionCard infectionDeck[48];//48 infection cards
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
-	int outbreakLevel;
+	int outbreakLevel;//0-8, if 8 game is over?
+	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
 
 	
 public:
@@ -83,9 +84,9 @@ public:
 	void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
 	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
-	int getInfectionLevel(){return infectionLevel;}//for view to access/display infection level
+	int getInfectionRate(){return infectionRate;}//for view to access/display infection rate
 	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
-	void setInfectionLevel();//stub
+	void setInfectionRate();//stub
 	void setOutbreakLevel();//stub
 	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
 	void outbreak(int city);//stub
@@ -287,6 +288,14 @@ void PandModel::setOutbreakLevel()//stub
 void PandModel::outbreak(int city)//stub
 {
 	std::cout<<"Outbreak will infect neighboring cities with current city color infection \n";
+	//when outbreak occurs. move outbreak marker forward 1 space.(increase outbreak level by 1)
+	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
+	//if neighbor has 3 already, do not add 4th
+	//instead of adding 4th, a chain reaction outbreak occurs after current outbreak is complete
+	//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)
+	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
+	//except do not add to cities that have already had an outbreak or chain outbreak.
+	//cities can have up to 3 diseasce cubes of each color.
 }
 
 
