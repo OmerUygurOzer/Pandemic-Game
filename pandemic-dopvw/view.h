@@ -135,7 +135,7 @@ void PandView::showPlayersLocation(int numberofplayers)
 }
 void PandView::showInfectionLevel()
 {
-	int temp = getInfectionLevel();
+	int temp = getInfectionRate();
 	std::cout<<"Current Level of infection: " << temp<< std::endl;
 }
 void PandView::showHowManyCardsLeft()
