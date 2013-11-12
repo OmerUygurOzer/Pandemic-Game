@@ -70,13 +70,15 @@ void PandView::showNeighbors(int citynum)
 void PandView::showActionMenu(int p)
 {
 	std::cout<<std::endl;
-	std::cout<<"1. move to adjacent" << std::endl;
-	std::cout<<"2. use city card " << std::endl;
-	std::cout<<"3. remove cube " << std::endl;
-	std::cout<<"4. build research center " << std::endl;
-	std::cout<<"5. list infected cities " << std::endl;
-	std::cout<<"6. list other things " << std::endl;//expansion for later
-	listActions(p); //additional actions that are unique to each player are being shown here
+	std::cout<<"1. Move to an adjacent city" << std::endl;
+	std::cout<<"2. Play a card " << std::endl;
+	std::cout<<"3. Remove cube " << std::endl;
+	std::cout<<"4. Build research center " << std::endl;
+	std::cout<<"5. List infected cities " << std::endl;
+	std::cout<<"6. List other things " << std::endl;//expansion for later
+	//listActions(p); //additional actions that are unique to each player are being shown here
+	//Commented this out since it was getting messy while debugging
+	//Let's use listActions in another function, such as  7. Use Role Ability    -Vu
 	std::cout<<"What would you like to do : ";
 	
 }
@@ -90,7 +92,14 @@ void PandView::showPlayerInfo(int playernum)
 	Playerchar temp = model.getPlayerInfo(playernum-1);
 	std::cout<<"Player name: " <<  temp.playerName << std::endl;
 	std::cout<<"Player location: " << cityname[temp.location] << std::endl;
+
+	//////////////
+
+	
 	std::cout << "Player role: " << temp.profName << std::endl;
+
+	/*   //Was getting messy, commenting out for now
+
 	//std::cout << "Player role(int): " << temp.profession << std::endl; //Added to help with debug 
 	std::cout << "Role details: " << std::endl;
 	listDescriptions(temp.profession);
@@ -102,7 +111,7 @@ void PandView::showPlayerInfo(int playernum)
 			std::cout << "Extra event card: " << "None" << std::endl;
 		}
 	}
-
+	*/
     //std::cout<<"Player role: " << temp.playerName << std::endl;
 	//::cout<<"Player cards: " << temp.playerName << std::endl;
 	

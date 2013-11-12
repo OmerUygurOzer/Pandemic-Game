@@ -163,26 +163,32 @@ int main()
 		GameInstance.ActionsInitialize(i);
 	}
 
+	//Gonna give the players some cards
+	GameInstance.ReceiveCard(1, 0);
+	GameInstance.ReceiveCard(1, 1);
+	GameInstance.ReceiveCard(1, 5);
+//	GameInstance.ReceiveCard(2, 2);
+//	GameInstance.ReceiveCard(2, 3);
+	GameInstance.ReceiveCard(3, 4);
+	GameInstance.ReceiveCard(4, 6);
 
-//	for(int i = 1; i<numberofplayers+1; i++)  //Loop for current player?
+
+
 	//while(game not ended yet)
-	while(charnum != -1) //Temp infinite loop
+	while(charnum != -1) //Temp infinite loop - Insert a bool here to check if the game has ended
 	{
 		//if player = special profession, give them a different num of moves
 		// { GameInstance.setActionsLeft(charnum, 6); }
 		//else
-		GameInstance.setActionsLeft(charnum, 3); //player is given base of 5 moves. Leaving it at 3 for now for
-		//quicker debugging
+		GameInstance.setActionsLeft(charnum, 3); //Change the second argument here for base # of moves
+		//Set to 3 for quicker play
 
-		//Debug output to show actions left of current player, need to see if above function works
-		cout << "Debug actionsleft:" << GameInstance.getActionsLeft(charnum) << endl << endl;
+
+		//DEBUG cout << "Debug actionsleft:" << GameInstance.getActionsLeft(charnum) << endl << endl;
 
 
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
-			//std::cout << std::string(50, '\n'); //temporary solution to reduce screen clutter
-			cout << endl << endl << "Debug output - charnum: " << charnum << endl; //debug output
-
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
 			Playerchar temp = GameInstance.getPlayerInfo(charnum);
@@ -195,18 +201,41 @@ int main()
 			cin>>ans;
 
 
-			/////////////////////////////
-			///////////Adjacent Movement
+			/////////////////////////////////////////////////
+			///////////Adjacent Movement////////////////////
 			if(ans == 1)
 			{
 				cout<<"Where would you like to move :" <<endl;//will move to view.h
 				newScreen.showNeighbors(temp.location);
 				int moveto;
 				cin>>moveto;
+				//while (  validNeighbor(current location, moveto)   )
+				//True =
 				GameInstance.setPlayerLocation(charnum+1, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
+				//False =
+				//cin >>moveto
+			}
+			////////////
+			//Use card
+			if(ans == 2)
+			{
+				if(GameInstance.CheckHand(charnum+1) == 0)
+				{
+				cout << endl << endl << "You have no cards!" << endl << endl;
+				GameInstance.setActionsLeft(charnum, 1); //Return action used to Play Card
+				}
+				if(GameInstance.CheckHand(charnum+1) == 1) //If player has card, allow to play card
+				{GameInstance.PlayCard(charnum+1);}
+
+				
+
 
 			}
 
+
+
+
+			///////////////////////////////////////////////////////////
 			// WILL WORK ON IT LATER
 			/*if (ans == 7)
 			{
@@ -231,8 +260,8 @@ int main()
 			}
 
 			*/
-			////////////
-			//Use card
+
+
 
 			////////////
 			//Profession Ability

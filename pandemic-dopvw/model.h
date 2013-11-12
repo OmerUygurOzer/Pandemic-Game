@@ -2,6 +2,11 @@
 #define MODEL_H
 #include <string>
 
+////Just gonna include these for now for my functions to work   -Vu
+using namespace std;
+#include <iostream>
+//////////////////////////////////////////
+
 struct city//empty city container
 {
 	std::string cityName;//city name
@@ -15,8 +20,10 @@ struct city//empty city container
 
 struct playerCard
 {
+	int value; //Holds the card's number
 	std::string cardType;
 	std::string cardDescription;
+	char color;
 };
 struct infectionCard
 {
@@ -93,6 +100,16 @@ public:
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
 	
+	void PlayCard(int playernum); //Stub
+	int CheckHand(int playernum) {	//If player has non-blank card, return 1
+		int z = 0;
+		for(int i = 0; i < 7; i++)
+		{if(players[playernum].cardsonhand[i].value != -1)
+		{z = 1;}
+		}
+		return z;
+	}
+	void ReceiveCard(int playernum, int cardnum); //Test Stub. I think we could also use this to receive cards from other players  -Vu
 };
 
 PandModel::PandModel()//constructor
@@ -112,6 +129,14 @@ PandModel::PandModel()//constructor
 		 diseaseCubes[i] = 24;
 	 }
 
+	 for(int i = 0; i < 7; i++) //Empty player hand initialize    -Vu
+	 {
+		 players[0].cardsonhand[i].value = -1; //Basically with value =-1, the player is holding "blank" cards
+		 players[1].cardsonhand[i].value = -1; //If card is a blank, allow receiving of a real card
+		 players[2].cardsonhand[i].value = -1; //Initialize all players to blank
+		 players[3].cardsonhand[i].value = -1;
+	 }
+
 	 for(int i = 0; i<48; i++)//city cards for infection deck
 	 {
 		 infectionDeck[i].cardType = "City";
@@ -123,6 +148,8 @@ PandModel::PandModel()//constructor
 	 {
 		 playerDeck[i].cardType = "City";
 		 playerDeck[i].cardDescription = cityname[i];
+		 playerDeck[i].value = i;
+		 playerDeck[i].color = citycolors[i];
 	 }
 	 for(int i = 48; i<54; i++)//epidemic cards for player deck
 	 {
@@ -152,7 +179,7 @@ PandModel::PandModel()//constructor
 		cities[i].researchcenter = 0;
 
 	}
-
+/* This was causing program to crash upon run
 	 // ** Place starting infection cubes **
 	for(int i = 3; i > 0; i--){
 		infectionCard current;
@@ -162,7 +189,7 @@ PandModel::PandModel()//constructor
 			diseaseCubes[current.color] -= i;  // remove the disease cubes from remaining
 		}
 	}
-
+*/
 	//-1 Is a filler
         FillAdjacent(25,34,14,7, -1, -1, -1, 0);
         FillAdjacent( 9, 47, 28, -1, -1, -1, -1, 1);
@@ -249,6 +276,88 @@ void PandModel::setActionsLeft(int playernum, int addAction)
 	players[playernum].ActionsLeft = players[playernum].ActionsLeft + addAction;
 }
 
+////////////////CURRENTLY WORKING ON   -VU////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+void PandModel::ReceiveCard(int playernum, int cardnum)
+{
+	int z = 0; //Variable check
+
+	for(int i = 0; i < 7; i++)
+	{
+		if(players[playernum].cardsonhand[i].value == -1)
+		{
+			players[playernum].cardsonhand[i].value = playerDeck[cardnum].value;
+			players[playernum].cardsonhand[i].cardType = playerDeck[cardnum].cardType;
+			players[playernum].cardsonhand[i].cardDescription = playerDeck[cardnum].cardDescription;
+			players[playernum].cardsonhand[i].color = playerDeck[cardnum].color;
+			
+			i = 10; //If card placed into hand, end loop
+			z = 1; //Card Received
+		}
+		
+	}
+
+	//Alter this later for when the player hits maximum cards
+
+	
+}
+
+void PandModel::PlayCard(int playernum)
+{
+	//Print cards in hand/////////////////////////////////////////
+	cout << "Cards on hand:" << endl;
+	//cout << "Color || Type || Name - Effect" << endl;
+
+	for(int i = 0; i < 7; i++)
+	{
+		
+		if(players[playernum].cardsonhand[i].value != -1)
+		{
+			cout << "#" << i+1 << "    ";
+			cout << players[playernum].cardsonhand[i].color << " || ";
+			cout << players[playernum].cardsonhand[i].cardType << " || ";
+			cout << players[playernum].cardsonhand[i].cardDescription << endl;
+		}
+	}
+	////////////////Hand print end////////////////////////////////
+
+	int cardchoose;
+	cout << "Choose your card: ";
+	cin >> cardchoose;
+	cardchoose = cardchoose - 1; //Player displays cards as 1 to 7. If select 1, we need to access deck[0]
+
+	//if cardchoose = not valid
+	//cin >> cardchoose
+
+	//ifcardchoose = 8 (exit)     //If we want to give an option to cancel using a card
+	// playerturn +1  (player gains back used turn)
+
+	if(players[playernum].cardsonhand[cardchoose].value < 48 && players[playernum].cardsonhand[cardchoose].value >= 0)
+	{
+		if(players[playernum].location == players[playernum].cardsonhand[cardchoose].value)
+		{
+			cout << "Charter Flight!   Choose your new location: ";
+			int newlocation;
+			cin >>newlocation;
+
+			players[playernum-1].location = newlocation;
+			players[playernum].cardsonhand[cardchoose].value = -1;
+			cout << endl << "You have moved to : " << cities[newlocation].cityName << endl << endl;
+		}
+		else
+		{
+		cout << "City Card chosen, you have been moved to: " << players[playernum].cardsonhand[cardchoose].cardDescription << endl;
+		players[playernum-1].location = players[playernum].cardsonhand[cardchoose].value;
+		players[playernum].cardsonhand[cardchoose].value = -1;
+		cout << endl << endl;
+		}
+	}
+
+}
+
+///////////////////END COMMENT///////////////////////////////////////////////
+
 void RandomizeCubes()//<------------needs to be a member function
 {
      // Randomizing the cubes. 
@@ -280,6 +389,9 @@ infectionCard PandModel::drawInfectionCard()
 {
 	return infectionDeck[0];  // 0 is placeholder
 }
+
+
+
 
 void PandModel::setOutbreakLevel()//stub
 {
