@@ -97,6 +97,7 @@ public:
 
 PandModel::PandModel()//constructor
 {
+	outbreakLevel = 0;
 	char citycolors[48]= {'G', 'B', 'G', 'R', 'R', 'Y', 'Y', 'G', 'G', 'B',
 							'G', 'B', 'R', 'R', 'G', 'R', 'Y', 'G', 'Y', 'Y',
                             'G', 'Y', 'Y', 'B', 'Y', 'B', 'R', 'Y', 'Y', 'B',
@@ -282,20 +283,28 @@ infectionCard PandModel::drawInfectionCard()
 
 void PandModel::setOutbreakLevel()//stub
 {
-	std::cout<<"Outbreak Level Increases \n";
+	//std::cout<<"Outbreak Level Increases \n";
 }
 
 void PandModel::outbreak(int city)//stub
 {
-	std::cout<<"Outbreak will infect neighboring cities with current city color infection \n";
+	//std::cout<<"Outbreak will infect neighboring cities with current city color infection \n";
 	//when outbreak occurs. move outbreak marker forward 1 space.(increase outbreak level by 1)
+	outbreakLevel++;
 	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
+	int i = 0;
+	while(cities[city].adjacentCities[i] != -1)
+	{
+		//infect cities with cubes of city colors
+		i++;
+	
 	//if neighbor has 3 already, do not add 4th
 	//instead of adding 4th, a chain reaction outbreak occurs after current outbreak is complete
 	//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)
 	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
 	//except do not add to cities that have already had an outbreak or chain outbreak.
 	//cities can have up to 3 diseasce cubes of each color.
+	}
 }
 
 
