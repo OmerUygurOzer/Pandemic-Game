@@ -117,7 +117,7 @@ void PandView::showPlayerInfo(int playernum)
 	
 }
 
-void PandView::showCubeLocations()
+void PandView::showCubeLocations()//need to rewrite to show all 4 types of cubes per city
 {
 	std::cout<<"This function will show infection cube location \n";
 	city temp;
