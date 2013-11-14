@@ -117,6 +117,16 @@ int main()
 	//////////////////////////////////////////////////////////
 	system("CLS");
 
+	//Outbreak Test
+	PandModel OutbreakTest;
+	OutbreakTest.outbreak(1);
+	OutbreakTest.outbreak(3);
+	city tempcity = OutbreakTest.getCityInfo(9);//chicago has a red infection cube
+	//Show Infection Test
+	PandView InfectionTest(OutbreakTest);
+	InfectionTest.showCubeLocations();
+
+
 	//shuffled infection deck ////////may turn this into a function in model.h void shuffledeck(int array[], maxnum);
 	int shuffleInfection[48];
 	const int infectionMax = 48;
