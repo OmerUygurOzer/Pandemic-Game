@@ -158,19 +158,19 @@ PandModel::PandModel()//constructor
 	 }
 	 ////////////////////////////////////////////////Special Event Cards for player deck
 	 playerDeck[54].cardType = "Special Event";
-	 playerDeck[54].cardDescription = "Airlift: ";
+	 playerDeck[54].cardDescription = "Airlift: Move a pawn ( yours or another player's) to any city. You must have a player's permission to move their pawn \n";
 
 	 playerDeck[55].cardType = "Special Event";
-	 playerDeck[55].cardDescription = "Forecast: ";
+	 playerDeck[55].cardDescription = "Forecast: Examine the top 6 cards of the Infection Draw Pile, rearrange them in the order of your choice, then place them back on the pile. \n";
 
 	 playerDeck[56].cardType = "Special Event";
-	 playerDeck[56].cardDescription = "Government Grant: ";
+	 playerDeck[56].cardDescription = "Government Grant: Add a Research Station to any city for free \n";
 
 	 playerDeck[57].cardType = "Special Event";
-	 playerDeck[57].cardDescription = "One Quiet Night: ";
+	 playerDeck[57].cardDescription = "One Quiet Night: The next player to begin the Playing the Infector phase of their turn may skip that phase entirely \n";
 
 	 playerDeck[58].cardType = "Special Event";
-	 playerDeck[58].cardDescription = "Resilient Population: ";
+	 playerDeck[58].cardDescription = "Resilient Population: Take a card from the Infection Discard Pile and remove it from the game \n";
 
 	 for(int i = 0; i < 48; i++)
 	{
@@ -398,20 +398,35 @@ void PandModel::setOutbreakLevel()//stub
 	//std::cout<<"Outbreak Level Increases \n";
 }
 
-void PandModel::outbreak(int city)//stub
+void PandModel::outbreak(int cityNum)//stub
 {
+	city temp = getCityInfo(cityNum);
+
 	//std::cout<<"Outbreak will infect neighboring cities with current city color infection \n";
 	//when outbreak occurs. move outbreak marker forward 1 space.(increase outbreak level by 1)
 	outbreakLevel++;
+	char cubeColor = temp.cityColor;
+	//0,1,2,3 = red,black,blue,yellow
+	int infectIndex;
+	if(cubeColor = 'R') infectIndex = 0;
+	else if(cubeColor = 'G') infectIndex = 1;
+	else if(cubeColor = 'B') infectIndex = 2;
+	else if(cubeColor = 'Y') infectIndex = 3;
 	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
 	int i = 0;
-	while(cities[city].adjacentCities[i] != -1)
+	while(cities[cityNum].adjacentCities[i] != -1)
 	{
 		//infect cities with cubes of city colors
+		//if neighbor has 3 already, do not add 4th
+		//instead of adding 4th, a chain reaction outbreak occurs after current outbreak is complete
+		if(cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] < 3)
+			cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex]++;//increase disease cube count by 1 at neighbors
+		else if (cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)
+			//cause a chain reaction outbreak
+			int dummy = 0;//do I want to do a recursive call
 		i++;
 	
-	//if neighbor has 3 already, do not add 4th
-	//instead of adding 4th, a chain reaction outbreak occurs after current outbreak is complete
+	
 	//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)
 	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
 	//except do not add to cities that have already had an outbreak or chain outbreak.
