@@ -120,6 +120,9 @@ PandModel::PandModel()//constructor
                             'G', 'Y', 'Y', 'B', 'Y', 'B', 'R', 'Y', 'Y', 'B',
                             'G', 'G', 'B', 'R', 'B', 'G', 'B', 'Y', 'Y', 'R',
                             'R', 'B', 'R', 'R', 'G', 'R', 'B', 'B'};
+	for(int i = 0; i<48; i++)
+		cities[i].cityColor = citycolors[i];//assign city colors to cities
+
 	 std::string cityname[48] = {"Algiers", "Atlanta", "Baghdad", "Bangkok", "Beijing", "Bogota", "Buenos Aires", "Cairo", "Chennai", "Chicago", "Delhi", "Essen", "Ho Chi Minh City",
                             "Hong Kong", "Istanbul", "Jakarta", "Johannesburg", "Karachi", "Khartoum", "Kinshasa", "Kolkata", "Lagos", "Lima", "London", "Los Angeles", "Madrid",
                             "Manila", "Mexico City", "Miami", "Milan", "Moscow", "Mumbai", "New York", "Osaka", "Paris", "Riyadh", "San Francisco", "Santiago",
@@ -177,6 +180,8 @@ PandModel::PandModel()//constructor
 		cities[i].cityName = cityname[i];
 		cities[i].cityColor = citycolors[i];
 		cities[i].researchcenter = 0;
+		for(int j = 0; j < 5; j++)
+			cities[i].diseasecubes[j] = 0;//initialize cube count to 0
 
 	}
 /* This was causing program to crash upon run
@@ -408,10 +413,10 @@ void PandModel::outbreak(int cityNum)//stub
 	char cubeColor = temp.cityColor;
 	//0,1,2,3 = red,black,blue,yellow
 	int infectIndex;
-	if(cubeColor = 'R') infectIndex = 0;
-	else if(cubeColor = 'G') infectIndex = 1;
-	else if(cubeColor = 'B') infectIndex = 2;
-	else if(cubeColor = 'Y') infectIndex = 3;
+	if(cubeColor == 'R') infectIndex = 0;
+	else if(cubeColor == 'G') infectIndex = 1;
+	else if(cubeColor == 'B') infectIndex = 2;
+	else if(cubeColor == 'Y') infectIndex = 3;
 	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
 	int i = 0;
 	while(cities[cityNum].adjacentCities[i] != -1)
@@ -423,11 +428,12 @@ void PandModel::outbreak(int cityNum)//stub
 			cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex]++;//increase disease cube count by 1 at neighbors
 		else if (cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)
 			//cause a chain reaction outbreak
-			int dummy = 0;//do I want to do a recursive call
+			outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)
+			//do I want to do a recursive call?
 		i++;
 	
 	
-	//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)
+	
 	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
 	//except do not add to cities that have already had an outbreak or chain outbreak.
 	//cities can have up to 3 diseasce cubes of each color.

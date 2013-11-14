@@ -121,12 +121,19 @@ void PandView::showCubeLocations()//need to rewrite to show all 4 types of cubes
 {
 	std::cout<<"This function will show infection cube location \n";
 	city temp;
+	char infectionColor[4] = {'R', 'G', 'B', 'Y'};
+
 	for (int i = 0; i < 48; i++)
 	{
-		temp = getCityInfo(i);
-		if (temp.diseasecubes > 0)
+		temp = model.getCityInfo(i);
+		for(int j = 0; j < 5; j++)//traverse through different color cubes that may be stored in this city
+		if (temp.diseasecubes[j] > 0)
 		{
-			std::cout<<"City: " << temp.cityName << "cubes: "<<temp.diseasecubes << std::endl;
+			
+			std::cout<<"City: " << temp.cityName <<"  "; 
+			for(int p = 0; p < temp.diseasecubes[j]; p++)
+			std::cout<<infectionColor[j];//each letter printed represents a cube of that color
+			std::cout<<endl;
 		}
 	}
 }
