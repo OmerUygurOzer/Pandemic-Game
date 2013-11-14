@@ -43,7 +43,7 @@ void PandView::showIntro()
 }
 void PandView::showCityInfo(int citynum)
 {
-	city temp = getCityInfo(citynum);
+	city temp = model.getCityInfo(citynum);//reference model 
 	//print player info, eg. name, role
 	std::cout<<"City: " <<temp.cityName<<std::endl;
 	std::cout<<"City color: " <<temp.cityColor<<std::endl;
