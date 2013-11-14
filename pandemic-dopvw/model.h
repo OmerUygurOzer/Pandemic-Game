@@ -77,7 +77,7 @@ public:
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	playerCard drawPlayerCard(int random);//use a random number generator between 0-58 without replacement and store in a stack otherwise forecast special event can not preview top  6 cards.
 	infectionCard drawInfectionCard();//use a random number generator between 0-47 without replacement and store in a vector otherwise epidemic card can not draw from bottom of deck.
-
+	bool returnResearch(int citynum){return cities[citynum].researchcenter;}
 
 	void PrintAdjacent();
 	void FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum);
@@ -87,7 +87,7 @@ public:
 	void setPlayerName(int playernum, std::string name);
 	void setPlayerRole(int playernum, int profession, std::string profName);
 	void setPlayerLocation(int playernum, int location);//use to set new location
-
+	void ShuttleFlight(int playernum);
 	void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
 	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
@@ -96,6 +96,8 @@ public:
 	void setInfectionRate();//stub
 	void setOutbreakLevel();//stub
 	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
+	
+
 	void outbreak(int city);//stub
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
@@ -109,7 +111,8 @@ public:
 		}
 		return z;
 	}
-	void ReceiveCard(int playernum, int cardnum); //Test Stub. I think we could also use this to receive cards from other players  -Vu
+	void ReceiveCard(int playernum, int cardnum); //Player # - Receives card #  -Functional but not complete    -Vu
+
 };
 
 PandModel::PandModel()//constructor
@@ -340,8 +343,18 @@ void PandModel::PlayCard(int playernum)
 
 	if(players[playernum].cardsonhand[cardchoose].value < 48 && players[playernum].cardsonhand[cardchoose].value >= 0)
 	{
-		if(players[playernum].location == players[playernum].cardsonhand[cardchoose].value)
+		if(players[playernum-1].location == players[playernum].cardsonhand[cardchoose].value)
 		{
+			cout << "Card matches current city." << endl;
+			cout << "1. Charter Flight" << endl;
+			cout << "2. Build a research station" << endl;
+			int choice = 0;
+			cout << "Selection: ";
+			cin >> choice;
+			cout << string(10, '\n');
+
+			if(choice == 1)
+			{
 			cout << "Charter Flight!   Choose your new location: ";
 			int newlocation;
 			cin >>newlocation;
@@ -349,6 +362,26 @@ void PandModel::PlayCard(int playernum)
 			players[playernum-1].location = newlocation;
 			players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << endl << "You have moved to : " << cities[newlocation].cityName << endl << endl;
+			}
+
+			if(choice ==2)
+			{
+			if(cities[players[playernum].cardsonhand[cardchoose].value].researchcenter == true)
+			{
+				cout << "This city already has a research center!" << endl << endl;
+				setActionsLeft(playernum, 1);
+			}
+			if(cities[players[playernum].cardsonhand[cardchoose].value].researchcenter == false)
+			{
+			addResearchCenter(players[playernum].cardsonhand[cardchoose].value);
+			cout << "A Research Center has been constructed in " << cities[players[playernum].cardsonhand[cardchoose].value].cityName;
+			players[playernum].cardsonhand[cardchoose].value = -1;
+			cout << string(5, '\n');
+			}
+
+
+			}
+
 		}
 		else
 		{
@@ -360,6 +393,56 @@ void PandModel::PlayCard(int playernum)
 	}
 
 }
+
+void PandModel::ShuttleFlight(int playernum)
+{
+	int z = 0; //Stays 0 if no Research centers found
+	cout << "Cities with research centers:" << endl;
+	for(int i = 0; i < 48; i++)
+	{
+		if(cities[i].researchcenter == true)
+		{
+			cout << '#' << i << "	" << cities[i].cityName << endl;
+			z = 1;
+		}
+	}
+
+
+	if(cities[players[playernum-1].location].researchcenter == true) //If current city has researchcenter
+	{
+
+	if(z == 1)
+	{
+	cout << endl << endl << "Please choose a location: ";
+	int choice;
+	int x = 0;
+
+	while(x != 1) //Until player chooses valid location
+	{
+	cin >> choice;
+	if(cities[choice].researchcenter == true && (players[playernum-1].location != choice) )
+		{
+		players[playernum-1].location = choice;
+		x = 1;}
+	if(x == 0)
+	{cout << "Invalid Choice!" << endl;}
+	}
+	}
+	}
+
+	if(cities[players[playernum-1].location].researchcenter == false)
+	{
+		cout << "You can only use Shuttle Flight when you're on a city with a Research Center!" << endl;
+		cout << endl;
+
+		setActionsLeft(playernum, 1); //Returns action
+
+	}
+
+
+
+}
+
 
 ///////////////////END COMMENT///////////////////////////////////////////////
 

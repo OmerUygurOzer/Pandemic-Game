@@ -176,11 +176,11 @@ int main()
 	//Gonna give the players some cards
 	GameInstance.ReceiveCard(1, 0);
 	GameInstance.ReceiveCard(1, 1);
-	GameInstance.ReceiveCard(1, 5);
-//	GameInstance.ReceiveCard(2, 2);
-//	GameInstance.ReceiveCard(2, 3);
-	GameInstance.ReceiveCard(3, 4);
-	GameInstance.ReceiveCard(4, 6);
+	GameInstance.ReceiveCard(1, 9);
+	GameInstance.ReceiveCard(2, 2);
+	GameInstance.ReceiveCard(2, 46);
+//	GameInstance.ReceiveCard(3, 4);
+//	GameInstance.ReceiveCard(4, 6);
 
 
 
@@ -199,6 +199,7 @@ int main()
 
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
+			//cout << string(50, '\n');
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
 			Playerchar temp = GameInstance.getPlayerInfo(charnum);
@@ -224,6 +225,7 @@ int main()
 				GameInstance.setPlayerLocation(charnum+1, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
 				//False =
 				//cin >>moveto
+				cout << string(10, '\n');
 			}
 			////////////
 			//Use card
@@ -240,6 +242,11 @@ int main()
 				
 
 
+			}
+
+			if(ans == 4)
+			{
+				GameInstance.ShuttleFlight(charnum+1);
 			}
 
 
@@ -290,14 +297,18 @@ int main()
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
 		}
 
+		
 		//Debug outputs show the current # of player before and after the changes
-		cout << "debug charnum before" << charnum << endl;
+		//cout << "debug charnum before" << charnum << endl;
 		//Next Player
 		if(charnum != (numberofplayers-1) ) //If last player, go to first player
 		{charnum++;} //0
 		else if(charnum == numberofplayers-1){charnum = 0;} //go to next player
-		cout << "debug charnum after" << charnum << endl;
 
+
+		//cout << "debug charnum after" << charnum << endl;
+		
+		cout << string(10, '\n');
 
 		//system("CLS");
 	}

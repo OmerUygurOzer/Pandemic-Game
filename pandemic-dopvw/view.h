@@ -48,7 +48,10 @@ void PandView::showCityInfo(int citynum)
 	std::cout<<"City: " <<temp.cityName<<std::endl;
 	std::cout<<"City color: " <<temp.cityColor<<std::endl;
 	std::cout<<"Cubes: " <<temp.diseasecubes<<std::endl;
-	std::cout<<"Research Center: " <<temp.researchcenter<<std::endl;//should be converted to yes or no
+	//std::cout<<"Research Center: " <<temp.researchcenter<<std::endl;//should be converted to yes or no
+	std::cout<< "Research Center: ";
+	if(returnResearch(citynum) == true){std::cout << "Yes";}
+	if(returnResearch(citynum) == false){std::cout << "No";}
 }
 void PandView::showNeighbors(int citynum)
 {
@@ -73,7 +76,7 @@ void PandView::showActionMenu(int p)
 	std::cout<<"1. Move to an adjacent city" << std::endl;
 	std::cout<<"2. Play a card " << std::endl;
 	std::cout<<"3. Remove cube " << std::endl;
-	std::cout<<"4. Build research center " << std::endl;
+	std::cout<<"4. Shuttle Flight " << std::endl;
 	std::cout<<"5. List infected cities " << std::endl;
 	std::cout<<"6. List other things " << std::endl;//expansion for later
 	//listActions(p); //additional actions that are unique to each player are being shown here
