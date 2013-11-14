@@ -369,7 +369,7 @@ void PandModel::PlayCard(int playernum)
 			if(cities[players[playernum].cardsonhand[cardchoose].value].researchcenter == true)
 			{
 				cout << "This city already has a research center!" << endl << endl;
-				setActionsLeft(playernum, 1);
+				setActionsLeft(playernum-1, 1);
 			}
 			if(cities[players[playernum].cardsonhand[cardchoose].value].researchcenter == false)
 			{
