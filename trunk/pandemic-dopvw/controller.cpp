@@ -108,56 +108,11 @@ int main()
 		}
 	}
 
-	//card draw test. Should pull Atlanta city card///////////
-	PandView tempCard;
-	playerCard tempHand = tempCard.drawPlayerCard(1);
-	cout<<tempHand.cardType<<endl;
-	cout<<tempHand.cardDescription<<endl;
-	cout<<endl;
-	//////////////////////////////////////////////////////////
-	system("CLS");
+	//test shuffle infectiondeck
+	PandModel testdeck;
 
-	//Outbreak Test
-	PandModel OutbreakTest;
-	OutbreakTest.outbreak(1);
-	OutbreakTest.outbreak(3);
-	city tempcity = OutbreakTest.getCityInfo(9);//chicago has a red infection cube
-	//Show Infection Test
-	PandView InfectionTest(OutbreakTest);
-	InfectionTest.showCubeLocations();
 
-	//display role test
-	PandView showRoleTest(GameInstance);
-	showRoleTest.showPlayerRoleInfo(1);
 
-	//shuffled infection deck ////////may turn this into a function in model.h void shuffledeck(int array[], maxnum);
-	int shuffleInfection[48];
-	const int infectionMax = 48;
-	{
-		srand(time(NULL));
-		for(int i = 0; i<48;i++)
-		{
-			bool taken;
-			int infectcardnum;
-			do
-			{
-				infectcardnum = rand()%infectionMax;
-				taken = true;
-				for(int j = 0; j<i; j++)
-					if(infectcardnum == shuffleInfection[j])
-					{
-						taken = false;
-						break;
-					}
-			}while(!taken);
-			shuffleInfection[i] = infectcardnum;
-		}
-	}///////////////////////////////////////////////////////////////////////////////
-
-	stack<int> infectionDeck;////storing the array of randoms in a stack
-	stack<int> discardInfectionDeck;//store discarded infection cards
-	for(int i = 0; i <48; i++)
-		infectionDeck.push(shuffleInfection[i]);
 	////test draw infection card
 	PandView tempinfect;
 	infectionCard tempinfechand = tempinfect.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
@@ -320,3 +275,30 @@ int main()
 	system("pause");
 	return 0;
 }
+
+
+
+/*
+//card draw test. Should pull Atlanta city card///////////
+	PandView tempCard;
+	playerCard tempHand = tempCard.drawPlayerCard(1);
+	cout<<tempHand.cardType<<endl;
+	cout<<tempHand.cardDescription<<endl;
+	cout<<endl;
+	//////////////////////////////////////////////////////////
+	system("CLS");
+
+	//Outbreak Test
+	PandModel OutbreakTest;
+	OutbreakTest.outbreak(1);
+	OutbreakTest.outbreak(3);
+	city tempcity = OutbreakTest.getCityInfo(9);//chicago has a red infection cube
+	//Show Infection Test
+	PandView InfectionTest(OutbreakTest);
+	InfectionTest.showCubeLocations();
+
+	//display role test
+	PandView showRoleTest(GameInstance);
+	showRoleTest.showPlayerRoleInfo(1);
+	
+	*/

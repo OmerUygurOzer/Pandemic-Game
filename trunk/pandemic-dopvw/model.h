@@ -1,6 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include <string>
+#include <deque>
+#include <time.h>
 
 ////Just gonna include these for now for my functions to work   -Vu
 using namespace std;
@@ -60,7 +62,7 @@ class PandModel
 	city cities[48];//48 cities, will fill in values with the constructor
 	Playerchar players[4];//maximum 4 players
 	playerCard playerDeck[59];//59 Player cards
-	infectionCard infectionDeck[48];//48 infection cards
+	std::deque<infectionCard> infectionDeck;//48 infection cards shuffled
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 	int outbreakLevel;//0-8, if 8 game is over?
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
@@ -97,7 +99,7 @@ public:
 	void setOutbreakLevel();//stub
 	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
 	
-
+	void shuffleInfectionDeck(deque<infectionCard> &shuffleDeck);
 	void outbreak(int city);//stub
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
@@ -142,14 +144,17 @@ PandModel::PandModel()//constructor
 		 players[2].cardsonhand[i].value = -1; //Initialize all players to blank
 		 players[3].cardsonhand[i].value = -1;
 	 }
-
-	 for(int i = 0; i<48; i++)//city cards for infection deck
+	 infectionCard infectCard;
+	 for(int i = 0; i<48; i++)//city cards for infection deck populated but not shuffled
 	 {
-		 infectionDeck[i].cardType = "City";
-		 infectionDeck[i].cardDescription = cityname[i];
-		 infectionDeck[i].city = i;
-		 infectionDeck[i].color = 'b';  // needs to be set to correct color depending on city name
+		 infectCard.cardType = "City";
+		 infectCard.cardDescription = cityname[i];
+		 infectCard.city = i;
+		 infectCard.color = citycolors[i];  // needs to be set to correct color depending on city name
+		 infectionDeck.push_back(infectCard);//add onto infectiondeck after info populated 
 	 }
+	 shuffleInfectionDeck(infectionDeck);//shuffle deck at start of game
+
 	 for(int i = 0; i<48; i++)//city cards for player deck
 	 {
 		 playerDeck[i].cardType = "City";
@@ -530,6 +535,45 @@ void PandModel::outbreak(int cityNum)//stub
 	}
 }
 
+void PandModel::shuffleInfectionDeck(deque<infectionCard> &shuffleDeck)//passing by reference since I need to modify it directly
+{
+	int cardAmount = shuffleDeck.size();
+	deque<infectionCard> tempDeck;
+	for(int p = 0; p<cardAmount; p++)//transfer cards from original deck to tempDeck
+		tempDeck.push_back(shuffleDeck[p]);
+	for(int p = 0; p<cardAmount; p++)//empty deck and repopulate with shuffled cards
+		shuffleDeck.pop_front();
+	 //shuffled infection deck ////////may turn this into a function in model.h void shuffledeck(int array[], maxnum);
+        int* shuffleInfection = new int[cardAmount];//array of random num 1 - decksize()
+        const int infectionMax = cardAmount;
+        {
+                srand(time(NULL));
+                for(int i = 0; i<48;i++)
+                {
+                        bool taken;
+                        int infectcardnum;
+                        do
+                        {
+                                infectcardnum = rand()%infectionMax;
+                                taken = true;
+                                for(int j = 0; j<i; j++)
+                                        if(infectcardnum == shuffleInfection[j])
+                                        {
+                                                taken = false;
+                                                break;
+                                        }
+                        }while(!taken);
+                        shuffleInfection[i] = infectcardnum;
+                }
+        }///////////////////////////////////////////////////////////////////////////////
+		for(int p = 0; p<cardAmount; p++)
+		shuffleDeck.push_back(tempDeck[shuffleInfection[p]]);//repopulating deck
+
+	//deque<int> infectionDeck;////storing the array of randoms in a deque
+	//stack<int> discardInfectionDeck;//store discarded infection cards
+	//for(int i = 0; i <48; i++)
+		//infectionDeck.push_front(shuffleInfection[i]);
+}
 
 #endif
 
