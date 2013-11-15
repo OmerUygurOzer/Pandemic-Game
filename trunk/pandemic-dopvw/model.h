@@ -483,9 +483,12 @@ playerCard PandModel::drawPlayerCard(int random)
 	return playerDeck[random];
 }
 
-infectionCard PandModel::drawInfectionCard()
+infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
 {
-	return infectionDeck[0];  // 0 is placeholder
+	infectionCard temp;
+	temp = infectionDeck.front();//from the top
+	infectionDeck.pop_front();//remove top card
+	return temp;  
 }
 
 
