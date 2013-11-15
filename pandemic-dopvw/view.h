@@ -61,8 +61,7 @@ void PandView::showNeighbors(int citynum)
 							"Hong Kong", "Istanbul", "Jakarta", "Johannesburg", "Karachi", "Khartoum", "Kinshasa", "Kolkata", "Lagos", "Lima", "London", "Los Angeles", "Madrid",
 							"Manila", "Mexico City", "Miami", "Milan", "Moscow", "Mumbai", "New York", "Osaka", "Paris", "Riyadh", "San Francisco", "Santiago",
 							"Sao Paulo", "Seoul", "Shanghai", "St. Petersburg", "Sydney", "Taipei", "Tehran", "Tokyo", "Toronto", "Washington"};
-	//tempcity = cityname[x];
-	city temp = getCityInfo(citynum);
+	city temp = model.getCityInfo(citynum);
 	int i = 0;
 	while(temp.adjacentCities[i] != -1)
 	{
@@ -92,10 +91,6 @@ void PandView::showPlayerRoleInfo(int playernum)//
 {
 	Playerchar temp = model.getPlayerInfo(playernum-1);
 	std::cout << "Player role: " << temp.profName << std::endl;
-
-	   //Was getting messy, commenting out for now  ////////////////////////I will move this to a f
-
-	//std::cout << "Player role(int): " << temp.profession << std::endl; //Added to help with debug 
 	std::cout << "Role details: " << std::endl;
 	listDescriptions(temp.profession);
 	if (temp.profession == 0){
@@ -118,16 +113,9 @@ void PandView::showPlayerInfo(int playernum)
 	std::cout<<"Player name: " <<  temp.playerName << std::endl;
 	std::cout<<"Player location: " << cityname[temp.location] << std::endl;
 
-	//////////////
-
-	
-	
-    //std::cout<<"Player role: " << temp.playerName << std::endl;
-	//::cout<<"Player cards: " << temp.playerName << std::endl;
-	
 }
 
-void PandView::showCubeLocations()//need to rewrite to show all 4 types of cubes per city
+void PandView::showCubeLocations()//show all 4 types of cubes per city
 {
 	std::cout<<"This function will show infection cube location \n";
 	city temp;
@@ -154,14 +142,14 @@ void PandView::showPlayersLocation(int numberofplayers)
 	city tempcity;
 	for(int i = 0; i < numberofplayers; i++)
 	{
-		temp = getPlayerInfo(i);
-		tempcity = getCityInfo(temp.location);
+		temp = model.getPlayerInfo(i);
+		tempcity = model.getCityInfo(temp.location);
 		std::cout<<"Player: "<<temp.playerName << "City: " << tempcity.cityName << std::endl;
 	}
 }
 void PandView::showInfectionLevel()
 {
-	int temp = getInfectionRate();
+	int temp = model.getInfectionRate();
 	std::cout<<"Current Level of infection: " << temp<< std::endl;
 }
 void PandView::showHowManyCardsLeft()
