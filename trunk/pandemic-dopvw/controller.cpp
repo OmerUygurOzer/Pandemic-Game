@@ -169,12 +169,12 @@ int main()
 	int charnum; //temp variable
 	charnum = 0;
 
-	//Initialize all turns to 0.
-	//Could someone do a constructor to automatically set this up?
+	//Initialize all turns to 0. // done in constructor
+	/*Could someone do a constructor to automatically set this up?
 	for(int i = 0; i < numberofplayers; i++)
 	{
 		GameInstance.ActionsInitialize(i);
-	}
+	}*/
 
 	//Gonna give the players some cards
 	GameInstance.ReceiveCard(1, 0);
