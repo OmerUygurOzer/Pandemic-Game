@@ -126,6 +126,9 @@ int main()
 	PandView InfectionTest(OutbreakTest);
 	InfectionTest.showCubeLocations();
 
+	//display role test
+	PandView showRoleTest(GameInstance);
+	showRoleTest.showPlayerRoleInfo(1);
 
 	//shuffled infection deck ////////may turn this into a function in model.h void shuffledeck(int array[], maxnum);
 	int shuffleInfection[48];
