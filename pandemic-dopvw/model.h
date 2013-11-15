@@ -580,5 +580,15 @@ void PandModel::shuffleInfectionDeck(deque<infectionCard> &shuffleDeck)//passing
 		//infectionDeck.push_front(shuffleInfection[i]);
 }
 
+void GameOver()
+{
+	/* I will add test cases to check for the end of the game:
+	   1. if all four diseases are cured = win
+	   2. if outbreaks reach all the way to the end = lose
+	   3. if unable to place number of disease cubes needed on the board = lose
+	   4. if a player cannot draw two player cards after doing his actions = lose
+	*/
+};
+
 #endif
 
