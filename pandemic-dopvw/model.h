@@ -88,7 +88,7 @@ public:
 	void setPlayerRole(int playernum, int profession, std::string profName);
 	void setPlayerLocation(int playernum, int location);//use to set new location
 	void ShuttleFlight(int playernum);
-	void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
+	//void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
 	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
 	int getInfectionRate(){return infectionRate;}//for view to access/display infection rate
@@ -252,6 +252,11 @@ PandModel::PandModel()//constructor
 		players[1].location = 1;//default start location Atlanta CDC
 		players[2].location = 1;//default start location Atlanta CDC
 		players[3].location = 1;//default start location Atlanta CDC
+
+		players[0].ActionsLeft = 0;//actions left initialized to 0
+		players[1].ActionsLeft = 0;//actions left initialized to 0
+		players[2].ActionsLeft = 0;//actions left initialized to 0
+		players[3].ActionsLeft = 0;//actions left initialized to 0
 		
 		addResearchCenter(1);//Atlanta CDC research center default
 }
@@ -512,13 +517,15 @@ void PandModel::outbreak(int cityNum)//stub
 		else if (cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)
 			//cause a chain reaction outbreak
 			outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)
-			//do I want to do a recursive call?
+			//(phat)do I want to do a recursive call?
 		i++;
 	
 	
 	
 	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
+		//(phat)found city with 3 cubes, infect neighbors if not already infected. Check through array
 	//except do not add to cities that have already had an outbreak or chain outbreak.
+		//(phat)keep track of cities that have already been infected maybe with an array of already infected cities.
 	//cities can have up to 3 diseasce cubes of each color.
 	}
 }
