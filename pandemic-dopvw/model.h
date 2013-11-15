@@ -63,6 +63,7 @@ class PandModel
 	Playerchar players[4];//maximum 4 players
 	playerCard playerDeck[59];//59 Player cards
 	std::deque<infectionCard> infectionDeck;//48 infection cards shuffled
+	std::deque<infectionCard> discardInfectDeck;
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 	int outbreakLevel;//0-8, if 8 game is over?
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
@@ -487,6 +488,7 @@ infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
 {
 	infectionCard temp;
 	temp = infectionDeck.front();//from the top
+	discardInfectDeck.push_back(temp);//add to discarded cards deck
 	infectionDeck.pop_front();//remove top card
 	return temp;  
 }
