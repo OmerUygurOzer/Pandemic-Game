@@ -15,6 +15,7 @@ public:
 	void showCityInfo(int citynum);
 	void showActionMenu(int p);
 	void showPlayerInfo(int playernum);
+	void showPlayerRoleInfo(int playernum);//
 	void showNeighbors(int citynum);
 	void showCubeLocations();//
 	void showPlayersLocation(int numberofplayers);//
@@ -86,6 +87,27 @@ void PandView::showActionMenu(int p)
 	
 }
 
+
+void PandView::showPlayerRoleInfo(int playernum)//
+{
+	Playerchar temp = model.getPlayerInfo(playernum-1);
+	std::cout << "Player role: " << temp.profName << std::endl;
+
+	   //Was getting messy, commenting out for now  ////////////////////////I will move this to a f
+
+	//std::cout << "Player role(int): " << temp.profession << std::endl; //Added to help with debug 
+	std::cout << "Role details: " << std::endl;
+	listDescriptions(temp.profession);
+	if (temp.profession == 0){
+		if (temp.extracardFlag){
+			std::cout << "Extra event card: " << temp.CPextracard.cardType << std::endl;
+		}
+		else{
+			std::cout << "Extra event card: " << "None" << std::endl;
+		}
+	}
+	
+}
 void PandView::showPlayerInfo(int playernum)
 {
 	std::string cityname[48] = {"Algiers", "Atlanta", "Baghdad", "Bangkok", "Beijing", "Bogota", "Buenos Aires", "Cairo", "Chennai", "Chicago", "Delhi", "Essen", "Ho Chi Minh City",
@@ -99,22 +121,7 @@ void PandView::showPlayerInfo(int playernum)
 	//////////////
 
 	
-	std::cout << "Player role: " << temp.profName << std::endl;
-
-	/*   //Was getting messy, commenting out for now
-
-	//std::cout << "Player role(int): " << temp.profession << std::endl; //Added to help with debug 
-	std::cout << "Role details: " << std::endl;
-	listDescriptions(temp.profession);
-	if (temp.profession == 0){
-		if (temp.extracardFlag){
-			std::cout << "Extra event card: " << temp.CPextracard.cardType << std::endl;
-		}
-		else{
-			std::cout << "Extra event card: " << "None" << std::endl;
-		}
-	}
-	*/
+	
     //std::cout<<"Player role: " << temp.playerName << std::endl;
 	//::cout<<"Player cards: " << temp.playerName << std::endl;
 	
