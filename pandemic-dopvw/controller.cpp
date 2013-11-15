@@ -114,9 +114,9 @@ int main()
 
 
 	////test draw infection card
-	PandView tempinfect;
-	infectionCard tempinfechand = tempinfect.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
-	cout<<tempinfechand.cardDescription<<" infected city \n";
+	
+	infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
+	cout<<tempinfecthand.cardDescription<<" infected city \n";
 	system("CLS");
 	
 //New Turn system		
