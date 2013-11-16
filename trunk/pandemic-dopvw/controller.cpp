@@ -234,9 +234,9 @@ start:
 				//cin >>moveto
 				cout << string(10, '\n');
 			}
-			////////////
-			//Use card
-			if(ans == 2)
+			
+			
+			if(ans == 2)//////////////Use card
 			{
 				if(GameInstance.CheckHand(charnum+1) == 0)
 				{
@@ -246,17 +246,14 @@ start:
 				if(GameInstance.CheckHand(charnum+1) == 1) //If player has card, allow to play card
 				{GameInstance.PlayCard(charnum+1);}
 
-				
-
-
 			}
 
-			if(ans == 4)
+			if(ans == 4)//shuttleFlight
 			{
 				GameInstance.ShuttleFlight(charnum+1);
 			}
 
-			if (ans == 9)
+			if (ans == 9)//game save
 			{
 				GameInstance.setActionsLeft(charnum, 1); //SAVE does not cost an action point
 			save:	
@@ -411,27 +408,3 @@ start:
 
 
 
-/*
-//card draw test. Should pull Atlanta city card///////////
-	PandView tempCard;
-	playerCard tempHand = tempCard.drawPlayerCard(1);
-	cout<<tempHand.cardType<<endl;
-	cout<<tempHand.cardDescription<<endl;
-	cout<<endl;
-	//////////////////////////////////////////////////////////
-	system("CLS");
-
-	//Outbreak Test
-	PandModel OutbreakTest;
-	OutbreakTest.outbreak(1);
-	OutbreakTest.outbreak(3);
-	city tempcity = OutbreakTest.getCityInfo(9);//chicago has a red infection cube
-	//Show Infection Test
-	PandView InfectionTest(OutbreakTest);
-	InfectionTest.showCubeLocations();
-
-	//display role test
-	PandView showRoleTest(GameInstance);
-	showRoleTest.showPlayerRoleInfo(1);
-	
-	*/
