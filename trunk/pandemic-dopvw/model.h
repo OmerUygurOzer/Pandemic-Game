@@ -63,6 +63,7 @@ class PandModel
 	city cities[48];//48 cities, will fill in values with the constructor
 	Playerchar players[4];//maximum 4 players
 	playerCard playerDeck[59];//59 Player cards
+	std::deque<playerCard> PlayerDeckD;//can use shufflePlayerDeck to shuffle
 	std::deque<infectionCard> infectionDeck;//48 infection cards shuffled
 	std::deque<infectionCard> discardInfectDeck;
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
@@ -124,7 +125,8 @@ public:
 	void setOutbreakLevel();//stub
 	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
 	
-	void shuffleInfectionDeck(deque<infectionCard> &shuffleDeck);
+	void shuffleInfectionDeck(deque<infectionCard> &shuffleDeck);//shuffle infection deck pass in a deque<infectionCard>
+	void shufflePlayerDeck(deque<playerCard> & shuffleDeck);//shuffle player deck pass in a deque<playerCard>
 	void outbreak(int city);//stub
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
@@ -214,6 +216,11 @@ PandModel::PandModel()//constructor
 
 	 playerDeck[58].cardType = "Special Event";
 	 playerDeck[58].cardDescription = "Resilient Population: Take a card from the Infection Discard Pile and remove it from the game \n";
+
+	 for(int i = 0; i < 59; i++)
+		 PlayerDeckD.push_back(playerDeck[i]);
+	 shufflePlayerDeck(PlayerDeckD);
+
 
 	 for(int i = 0; i < 48; i++)
 	{
@@ -829,7 +836,7 @@ void PandModel::shuffleInfectionDeck(deque<infectionCard> &shuffleDeck)//passing
         const int infectionMax = cardAmount;
         {
                 srand(time(NULL));
-                for(int i = 0; i<48;i++)
+                for(int i = 0; i<cardAmount;i++)
                 {
                         bool taken;
                         int infectcardnum;
@@ -849,12 +856,43 @@ void PandModel::shuffleInfectionDeck(deque<infectionCard> &shuffleDeck)//passing
         }///////////////////////////////////////////////////////////////////////////////
 		for(int p = 0; p<cardAmount; p++)
 		shuffleDeck.push_back(tempDeck[shuffleInfection[p]]);//repopulating deck
-
-	//deque<int> infectionDeck;////storing the array of randoms in a deque
-	//stack<int> discardInfectionDeck;//store discarded infection cards
-	//for(int i = 0; i <48; i++)
-		//infectionDeck.push_front(shuffleInfection[i]);
 }
+
+void PandModel::shufflePlayerDeck(deque<playerCard> & shuffleDeck)
+{
+	int cardAmount = shuffleDeck.size();
+	deque<playerCard> tempDeck;
+	for(int p = 0; p<cardAmount; p++)//transfer cards from original deck to tempDeck
+		tempDeck.push_back(shuffleDeck[p]);
+	for(int p = 0; p<cardAmount; p++)//empty deck and repopulate with shuffled cards
+		shuffleDeck.pop_front();
+	 //shuffled infection deck ////////may turn this into a function in model.h void shuffledeck(int array[], maxnum);
+        int* shufflePlayer = new int[cardAmount];//array of random num 1 - decksize()
+        const int playerMax = cardAmount;
+        {
+                srand(time(NULL));
+                for(int i = 0; i<cardAmount;i++)
+                {
+                        bool taken;
+                        int playercardnum;
+                        do
+                        {
+                                playercardnum = rand()%playerMax;
+                                taken = true;
+                                for(int j = 0; j<i; j++)
+                                        if(playercardnum == shufflePlayer[j])
+                                        {
+                                                taken = false;
+                                                break;
+                                        }
+                        }while(!taken);
+                        shufflePlayer[i] = playercardnum;
+                }
+        }///////////////////////////////////////////////////////////////////////////////
+		for(int p = 0; p<cardAmount; p++)
+		shuffleDeck.push_back(tempDeck[shufflePlayer[p]]);//repopulating deck
+}
+
 
 void GameOver()
 {

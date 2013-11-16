@@ -404,7 +404,10 @@ start:
 			}
 
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
-		}
+		}//end of player turn
+
+		//draw 2 player cards
+		//draw 2-4 infection cards. How many drawn depends on infection rate.
 
 		
 		//Debug outputs show the current # of player before and after the changes
