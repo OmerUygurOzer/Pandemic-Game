@@ -169,7 +169,7 @@ void PandView::showHowManyCardsLeft()
 {
 	std::cout<<"This function will show how many cards are remaining in the deck \n";
 }
-void PandView::showDiscardedCards()
+void PandView::showDiscardedInfectionCards()
 {
 	std::cout<<"This function will show the cards that have been discarded \n";
 }
