@@ -98,8 +98,8 @@ public:
 	void setloadflag(int x){ loadflag = x; };
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
-	playerCard drawPlayerCard();//use a random number generator between 0-58 without replacement and store in a stack otherwise forecast special event can not preview top  6 cards.
-	infectionCard drawInfectionCard();//use a random number generator between 0-47 without replacement and store in a vector otherwise epidemic card can not draw from bottom of deck.
+	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck
+	infectionCard drawInfectionCard();//will draw from top of infection deck
 	void discardPlayCard(playerCard discarding);//add a discarded card to discarded player card pile
 	bool returnResearch(int citynum){return cities[citynum].researchcenter;}
 
