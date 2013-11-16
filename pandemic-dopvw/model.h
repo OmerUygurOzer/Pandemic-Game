@@ -73,7 +73,11 @@ class PandModel
 	int numberOfPlayers;
 	int playerturn;
 	bool loadflag;
-	
+
+	//SAVE-LOAD VARIABLES////////////////////////////
+	string availability[6]; //availabilty of the files
+	string gameName[6];
+	/////////////////////////////////////////////////
 public:
 	PandModel();
 	//observers
@@ -104,13 +108,6 @@ public:
 	//void FillValue(int x) {value = x;};
 	bool isAdjacent(int x);	//For ground travel, will check if desired destination is included in adjacentCities
 	//setters
-	void setnumberOfPlayers(int pno);
-	void loadActionsLeft(int pno, int act);
-	void loadCityColor(int cno, char c);
-	void loadRcenter(int cno, int rc);
-	void loadoutbreakLevel(int obl);
-	void loadinfectionRate(int ir);
-	void loadDCLeft(int a,int b,int c,int d);
 	void setPlayerName(int playernum, std::string name);
 	void setPlayerRole(int playernum, int profession, std::string profName);
 	void setPlayerLocation(int playernum, int location);//use to set new location
@@ -144,10 +141,21 @@ public:
 	}
 	void ReceiveCard(int playernum, int cardnum); //Player # - Receives card #  -Functional but not complete    -Vu
 
+	// SAVE-LOAD///////////////////////////////////////
 	void Save(int loadf, string sfname, int turn);
 	void Load(int loadf);
-
-
+	void Update();
+	string GetAvail(int x);
+	string GetGameName(int x);
+	void loadPlayerLocation(int playernum, int location);
+	void setnumberOfPlayers(int pno);
+	void loadActionsLeft(int pno, int act);
+	void loadCityColor(int cno, char c);
+	void loadRcenter(int cno, int rc);
+	void loadoutbreakLevel(int obl);
+	void loadinfectionRate(int ir);
+	void loadDCLeft(int a, int b, int c, int d);
+	///////////////////////////////////////////////////
 };
 
 PandModel::PandModel()//constructor
@@ -156,6 +164,27 @@ PandModel::PandModel()//constructor
 	infectionRate = 0;
 	playerturn = 0; //turn indicator
 	loadflag = false;
+
+	//SAVE-LOAD
+	string str;//temporary string
+	int iterator = 0;
+	fstream mainf("SaveMain.txt");
+	while (mainf >> str)
+	{
+		if (str == "#"){
+			//Do Nothing
+		}
+		else{
+			availability[iterator] = str;
+			mainf >> str;
+			gameName[iterator] = str;
+			iterator++;
+		}
+	}
+	mainf.close();
+
+
+	///////////////////////////////////////////////
 	char citycolors[48]= {'G', 'B', 'G', 'R', 'R', 'Y', 'Y', 'G', 'G', 'B',
 							'G', 'B', 'R', 'R', 'G', 'R', 'Y', 'G', 'Y', 'Y',
                             'G', 'Y', 'Y', 'B', 'Y', 'B', 'R', 'Y', 'Y', 'B',
@@ -309,6 +338,7 @@ PandModel::PandModel()//constructor
 
 
 
+
 void PandModel::FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum)
 	{
 		cities[citynum].adjacentCities[0] = a;
@@ -332,8 +362,33 @@ int PandModel::getnumberOfPlayers(){ return numberOfPlayers; }
 string PandModel::getPlayerName(int pno){ return players[pno].playerName; }
 int PandModel::getPlayerLocation(int pno){ return players[pno].location; }
 int PandModel::getTurn(){ return playerturn; }
-//int PandModel::getActionsLeft(int pno){ return players[pno].ActionsLeft; }
+void PandModel::loadPlayerLocation(int playernum, int location){
+	players[playernum].location = location;
+}
+void PandModel::Update(){
+	string str;//temporary string
+	int iterator = 0;
+	fstream mainf("SaveMain.txt");
+	while (mainf >> str)
+	{
+		if (str == "#"){
+			//Do Nothing
+		}
+		else{
+			availability[iterator] = str;
+			mainf >> str;
+			gameName[iterator] = str;
+			iterator++;
+		}
+	}
+	mainf.close();
+}
 
+string PandModel::GetAvail(int x){ return availability[x]; }
+string PandModel::GetGameName(int x){ return gameName[x]; }
+
+//int PandModel::getActionsLeft(int pno){ return players[pno].ActionsLeft; }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 char PandModel::getCityColor(int cno){ return cities[cno].cityColor; }
 int PandModel::getDiseaseCubes(int cno, int a){ return cities[cno].diseasecubes[a]; }
@@ -653,7 +708,7 @@ void PandModel::Load(int loadf){
 	for (int i = 0; i < playernum; i++){
 		savef >> temp;
 		tempint = atoi(temp.c_str());
-		setPlayerLocation(i, tempint);
+		loadPlayerLocation(i, tempint);
 	}
 
 	savef >> temp;// "ActionsLeft:";
@@ -815,16 +870,17 @@ void PandModel::Save(int savefile , string sfname, int turn){
 		ref.append(" Used ");
 		ref.append(sfname);
 		ref.append(" ");
-		cout << contents << std::endl;
+		/*cout << contents << std::endl;
 		cout << ref << std::endl;
 		cout << strbeg;
-		cout << strc;
+		cout << strc;*/
 
 
 		contents.replace(strbeg, strc-strbeg, ref);
 		mainf.open("SaveMain.txt");
 		mainf << contents;
 		mainf.close();
+		Update();
 		//cin >> ref;                     //debug
 
 	

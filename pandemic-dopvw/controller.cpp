@@ -72,15 +72,13 @@ int main()
 	// Opening introduction and asking for number of players
 	Screens.showIntro();
 
-	string str;//temporary string
-	string availability[6]; //availabilty of the files
-	string gameName[6];
-	int iterator=0;
+	
 	int loadfile, savefile;
 	char yn;
 
 	// New Game or Load Game
 	int opt;
+
 
 	cin >> opt;
 
@@ -92,34 +90,20 @@ int main()
 	if (opt == 2){ //Load
 
 		system("CLS");
-		fstream mainf("SaveMain.txt");
-		while (mainf >> str) 
-		{                 
-			if (str == "#"){
-			//Do Nothing
-			}
-			else{
-				availability[iterator] = str;
-				mainf >> str;
-				gameName[iterator] = str;
-				iterator++;
-			}
-		}
 		for (int i = 0; i < 6; i++){
-			cout << i + 1 << " - " << "Slot:" << availability[i] << "	Game Name:" << gameName[i] << std::endl;
+			cout << i + 1 << " - " << "Slot:" << GameInstance.GetAvail(i) << "	Game Name:" << GameInstance.GetGameName(i) << std::endl;
 		}
 		cout << "Chose a file to load from:";
 		cin >> loadfile;
 
-		while ((loadfile < 0) || (loadfile >6) || (availability[loadfile-1]=="Empty")){
+		while ((loadfile < 0) || (loadfile >6) || (GameInstance.GetAvail(loadfile - 1) == "Empty")){
 			cout << "Invalid Input or Empty File. Can not Load." << std::endl;
 			cin >> loadfile;
 		}
 
-		mainf.close();
 		GameInstance.Load(loadfile);
 		system("CLS");
-		cout << "Game " << gameName[loadfile - 1] << " has been loaded from the file!" << std::endl;
+		cout << "Game " << GameInstance.GetGameName(loadfile - 1) << " has been loaded from the file!" << std::endl;
 		goto start;
 	}
 	
@@ -211,7 +195,7 @@ start:
 		//if player = special profession, give them a different num of moves
 		// { GameInstance.setActionsLeft(charnum, 6); }
 		//else
-		if (!(GameInstance.getloadflag())){ GameInstance.setActionsLeft(charnum, 3); GameInstance.setloadflag(0); } //Change the second argument here for base # of moves   =====   Had to make adjustments -Omer
+		if (!GameInstance.getloadflag()){ GameInstance.setActionsLeft(charnum, 3); GameInstance.setloadflag(0); } //Change the second argument here for base # of moves   =====   Had to make adjustments -Omer
 		//Set to 3 for quicker play
 
 
@@ -223,6 +207,7 @@ start:
 			into:
 			//cout << string(50, '\n');
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
+			//GameInstance.loadActionsLeft(charnum, GameInstance.getActionsLeft(charnum) - 1);
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
 			Playerchar temp = GameInstance.getPlayerInfo(charnum);
 			city tempcity = GameInstance.getCityInfo(charnum+1);
@@ -273,33 +258,25 @@ start:
 
 			if (ans == 9)
 			{
+				GameInstance.setActionsLeft(charnum, 1); //SAVE does not cost an action point
 			save:	
 				string sfname;
 				system("CLS");
-				fstream mainf("SaveMain.txt");
-				while (mainf >> str)
-				{
-					if (str == "#"){
-						//Do Nothing
-					}
-					else{
-						availability[iterator] = str;
-						mainf >> str;
-						gameName[iterator] = str;
-						iterator++;
-					}
-				}
 				for (int i = 0; i < 6; i++){
-					cout << i + 1 << " - " << "Slot:" << availability[i] << "	Game Name:" << gameName[i] << std::endl;
+					cout << i + 1 << " - " << "Slot:" << GameInstance.GetAvail(i) << "	Game Name:" << GameInstance.GetGameName(i) << std::endl;
 				}
+				cout << "Slot Number:";
 				cin >> savefile;
+				cout << std::endl;
 
 				while ((savefile < 0) || (savefile >6) ){
 					cout << "Invalid Input. Can not save." << std::endl;
+					cout << "Slot Number:";
 					cin >> savefile;
+					cout << std::endl;
 				}
-				if (availability[savefile-1] == "Used"){
-
+				if (GameInstance.GetAvail(savefile - 1) == "Used"){
+					
 					cout << std::endl << "File is already used. Overwrite? (Y/N)";
 				ynInput:
 					cin >> yn;
@@ -308,12 +285,14 @@ start:
 						cout << "Name of your game:";
 						cin >> sfname;
 						cout << std::endl;
-						string noblanks="";
-						/*for (int i = 0; i < sfname.length(); i++){
+						/*string noblanks="";
+						for (int i = 0; i < sfname.length(); i++){
 							if (!(sfname[i] == ' ')){ noblanks.append(sfname.substr(i,1)); }
 						}*/
 						//sfname.erase(remove(sfname.begin(), sfname.end(), ' '), sfname.end());
-						GameInstance.Save(savefile,noblanks,charnum);
+						GameInstance.Save(savefile,sfname,charnum);
+						system("CLS");
+						cout << "GAME SAVED INTO SLOT " << savefile << "." << std::endl << std::endl;
 					}
 					else if ((yn == 'n') || (yn == 'N')){
 						goto save;
@@ -329,8 +308,8 @@ start:
 					cout << "Name of your game:";
 					cin >> sfname;
 					cout << std::endl;
-					string noblanks ="";
-					/*for (int i = 0; i < sfname.length(); i++){
+					/*string noblanks ="";
+					for (int i = 0; i < sfname.length(); i++){
 						if (isspace(sfname[i])){
 							noblanks.append("_");
 							goto skip;
@@ -343,10 +322,10 @@ start:
 						skip:
 						//cout << sfname[i] << "   " << noblanks << std::endl;
 						//system("PAUSE");
-						*/
+						
 					
-					//sfname.erase(remove(sfname.begin(), sfname.end(), ' '), sfname.end());
-					cout << std::endl << sfname << std::endl;
+					sfname.erase(remove(sfname.begin(), sfname.end(), ' '), sfname.end());
+					cout << std::endl << sfname << std::endl;*/
 					GameInstance.Save(savefile,sfname,charnum);
 					system("CLS");
 					cout << "GAME SAVED INTO SLOT " << savefile << "." << std::endl << std::endl;
