@@ -65,7 +65,8 @@ class PandModel
 	playerCard playerDeck[59];//59 Player cards
 	std::deque<playerCard> PlayerDeckD;//can use shufflePlayerDeck to shuffle
 	std::deque<infectionCard> infectionDeck;//48 infection cards shuffled
-	std::deque<infectionCard> discardInfectDeck;
+	std::deque<infectionCard> discardInfectionDeck;//discarded infection cards
+	std::deque<playerCard> discardPlayerDeckD;//discarded player cards
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 	int outbreakLevel;//0-8, if 8 game is over?
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
@@ -93,8 +94,9 @@ public:
 	void setloadflag(int x){ loadflag = x; };
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
-	playerCard drawPlayerCard(int random);//use a random number generator between 0-58 without replacement and store in a stack otherwise forecast special event can not preview top  6 cards.
+	playerCard drawPlayerCard();//use a random number generator between 0-58 without replacement and store in a stack otherwise forecast special event can not preview top  6 cards.
 	infectionCard drawInfectionCard();//use a random number generator between 0-47 without replacement and store in a vector otherwise epidemic card can not draw from bottom of deck.
+	void discardPlayCard(playerCard discarding);//add a discarded card to discarded player card pile
 	bool returnResearch(int citynum){return cities[citynum].researchcenter;}
 
 	void PrintAdjacent();
@@ -544,21 +546,27 @@ void PandModel::performRoleActions(int playernum, int actionNo, int loc){
 
 }
 
-playerCard PandModel::drawPlayerCard(int random)
+playerCard PandModel::drawPlayerCard()
 {
-	return playerDeck[random];
+	playerCard temp;
+	temp = PlayerDeckD.front();//from the top
+	PlayerDeckD.pop_front();//remove top card
+	return temp; 
 }
 
 infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
 {
 	infectionCard temp;
 	temp = infectionDeck.front();//from the top
-	discardInfectDeck.push_back(temp);//add to discarded cards deck
+	discardInfectionDeck.push_back(temp);//add to discarded cards deck
 	infectionDeck.pop_front();//remove top card
 	return temp;  
 }
 
-
+void PandModel::discardPlayCard(playerCard discarding)
+{
+	discardPlayerDeckD.push_back(discarding);
+}
 
 
 void PandModel::setOutbreakLevel()//stub
