@@ -25,6 +25,7 @@ public:
 	void showDiscardedInfectionCards();//stub
 	void listDescriptions(int role);//lists the descriptons of roles
 	void listActions(int role);//lists specific role actions
+	void askPlayerNumber();
 };
 
 PandView::PandView()
@@ -40,9 +41,16 @@ PandView::PandView(PandModel m)
 void PandView::showIntro()
 {
 	std::cout << "Welcome to Pandemic!" << std::endl; 
-	std::cout << "Let's get started!" << std::endl; 
-	std::cout << "How many Players will be playing?"<< std::endl;
+	std::cout << "Let's get started!" << std::endl << std::endl;
+	std::cout << "1- New Game" << std::endl;
+	std::cout << "2- Load" << std::endl;
+	//std::cout << "How many Players will be playing?"<< std::endl;					Moved to askPlayerNumber
 }
+
+void PandView::askPlayerNumber(){
+	std::cout << "How many Players will be playing?" << std::endl;
+}
+
 void PandView::showCityInfo(int citynum)
 {
 	city temp = model.getCityInfo(citynum);//reference model 
@@ -80,10 +88,11 @@ void PandView::showActionMenu(int p)
 	std::cout<<"4. Shuttle Flight " << std::endl;
 	std::cout<<"5. List infected cities " << std::endl;
 	std::cout<<"6. List other things " << std::endl;//expansion for later
-	//listActions(p); //additional actions that are unique to each player are being shown here
+	listActions(p); //additional actions that are unique to each player are being shown here
 	//Commented this out since it was getting messy while debugging
 	//Let's use listActions in another function, such as  7. Use Role Ability    -Vu
-	std::cout<<"What would you like to do : ";
+	std::cout << "9. Save Game " << std::endl;
+	std::cout<<"What would you like to do: ";
 	
 }
 
@@ -94,14 +103,15 @@ void PandView::showPlayerRoleInfo(int playernum)//
 	std::cout << "Player role: " << temp.profName << std::endl;
 	std::cout << "Role details: " << std::endl;
 	listDescriptions(temp.profession);
-	if (temp.profession == 0){
+	/*if (temp.profession == 0){
 		if (temp.extracardFlag){
 			std::cout << "Extra event card: " << temp.CPextracard.cardType << std::endl;
 		}
 		else{
 			std::cout << "Extra event card: " << "None" << std::endl;
 		}
-	}
+	
+	}*/
 	
 }
 void PandView::showPlayerInfo(int playernum)
@@ -113,6 +123,8 @@ void PandView::showPlayerInfo(int playernum)
 	Playerchar temp = model.getPlayerInfo(playernum-1);
 	std::cout<<"Player name: " <<  temp.playerName << std::endl;
 	std::cout<<"Player location: " << cityname[temp.location] << std::endl;
+	std::cout << "Player Role: " << temp.profName << std::endl;
+
 
 }
 

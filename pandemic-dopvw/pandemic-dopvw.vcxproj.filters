@@ -33,4 +33,13 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Save#2.txt" />
+    <Text Include="Save#3.txt" />
+    <Text Include="Save#4.txt" />
+    <Text Include="Save#6.txt" />
+    <Text Include="Save#1.txt" />
+    <Text Include="Save#5.txt" />
+    <Text Include="SaveMain.txt" />
+  </ItemGroup>
 </Project>

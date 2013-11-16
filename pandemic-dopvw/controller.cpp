@@ -2,6 +2,7 @@
 #include "roleactions.h"
 #include <time.h>
 #include <stack>
+#include <string>
 using namespace std;
 
 PandController::PandController(PandModel m, PandView v){
@@ -60,8 +61,71 @@ int main()
 	PandView Screens(GameInstance);//need to copy current state of game
 	//after each action, Screens will need to be updated to show current state of game
 
+	//Added this part for role actions ./////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	char roles[7] = { 'a', 'a', 'a', 'a', 'a', 'a', 'a' };   //To keep a track of roles that are still available
+	string rolenames[7] = { "Contingency Plan", "Dispatcher", "Medic", "Operations Expert", "Quarantine Specialist", "Researcher", "Scientist" }; //RoleNames
+	//RoleActions Role[numberofplayers];//Role Actions are being managed
+
+	PandModel testdeck;
+	infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
+
 	// Opening introduction and asking for number of players
 	Screens.showIntro();
+
+	string str;//temporary string
+	string availability[6]; //availabilty of the files
+	string gameName[6];
+	int iterator=0;
+	int loadfile, savefile;
+	char yn;
+
+	// New Game or Load Game
+	int opt;
+
+	cin >> opt;
+
+	while ((opt < 0) || (opt >2)){
+		cout << "Invalid Input. Must be 1 or 2." << std::endl;
+		cin >> opt;
+	}
+
+	if (opt == 2){ //Load
+
+		system("CLS");
+		fstream mainf("SaveMain.txt");
+		while (mainf >> str) 
+		{                 
+			if (str == "#"){
+			//Do Nothing
+			}
+			else{
+				availability[iterator] = str;
+				mainf >> str;
+				gameName[iterator] = str;
+				iterator++;
+			}
+		}
+		for (int i = 0; i < 6; i++){
+			cout << i + 1 << " - " << "Slot:" << availability[i] << "	Game Name:" << gameName[i] << std::endl;
+		}
+		cout << "Chose a file to load from:";
+		cin >> loadfile;
+
+		while ((loadfile < 0) || (loadfile >6) || (availability[loadfile-1]=="Empty")){
+			cout << "Invalid Input or Empty File. Can not Load." << std::endl;
+			cin >> loadfile;
+		}
+
+		mainf.close();
+		GameInstance.Load(loadfile);
+		system("CLS");
+		cout << "Game " << gameName[loadfile - 1] << " has been loaded from the file!" << std::endl;
+		goto start;
+	}
+	
+
+	system("CLS");
+	Screens.askPlayerNumber();
 
 	// Number of players input and validation
 	//cin >> numberofplayers;
@@ -83,11 +147,8 @@ int main()
 		{validPlayer = true;}
 	}
 
-  //Added this part for role actions ./////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    char roles [7] = {'a','a' ,'a', 'a', 'a', 'a', 'a'};   //To keep a track of roles that are still available
-	string rolenames[7] = {"Contingency Plan" , "Dispatcher" , "Medic" , "Operations Expert" , "Quarantine Specialist" , "Researcher" , "Scientist"}; //RoleNames
-	//RoleActions Role[numberofplayers];//Role Actions are being managed
-   
+  
+	GameInstance.setnumberOfPlayers(numberofplayers);
 
 
 
@@ -109,20 +170,22 @@ int main()
 	}
 
 	//test shuffle infectiondeck
-	PandModel testdeck;
+	//PandModel testdeck;  Moved to the top with all the other initializers
 
 
 
 	////test draw infection card
 	
-	infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
+	//infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed //Also moved to the top
 	cout<<tempinfecthand.cardDescription<<" infected city \n";
 	system("CLS");
+
+start:
 	
 //New Turn system		
 
 	int charnum; //temp variable
-	charnum = 0;
+	charnum = GameInstance.getTurn(); //Had to change it so it works with SAVE/LOAD functions
 
 	//Initialize all turns to 0. // done in constructor
 	/*Could someone do a constructor to automatically set this up?
@@ -148,7 +211,7 @@ int main()
 		//if player = special profession, give them a different num of moves
 		// { GameInstance.setActionsLeft(charnum, 6); }
 		//else
-		GameInstance.setActionsLeft(charnum, 3); //Change the second argument here for base # of moves
+		if (!(GameInstance.getloadflag())){ GameInstance.setActionsLeft(charnum, 3); GameInstance.setloadflag(0); } //Change the second argument here for base # of moves   =====   Had to make adjustments -Omer
 		//Set to 3 for quicker play
 
 
@@ -157,6 +220,7 @@ int main()
 
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
+			into:
 			//cout << string(50, '\n');
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
@@ -205,6 +269,93 @@ int main()
 			if(ans == 4)
 			{
 				GameInstance.ShuttleFlight(charnum+1);
+			}
+
+			if (ans == 9)
+			{
+			save:	
+				string sfname;
+				system("CLS");
+				fstream mainf("SaveMain.txt");
+				while (mainf >> str)
+				{
+					if (str == "#"){
+						//Do Nothing
+					}
+					else{
+						availability[iterator] = str;
+						mainf >> str;
+						gameName[iterator] = str;
+						iterator++;
+					}
+				}
+				for (int i = 0; i < 6; i++){
+					cout << i + 1 << " - " << "Slot:" << availability[i] << "	Game Name:" << gameName[i] << std::endl;
+				}
+				cin >> savefile;
+
+				while ((savefile < 0) || (savefile >6) ){
+					cout << "Invalid Input. Can not save." << std::endl;
+					cin >> savefile;
+				}
+				if (availability[savefile-1] == "Used"){
+
+					cout << std::endl << "File is already used. Overwrite? (Y/N)";
+				ynInput:
+					cin >> yn;
+					if ((yn == 'y') || (yn == 'Y')){
+						cout << std::endl;
+						cout << "Name of your game:";
+						cin >> sfname;
+						cout << std::endl;
+						string noblanks="";
+						/*for (int i = 0; i < sfname.length(); i++){
+							if (!(sfname[i] == ' ')){ noblanks.append(sfname.substr(i,1)); }
+						}*/
+						//sfname.erase(remove(sfname.begin(), sfname.end(), ' '), sfname.end());
+						GameInstance.Save(savefile,noblanks,charnum);
+					}
+					else if ((yn == 'n') || (yn == 'N')){
+						goto save;
+					}
+					else{
+						cout << std::endl << "Y/N ?";
+						goto ynInput;
+					}
+				}
+				else
+				{
+					cout << std::endl;
+					cout << "Name of your game:";
+					cin >> sfname;
+					cout << std::endl;
+					string noblanks ="";
+					/*for (int i = 0; i < sfname.length(); i++){
+						if (isspace(sfname[i])){
+							noblanks.append("_");
+							goto skip;
+						}
+						if (sfname[i] == '#'){
+							noblanks.append("_");
+							goto skip;
+						}
+						noblanks.append(sfname.substr(i, 1));
+						skip:
+						//cout << sfname[i] << "   " << noblanks << std::endl;
+						//system("PAUSE");
+						*/
+					
+					//sfname.erase(remove(sfname.begin(), sfname.end(), ' '), sfname.end());
+					cout << std::endl << sfname << std::endl;
+					GameInstance.Save(savefile,sfname,charnum);
+					system("CLS");
+					cout << "GAME SAVED INTO SLOT " << savefile << "." << std::endl << std::endl;
+					goto into;
+				}
+
+
+
+
 			}
 
 

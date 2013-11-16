@@ -3,6 +3,7 @@
 #include <string>
 #include <deque>
 #include <time.h>
+#include <fstream>
 
 ////Just gonna include these for now for my functions to work   -Vu
 using namespace std;
@@ -67,15 +68,28 @@ class PandModel
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 	int outbreakLevel;//0-8, if 8 game is over?
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
-
+	int numberOfPlayers;
+	int playerturn;
+	bool loadflag;
 	
 public:
 	PandModel();
 	//observers
 	city getCityInfo(int citynum) {return cities[citynum];}//maybe seperate into getcityname, getadjcities, getcubes...etc
 	int getNeighbor(int currentcity, int nextcity){return cities[currentcity].adjacentCities[nextcity];}
-
 	bool validNeighbor(int currentcity, int nextcity); //stub - need function to work with Ly's new movement function to check adjacency
+	int getnumberOfPlayers();
+	string getPlayerName(int pno);
+	int getPlayerLocation(int pno);
+	//int getActionsLeft(int pno);
+	char getCityColor(int cno);
+	int getDiseaseCubes(int cno, int a);
+	int getRCenter(int cno);
+	int getoutbreakLevel();
+	int getDCLeft(int a);//Disease cubes left
+	int getTurn();
+	bool getloadflag(){ return loadflag; };//Whether the game is being loaded or starting as a new game
+	void setloadflag(int x){ loadflag = x; };
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	playerCard drawPlayerCard(int random);//use a random number generator between 0-58 without replacement and store in a stack otherwise forecast special event can not preview top  6 cards.
@@ -87,13 +101,23 @@ public:
 	//void FillValue(int x) {value = x;};
 	bool isAdjacent(int x);	//For ground travel, will check if desired destination is included in adjacentCities
 	//setters
+	void setnumberOfPlayers(int pno);
+	void loadActionsLeft(int pno, int act);
+	void loadCityColor(int cno, char c);
+	void loadRcenter(int cno, int rc);
+	void loadoutbreakLevel(int obl);
+	void loadinfectionRate(int ir);
+	void loadDCLeft(int a,int b,int c,int d);
 	void setPlayerName(int playernum, std::string name);
 	void setPlayerRole(int playernum, int profession, std::string profName);
 	void setPlayerLocation(int playernum, int location);//use to set new location
+	void setDiseaseCubes(int cno, int a, int b, int c, int d);
 	void ShuttleFlight(int playernum);
 	//void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
 	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
+	
+
 	int getInfectionRate(){return infectionRate;}//for view to access/display infection rate
 	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
 	void setInfectionRate();//stub
@@ -116,11 +140,18 @@ public:
 	}
 	void ReceiveCard(int playernum, int cardnum); //Player # - Receives card #  -Functional but not complete    -Vu
 
+	void Save(int loadf, string sfname, int turn);
+	void Load(int loadf);
+
+
 };
 
 PandModel::PandModel()//constructor
 {
 	outbreakLevel = 0;
+	infectionRate = 0;
+	playerturn = 0; //turn indicator
+	loadflag = false;
 	char citycolors[48]= {'G', 'B', 'G', 'R', 'R', 'Y', 'Y', 'G', 'G', 'B',
 							'G', 'B', 'R', 'R', 'G', 'R', 'Y', 'G', 'Y', 'Y',
                             'G', 'Y', 'Y', 'B', 'Y', 'B', 'R', 'Y', 'Y', 'B',
@@ -280,6 +311,27 @@ void PandModel::FillAdjacent(int a, int b, int c, int d, int e, int f, int g, in
 		cities[citynum].adjacentCities[6] = g;
 	};
 
+//FOR SAVE AND LOAD /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void PandModel::setnumberOfPlayers(int pno){ numberOfPlayers = pno; }
+void PandModel::loadActionsLeft(int pno, int act){ players[pno].ActionsLeft = act; }
+void PandModel::loadCityColor(int cno, char c){ cities[cno].cityColor = c; }
+void PandModel::loadRcenter(int cno, int rc){ cities[cno].researchcenter = rc; }
+void PandModel::loadoutbreakLevel(int obl){ outbreakLevel = obl; }
+void PandModel::loadinfectionRate(int ir){ infectionRate = ir; }
+void PandModel::loadDCLeft(int a, int b, int c, int d){ diseaseCubes[0] = a; diseaseCubes[1] = b; diseaseCubes[2] = c; diseaseCubes[3] = d; }
+int PandModel::getnumberOfPlayers(){ return numberOfPlayers; }
+string PandModel::getPlayerName(int pno){ return players[pno].playerName; }
+int PandModel::getPlayerLocation(int pno){ return players[pno].location; }
+int PandModel::getTurn(){ return playerturn; }
+//int PandModel::getActionsLeft(int pno){ return players[pno].ActionsLeft; }
+
+
+char PandModel::getCityColor(int cno){ return cities[cno].cityColor; }
+int PandModel::getDiseaseCubes(int cno, int a){ return cities[cno].diseasecubes[a]; }
+int PandModel::getRCenter(int cno){ if (cities[cno].researchcenter) { return 1; } else{ return 0; } }
+int PandModel::getoutbreakLevel(){ return outbreakLevel; }
+int PandModel::getDCLeft(int a){ return diseaseCubes[a]; }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void PandModel::setPlayerName(int playernum, std::string name)
 {
 	players[playernum].playerName = name;
@@ -293,6 +345,12 @@ void PandModel::setPlayerLocation(int playernum, int location)
 void PandModel::setActionsLeft(int playernum, int addAction)
 {
 	players[playernum].ActionsLeft = players[playernum].ActionsLeft + addAction;
+}
+void PandModel::setDiseaseCubes(int cno, int a, int b, int c, int d){
+	cities[cno].diseasecubes[0] = a;
+	cities[cno].diseasecubes[1] = b;
+	cities[cno].diseasecubes[2] = c;
+	cities[cno].diseasecubes[3] = d;
 }
 
 ////////////////CURRENTLY WORKING ON   -VU////////////////////////////////
@@ -498,7 +556,7 @@ infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
 
 void PandModel::setOutbreakLevel()//stub
 {
-	//std::cout<<"Outbreak Level Increases \n";
+			//std::cout<<"Outbreak Level Increases \n";
 }
 
 void PandModel::outbreak(int cityNum)//stub
@@ -538,6 +596,224 @@ void PandModel::outbreak(int cityNum)//stub
 		//(phat)keep track of cities that have already been infected maybe with an array of already infected cities.
 	//cities can have up to 3 diseasce cubes of each color.
 	}
+}
+
+void PandModel::Load(int loadf){
+	string temp;
+	int tempint;
+	fstream savef;
+	int playernum;
+	int dcubes[4];
+	loadflag = true;
+
+	if (loadf == 1){savef.open("Save#1.txt");}
+	if (loadf == 2){savef.open("Save#2.txt");}
+	if (loadf == 3){savef.open("Save#3.txt");}
+	if (loadf == 4){savef.open("Save#4.txt");}
+	if (loadf == 5){savef.open("Save#5.txt");}
+	if (loadf == 6){savef.open("Save#6.txt");}
+
+
+	savef >> temp; //"Turns:";
+	savef >> temp;
+	tempint = atoi(temp.c_str());
+	playerturn = tempint;
+	savef >> temp;// "NumberOfPlayers:";
+	savef >> temp; 
+	playernum = atoi(temp.c_str());
+	setnumberOfPlayers(playernum);
+	savef >> temp; // "PlayerNames:";
+	for (int i = 0; i < playernum; i++){
+		savef >> temp; 
+		setPlayerName(i,temp);
+	}
+	savef >> temp; // "PlayerRoles:";
+	for (int i = 0; i < playernum; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		string rolenames[7] = { "Contingency Plan", "Dispatcher", "Medic", "Operations Expert", "Quarantine Specialist", "Researcher", "Scientist" }; //RoleNames
+		setPlayerRole(i, tempint, rolenames[tempint]);
+	}
+	savef >> temp;// "PlayerLocations:";
+	for (int i = 0; i < playernum; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		setPlayerLocation(i, tempint);
+	}
+
+	savef >> temp;// "ActionsLeft:";
+	for (int i = 0; i < playernum; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		loadActionsLeft(i,tempint);
+	}
+	savef >> temp; // "CityProperties:";
+	for (int i = 0; i < 48; i++){
+		savef >> temp; // getCityColor(i);
+		loadCityColor(i, temp[0]);
+		savef >> temp; //getRCenter(i);
+		tempint = atoi(temp.c_str());
+		loadRcenter(i, tempint);
+		savef >> temp; // getDiseaseCubes(i, 0);
+		dcubes[0] = atoi(temp.c_str());
+		savef >> temp; // getDiseaseCubes(i, 0);
+		dcubes[1] = atoi(temp.c_str());
+		savef >> temp; // getDiseaseCubes(i, 0);
+		dcubes[2] = atoi(temp.c_str());
+		savef >> temp; // getDiseaseCubes(i, 0);
+		dcubes[3] = atoi(temp.c_str());
+		setDiseaseCubes(i, dcubes[0], dcubes[1], dcubes[2], dcubes[3]);
+
+	}
+	savef >> temp; // "PandModelVariables:";
+	savef >> temp;
+	tempint = atoi(temp.c_str());
+	loadoutbreakLevel(tempint);
+	savef >> temp;
+	tempint = atoi(temp.c_str());
+	loadinfectionRate(tempint);
+	savef >> temp;
+	dcubes[0] = atoi(temp.c_str());
+	savef >> temp;
+	dcubes[1] = atoi(temp.c_str());
+	savef >> temp;
+	dcubes[2] = atoi(temp.c_str());
+	savef >> temp;
+	dcubes[3] = atoi(temp.c_str());
+	loadDCLeft(dcubes[0], dcubes[1], dcubes[2], dcubes[3]);
+	savef.close();
+
+
+}
+
+void PandModel::Save(int savefile , string sfname, int turn){
+	int counter = 0 , strc = 1, strbeg=0;
+	string str;
+	string contents="";
+	fstream savef;
+	bool begfound=false;
+	if (savefile == 1){
+		std::ofstream("Save#1.txt", std::ios::out).close();
+		savef.open("Save#1.txt");
+	}
+	if (savefile == 2){
+		std::ofstream("Save#2.txt", std::ios::out).close();
+		savef.open("Save#2.txt");
+	}
+	if (savefile == 3){
+		std::ofstream("Save#3.txt", std::ios::out).close();
+		savef.open("Save#3.txt");
+	}
+	if (savefile == 4){
+		std::ofstream("Save#4.txt", std::ios::out).close();
+		savef.open("Save#4.txt");
+	}
+	if (savefile == 5){
+		std::ofstream("Save#5.txt", std::ios::out).close();
+		savef.open("Save#5.txt");
+	}
+	if (savefile == 6){
+		std::ofstream("Save#6.txt", std::ios::out).close();
+		savef.open("Save#6.txt");
+	}
+		savef << "Turn:";
+		savef << " ";
+		savef << turn;
+		savef << " ";
+		savef << "NumberOfPlayers:";
+		savef << " ";
+		savef << getnumberOfPlayers();
+		savef << " ";
+		savef << "PlayerNames:";
+		savef << " ";
+		for (int i = 0; i < getnumberOfPlayers(); i++){
+			savef << getPlayerName(i);
+			savef << " ";
+		}
+		savef << "PlayerRoles:";
+		savef << " ";
+		for (int i = 0; i < getnumberOfPlayers(); i++){
+			savef << getPlayerRole(i);
+			savef << " ";
+		}
+		savef << "PlayerLocations:";
+		savef << " ";
+		for (int i = 0; i < getnumberOfPlayers(); i++){
+			savef << getPlayerLocation(i);
+			savef << " ";
+		}
+		savef << "ActionsLeft:";
+		savef << " ";
+		for (int i = 0; i < getnumberOfPlayers(); i++){
+			savef << getActionsLeft(i);
+			savef << " ";
+		}
+		savef << "CityProperties:";
+		savef << " ";
+		for (int i = 0; i < 48; i++){
+			savef << getCityColor(i);
+			savef << " ";
+			savef << getRCenter(i);
+			savef << " ";
+			savef << getDiseaseCubes(i,0);
+			savef << " ";
+			savef << getDiseaseCubes(i,1);
+			savef << " ";
+			savef << getDiseaseCubes(i, 2);
+			savef << " ";
+			savef << getDiseaseCubes(i, 3);
+			savef << " ";
+
+		}
+		savef << "PandModelVariables:";
+		savef << " ";
+		savef << getoutbreakLevel();
+		savef << " ";
+		savef << getInfectionRate();
+		savef << " ";
+		savef << getDCLeft(0);
+		savef << " ";
+		savef << getDCLeft(1);
+		savef << " ";
+		savef << getDCLeft(2);
+		savef << " ";
+		savef << getDCLeft(3);
+
+		savef.close();
+		
+		fstream mainf("SaveMain.txt");
+		while (mainf >> str){
+			contents.append(str);
+			contents.append(" ");
+		}
+		mainf.close();
+		std::ofstream("SaveMain.txt", std::ios::out).close();
+		for (int i = 0; i < contents.length(); i++){
+			if (contents[i] == '#'){ counter++; }
+			strc++;
+			if ((counter == savefile) && !begfound){ strbeg = i+1; begfound = true; }
+			if (counter == savefile +1){ strc = strc - 3;  goto out; }
+	
+		}
+	out:
+		string ref;
+		ref.append(" Used ");
+		ref.append(sfname);
+		ref.append(" ");
+		cout << contents << std::endl;
+		cout << ref << std::endl;
+		cout << strbeg;
+		cout << strc;
+
+
+		contents.replace(strbeg, strc-strbeg, ref);
+		mainf.open("SaveMain.txt");
+		mainf << contents;
+		mainf.close();
+		//cin >> ref;                     //debug
+
+	
+
 }
 
 void PandModel::shuffleInfectionDeck(deque<infectionCard> &shuffleDeck)//passing by reference since I need to modify it directly

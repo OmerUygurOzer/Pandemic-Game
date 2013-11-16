@@ -84,6 +84,15 @@
     <ClInclude Include="roleactions.h" />
     <ClInclude Include="view.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Save#1.txt" />
+    <Text Include="Save#2.txt" />
+    <Text Include="Save#3.txt" />
+    <Text Include="Save#4.txt" />
+    <Text Include="Save#5.txt" />
+    <Text Include="Save#6.txt" />
+    <Text Include="SaveMain.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
