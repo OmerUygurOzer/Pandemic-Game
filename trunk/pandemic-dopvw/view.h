@@ -21,7 +21,8 @@ public:
 	void showPlayersLocation(int numberofplayers);//
 	void showInfectionLevel();//stub
 	void showHowManyCardsLeft();//stub
-	void showDiscardedCards();//stub
+	void showDiscardedPlayerCards();//stub
+	void showDiscardedInfectionCards();//stub
 	void listDescriptions(int role);//lists the descriptons of roles
 	void listActions(int role);//lists specific role actions
 };
