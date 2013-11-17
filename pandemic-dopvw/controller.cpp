@@ -3,7 +3,11 @@
 #include <time.h>
 #include <stack>
 #include <string>
+#include <algorithm>
+
 using namespace std;
+
+string delSpaces(string &str);
 
 PandController::PandController(PandModel m, PandView v){
 	model = m;
@@ -134,7 +138,7 @@ int main()
   
 	GameInstance.setnumberOfPlayers(numberofplayers);
 
-
+	// ROLES ARE ASSIGNED RANDOMLY /////////////////////////////////////////
 
 	for(int i = 0; i < numberofplayers; i++) 
 	{
@@ -152,6 +156,8 @@ int main()
 			}
 		}
 	}
+	////////////////////////////////////////////////////////////////////////
+
 
 	//test shuffle infectiondeck
 	//PandModel testdeck;  Moved to the top with all the other initializers
@@ -282,14 +288,13 @@ start:
 						cout << "Name of your game:";
 						cin >> sfname;
 						cout << std::endl;
-						/*string noblanks="";
-						for (int i = 0; i < sfname.length(); i++){
-							if (!(sfname[i] == ' ')){ noblanks.append(sfname.substr(i,1)); }
-						}*/
-						//sfname.erase(remove(sfname.begin(), sfname.end(), ' '), sfname.end());
+						
+						//sfname = delSpaces(sfname);
+						
+
 						GameInstance.Save(savefile,sfname,charnum);
 						system("CLS");
-						cout << "GAME SAVED INTO SLOT " << savefile << "." << std::endl << std::endl;
+						cout << "GAME HAS BEEN SAVED INTO SLOT " << savefile << "." << std::endl << std::endl;
 					}
 					else if ((yn == 'n') || (yn == 'N')){
 						goto save;
@@ -305,27 +310,13 @@ start:
 					cout << "Name of your game:";
 					cin >> sfname;
 					cout << std::endl;
-					/*string noblanks ="";
-					for (int i = 0; i < sfname.length(); i++){
-						if (isspace(sfname[i])){
-							noblanks.append("_");
-							goto skip;
-						}
-						if (sfname[i] == '#'){
-							noblanks.append("_");
-							goto skip;
-						}
-						noblanks.append(sfname.substr(i, 1));
-						skip:
-						//cout << sfname[i] << "   " << noblanks << std::endl;
-						//system("PAUSE");
-						
 					
-					sfname.erase(remove(sfname.begin(), sfname.end(), ' '), sfname.end());
-					cout << std::endl << sfname << std::endl;*/
+					//sfname = delSpaces(sfname);
+					
+
 					GameInstance.Save(savefile,sfname,charnum);
 					system("CLS");
-					cout << "GAME SAVED INTO SLOT " << savefile << "." << std::endl << std::endl;
+					cout << "GAME HAS BEEN SAVED INTO SLOT " << savefile << "." << std::endl << std::endl;
 					goto into;
 				}
 
@@ -404,6 +395,16 @@ start:
 
 	system("pause");
 	return 0;
+}
+// Does not work. So irritated :D
+string delSpaces(string &str)
+{
+	int size = str.length();
+	for (int j = 0; j < size; j++)
+	{
+		if (isspace(str[j])){ str.replace(j, 1, "_"); }
+	}
+	return str;
 }
 
 
