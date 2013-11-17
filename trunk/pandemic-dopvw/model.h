@@ -5,6 +5,9 @@
 #include <time.h>
 #include <fstream>
 
+
+
+
 ////Just gonna include these for now for my functions to work   -Vu
 using namespace std;
 #include <iostream>
@@ -70,13 +73,14 @@ class PandModel
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 	int outbreakLevel;//0-8, if 8 game is over?
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
-	int numberOfPlayers;
-	int playerturn;
-	bool loadflag;
+	
 
 	//SAVE-LOAD VARIABLES////////////////////////////
 	string availability[6]; //availabilty of the files
 	string gameName[6];
+	int numberOfPlayers;
+	int playerturn;
+	bool loadflag;
 	/////////////////////////////////////////////////
 public:
 	PandModel();
@@ -141,7 +145,7 @@ public:
 	}
 	void ReceiveCard(int playernum, int cardnum); //Player # - Receives card #  -Functional but not complete    -Vu
 
-	// SAVE-LOAD///////////////////////////////////////
+	// SAVE-LOAD/////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Save(int loadf, string sfname, int turn);
 	void Load(int loadf);
 	void Update();
@@ -155,7 +159,7 @@ public:
 	void loadoutbreakLevel(int obl);
 	void loadinfectionRate(int ir);
 	void loadDCLeft(int a, int b, int c, int d);
-	///////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
 PandModel::PandModel()//constructor
@@ -165,7 +169,7 @@ PandModel::PandModel()//constructor
 	playerturn = 0; //turn indicator
 	loadflag = false;
 
-	//SAVE-LOAD
+	//SAVE-LOAD ////////////////////////////////////////////////////////////////////////////////////////////////
 	string str;//temporary string
 	int iterator = 0;
 	fstream mainf("SaveMain.txt");
@@ -184,7 +188,7 @@ PandModel::PandModel()//constructor
 	mainf.close();
 
 
-	///////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	char citycolors[48]= {'G', 'B', 'G', 'R', 'R', 'Y', 'Y', 'G', 'G', 'B',
 							'G', 'B', 'R', 'R', 'G', 'R', 'Y', 'G', 'Y', 'Y',
                             'G', 'Y', 'Y', 'B', 'Y', 'B', 'R', 'Y', 'Y', 'B',
@@ -386,9 +390,6 @@ void PandModel::Update(){
 
 string PandModel::GetAvail(int x){ return availability[x]; }
 string PandModel::GetGameName(int x){ return gameName[x]; }
-
-//int PandModel::getActionsLeft(int pno){ return players[pno].ActionsLeft; }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 char PandModel::getCityColor(int cno){ return cities[cno].cityColor; }
 int PandModel::getDiseaseCubes(int cno, int a){ return cities[cno].diseasecubes[a]; }
@@ -958,7 +959,7 @@ void PandModel::shufflePlayerDeck(deque<playerCard> & shuffleDeck)
 }
 
 
-void GameOver()
+void GameOver()//<------------needs to be a member function
 {
 	/* I will add test cases to check for the end of the game:
 	   1. if all four diseases are cured = win
