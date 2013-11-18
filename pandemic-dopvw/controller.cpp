@@ -93,6 +93,7 @@ int main()
 
 	if (opt == 2){ //Load
 
+		load:
 		system("CLS");
 		for (int i = 0; i < 6; i++){
 			cout << i + 1 << " - " << "Slot:" << GameInstance.GetAvail(i) << "	Game Name:" << GameInstance.GetGameName(i) << std::endl;
@@ -176,6 +177,7 @@ start:
 
 	int charnum; //temp variable
 	charnum = GameInstance.getTurn(); //Had to change it so it works with SAVE/LOAD functions
+	// debug cout << charnum << endl;
 
 	//Initialize all turns to 0. // done in constructor
 	/*Could someone do a constructor to automatically set this up?
@@ -202,12 +204,13 @@ start:
 		// { GameInstance.setActionsLeft(charnum, 6); }
 		//else
 		if (GameInstance.getloadflag()){
+			//in case we add a mid game load function
 			GameInstance.setloadflag(0);
 		}
 		else{
 			GameInstance.setActionsLeft(charnum, 3);
-			
-	} //Change the second argument here for base # of moves   =====   Had to make adjustments -Omer
+			} 
+		//Change the second argument here for base # of moves   =====   Had to make adjustments -Omer
 		//Set to 3 for quicker play
 
 
@@ -305,6 +308,7 @@ start:
 						GameInstance.Save(savefile,sfname,charnum);
 						system("CLS");
 						cout << "GAME HAS BEEN SAVED INTO SLOT " << savefile << "." << std::endl << std::endl;
+						goto into;
 					}
 					else if ((yn == 'n') || (yn == 'N')){
 						goto save;
@@ -333,6 +337,12 @@ start:
 
 
 
+
+			}
+
+			if (ans == 10)
+			{
+				goto load;
 			}
 
 
@@ -406,7 +416,7 @@ start:
 	system("pause");
 	return 0;
 }
-// Does not work. So irritated :D
+// Does not work. So irritated :D supposed to return the same string with all the spaces replaced with underscores
 string delSpaces(string &str)
 {
 	int size = str.length();
