@@ -262,22 +262,24 @@ PandModel::PandModel()//constructor
 		cities[i].cityName = cityname[i];
 		cities[i].cityColor = citycolors[i];
 		cities[i].researchcenter = 0;
-		for(int j = 0; j < 5; j++)
+		for(int j = 0; j < 4; j++)
 			cities[i].diseasecubes[j] = 0;//initialize cube count to 0
 
 	}
-/* This was causing program to crash upon run
+
+/* Does not work currently because infection deck not complete(no city or color info for the card deck) will work on
 	 // ** Place starting infection cubes **
 	for(int i = 3; i > 0; i--){
 		infectionCard current;
 		for(int f = 0; f < 3; f++){
 			current = drawInfectionCard();  // Draw next card in infection deck
 			cities[current.city].diseasecubes[current.color] = i;  // place i cubes of color and city matching drawn card
-			diseaseCubes[current.color] -= i;  // remove the disease cubes from remaining
+			diseaseCubes[current.color] = diseaseCubes[current.color] - i;  // remove the disease cubes from remaining
 		}
 	}
 */
-	//-1 Is a filler
+
+		//-1 Is a filler
         FillAdjacent(25,34,14,7, -1, -1, -1, 0);
         FillAdjacent( 9, 47, 28, -1, -1, -1, -1, 1);
         FillAdjacent( 14, 7, 35, 17, 44, -1, -1, 2);
