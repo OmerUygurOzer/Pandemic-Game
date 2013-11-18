@@ -100,6 +100,7 @@ public:
 	int getTurn();
 	bool getloadflag(){ return loadflag; };//Whether the game is being loaded or starting as a new game
 	void setloadflag(int x){ loadflag = x; };
+	int colorToInt(char color); // returns int corresponding to color (0,1,2,3 = R,G,B,Y)
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck
@@ -219,7 +220,7 @@ PandModel::PandModel()//constructor
 		 infectCard.cardType = "City";
 		 infectCard.cardDescription = cityname[i];
 		 infectCard.city = i;
-		 infectCard.color = 0;  // needs to be set to correct color depending on city name
+		 infectCard.color = colorToInt(citycolors[i]);  // set infenction card color
 		 infectionDeck.push_back(infectCard);//add onto infectiondeck after info populated 
 	 }
 	 shuffleInfectionDeck(infectionDeck);//shuffle deck at start of game
@@ -342,7 +343,17 @@ PandModel::PandModel()//constructor
 		addResearchCenter(1);//Atlanta CDC research center default
 }
 
-
+int PandModel::colorToInt(char color) // returns int corresponding to color (0,1,2,3 = R,G,B,Y)
+{
+	if(color == 'R')
+		return 0;
+	if(color == 'G')
+		return 1;
+	if(color == 'B')
+		return 2;
+	if(color == 'Y')
+		return 3;
+}
 
 
 void PandModel::FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum)
