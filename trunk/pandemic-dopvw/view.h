@@ -91,7 +91,9 @@ void PandView::showActionMenu(int p)
 	listActions(p); //additional actions that are unique to each player are being shown here
 	//Commented this out since it was getting messy while debugging
 	//Let's use listActions in another function, such as  7. Use Role Ability    -Vu
-	std::cout << "9. Save Game " << std::endl;
+	std::cout << "9. Save current game " << std::endl;
+	std::cout << "10. Load a different game " << std::endl;
+
 	std::cout<<"What would you like to do: ";
 	
 }
