@@ -219,7 +219,7 @@ PandModel::PandModel()//constructor
 		 infectCard.cardType = "City";
 		 infectCard.cardDescription = cityname[i];
 		 infectCard.city = i;
-		 infectCard.color = citycolors[i];  // needs to be set to correct color depending on city name
+		 infectCard.color = 0;  // needs to be set to correct color depending on city name
 		 infectionDeck.push_back(infectCard);//add onto infectiondeck after info populated 
 	 }
 	 shuffleInfectionDeck(infectionDeck);//shuffle deck at start of game
@@ -267,7 +267,7 @@ PandModel::PandModel()//constructor
 
 	}
 
-/* Does not work currently because infection deck not complete(no city or color info for the card deck) will work on
+
 	 // ** Place starting infection cubes **
 	for(int i = 3; i > 0; i--){
 		infectionCard current;
@@ -277,7 +277,7 @@ PandModel::PandModel()//constructor
 			diseaseCubes[current.color] = diseaseCubes[current.color] - i;  // remove the disease cubes from remaining
 		}
 	}
-*/
+
 
 		//-1 Is a filler
         FillAdjacent(25,34,14,7, -1, -1, -1, 0);
