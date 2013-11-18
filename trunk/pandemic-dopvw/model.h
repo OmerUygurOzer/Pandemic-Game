@@ -117,6 +117,7 @@ public:
 	void setPlayerRole(int playernum, int profession, std::string profName);
 	void setPlayerLocation(int playernum, int location);//use to set new location
 	void setDiseaseCubes(int cno, int a, int b, int c, int d);
+	void addDiseaseCubes(int cityNum, char cubeColr, int infectRate);//Add cube(s) of a corresponding color to city
 	void ShuttleFlight(int playernum);
 	//void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
 	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
@@ -627,7 +628,7 @@ infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
 {
 	infectionCard temp;
 	temp = infectionDeck.front();//from the top
-	discardInfectionDeck.push_back(temp);//add to discarded cards deck
+	discardInfectionDeck.push_back(temp);//add to discarded cards deck//may need to separate this out as a separate function depending on game rules
 	infectionDeck.pop_front();//remove top card
 	return temp;  
 }
@@ -971,6 +972,20 @@ void PandModel::shufflePlayerDeck(deque<playerCard> & shuffleDeck)
 		shuffleDeck.push_back(tempDeck[shufflePlayer[p]]);//repopulating deck
 }
 
+void PandModel::addDiseaseCubes(int cityNum, char cubeColr, int infectRate)
+{
+	//(0,1,2,3 = red,black,blue,yellow)
+	int cubeIndex;
+	if(cubeColr = 'R') cubeIndex = 0;
+	if(cubeColr = 'G') cubeIndex = 1;
+	if(cubeColr = 'B') cubeIndex = 2;
+	if(cubeColr = 'Y') cubeIndex = 3;
+	if(cities[cityNum].diseasecubes[cubeIndex] + infectRate > 3)//if city already has 3 cubes of that color
+		outbreak(cityNum);//cause an outbreak
+	else
+		cities[cityNum].diseasecubes[cubeIndex] = cities[cityNum].diseasecubes[cubeIndex] + infectRate;
+
+}
 
 void GameOver()//<------------needs to be a member function
 {

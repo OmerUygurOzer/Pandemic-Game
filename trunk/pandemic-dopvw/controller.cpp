@@ -186,7 +186,7 @@ start:
 		GameInstance.ActionsInitialize(i);
 	}*/
 
-	//Gonna give the players some cards
+	//Gonna give the players some cards for test purposes
 	GameInstance.ReceiveCard(1, 0);
 	GameInstance.ReceiveCard(1, 1);
 	GameInstance.ReceiveCard(1, 9);
@@ -195,6 +195,20 @@ start:
 //	GameInstance.ReceiveCard(3, 4);
 //	GameInstance.ReceiveCard(4, 6);
 
+	//Starting hand
+	for(int i = 0; i < numberofplayers; i++) 
+	{
+		int numofCards;
+		playerCard tempCard;
+		if(numberofplayers == 2) numofCards = 4;//2 players get 4 cards at start
+		if(numberofplayers == 3) numofCards = 3;//3 players get 3 cards at start
+		if(numberofplayers == 4) numofCards = 2;//4 players get 2 cards at start
+		for (int j = 0; j<numofCards; j++)
+		{
+			tempCard = GameInstance.drawPlayerCard();//will draw from the shuffled player cards deck
+			//GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
+		}
+	}
 
 
 	//while(game not ended yet)
@@ -394,7 +408,12 @@ start:
 		}//end of player turn
 
 		//draw 2 player cards
+		//GameInstance.ReceiveCard(charnum, GameInstance.drawPlayerCard());//Testing to see if i can receive card without using temp
+		//if already have 7 cards, discard some
+
 		//draw 2-4 infection cards. How many drawn depends on infection rate.
+		infectionCard tempInfectCard = GameInstance.drawInfectionCard();
+		GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color, GameInstance.getInfectionRate());
 
 		
 		//Debug outputs show the current # of player before and after the changes
