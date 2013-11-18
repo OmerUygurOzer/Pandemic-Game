@@ -265,6 +265,11 @@ start:
 				GameInstance.ShuttleFlight(charnum+1);
 			}
 
+			if(ans == 5)
+			{
+				Screens.showCubeLocations();
+			}
+
 			if (ans == 9)//game save
 			{
 			save:	
