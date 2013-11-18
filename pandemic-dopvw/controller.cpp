@@ -201,7 +201,13 @@ start:
 		//if player = special profession, give them a different num of moves
 		// { GameInstance.setActionsLeft(charnum, 6); }
 		//else
-		if (!GameInstance.getloadflag()){ GameInstance.setActionsLeft(charnum, 3); GameInstance.setloadflag(0); } //Change the second argument here for base # of moves   =====   Had to make adjustments -Omer
+		if (GameInstance.getloadflag()){
+			GameInstance.setloadflag(0);
+		}
+		else{
+			GameInstance.setActionsLeft(charnum, 3);
+			
+	} //Change the second argument here for base # of moves   =====   Had to make adjustments -Omer
 		//Set to 3 for quicker play
 
 
@@ -261,7 +267,6 @@ start:
 
 			if (ans == 9)//game save
 			{
-				GameInstance.setActionsLeft(charnum, 1); //SAVE does not cost an action point
 			save:	
 				string sfname;
 				system("CLS");
