@@ -137,7 +137,7 @@ void PandView::showCubeLocations()//show all 4 types of cubes per city
 	for (int i = 0; i < 48; i++)
 	{
 		temp = model.getCityInfo(i);
-		for(int j = 0; j < 5; j++)//traverse through different color cubes that may be stored in this city
+		for(int j = 0; j < 4; j++)//traverse through different color cubes that may be stored in this city
 		if (temp.diseasecubes[j] > 0)
 		{
 			
