@@ -211,21 +211,23 @@ start:
 	}
 
 
-	//while(game not ended yet)
+	//while(game not ended yet) //STUB
 	while(charnum != -1) //Temp infinite loop - Insert a bool here to check if the game has ended
 	{
-		//if player = special profession, give them a different num of moves
-		// { GameInstance.setActionsLeft(charnum, 6); }
-		//else
+
 		if (GameInstance.getloadflag()){
 			//in case we add a mid game load function
 			GameInstance.setloadflag(0);
 		}
 		else{
+			//if player = special profession
+			//GameInstance.setActionsLeft(charnum, #)
+			//else
 			GameInstance.setActionsLeft(charnum, 3);
+			
 			} 
-		//Change the second argument here for base # of moves   =====   Had to make adjustments -Omer
-		//Set to 3 for quicker play
+		//Change the second argument here for base # of moves
+		//Default: Set to 3 for quicker play while debugging
 
 
 		//DEBUG cout << "Debug actionsleft:" << GameInstance.getActionsLeft(charnum) << endl << endl;
@@ -269,7 +271,7 @@ start:
 			{
 				if(GameInstance.CheckHand(charnum+1) == 0)
 				{
-				cout << endl << endl << "You have no cards!" << endl << endl;
+				cout << endl << endl << "You have no cards!" << endl << endl; //Maybe I'll move this to model. -Vu
 				GameInstance.setActionsLeft(charnum, 1); //Return action used to Play Card
 				}
 				if(GameInstance.CheckHand(charnum+1) == 1) //If player has card, allow to play card
@@ -278,14 +280,18 @@ start:
 			}
 
 			if(ans == 4)//shuttleFlight
-			{
-				GameInstance.ShuttleFlight(charnum+1);
-			}
+			{GameInstance.ShuttleFlight(charnum+1);}
 
 			if(ans == 5)
 			{
 				newScreen.showCubeLocations();
 				GameInstance.setActionsLeft(charnum, 1);
+			}
+
+			if(ans == 6) //Tester
+			{
+				GameInstance.printCityColumn();
+				GameInstance.setActionsLeft(charnum,1);
 			}
 
 			if (ans == 9)//game save

@@ -4,7 +4,7 @@
 #include <deque>
 #include <time.h>
 #include <fstream>
-
+#include <iomanip>
 
 
 
@@ -108,6 +108,7 @@ public:
 	void discardPlayCard(playerCard discarding);//add a discarded card to discarded player card pile
 	bool returnResearch(int citynum){return cities[citynum].researchcenter;}
 
+	void printCityColumn();
 	void PrintAdjacent();
 	void FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum);
 	//void FillValue(int x) {value = x;};
@@ -145,7 +146,7 @@ public:
 		}
 		return z;
 	}
-	void ReceiveCard(int playernum, playerCard card); //Player # - Receives card #  -Functional but not complete    -Vu
+	void ReceiveCard(int playernum, playerCard card);
 
 	// SAVE-LOAD/////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Save(int loadf, string sfname, int turn);
@@ -221,7 +222,7 @@ PandModel::PandModel()//constructor
 		 infectCard.cardType = "City";
 		 infectCard.cardDescription = cityname[i];
 		 infectCard.city = i;
-		 infectCard.color = colorToInt(citycolors[i]);  // set infenction card color
+		 infectCard.color = colorToInt(citycolors[i]);  // set infection card color
 		 infectionDeck.push_back(infectCard);//add onto infectiondeck after info populated 
 	 }
 	 shuffleInfectionDeck(infectionDeck);//shuffle deck at start of game
@@ -484,10 +485,16 @@ void PandModel::PlayCard(int playernum)
 	int cardchoose;
 	cout << "Choose your card: ";
 	cin >> cardchoose;
+
+	while(cardchoose < 0 || cardchoose > 8)
+	{
+		cout << "Invalid choice! Please choose again: ";
+		cin >> cardchoose;
+	}
+	cout << endl << endl;
+
 	cardchoose = cardchoose - 1; //Player displays cards as 1 to 7. If select 1, we need to access deck[0]
 
-	//if cardchoose = not valid
-	//cin >> cardchoose
 
 	//ifcardchoose = 8 (exit)     //If we want to give an option to cancel using a card
 	// playerturn +1  (player gains back used turn)
@@ -542,6 +549,68 @@ void PandModel::PlayCard(int playernum)
 		cout << endl << endl;
 		}
 	}
+
+	int cardchosenvalue;
+	cardchosenvalue = players[playernum].cardsonhand[cardchoose].value; //I should've did this sooner -Vu
+
+	//if EVENT CARD
+	if(cardchosenvalue >=54 && cardchosenvalue <= 58)
+	{
+		cout << "Playing an event card: ";
+
+		if(cardchosenvalue == 54)
+		{
+			
+			cout << "Event Played: Airlift!" << endl << endl;
+
+			printCityColumn();
+
+
+			cout << "Player locations:" << endl;
+			for(int i = 0; i < numberOfPlayers; i++)
+			{
+				cout << i << "  " << players[i].playerName << " : " << cities[players[i].location].cityName << endl;
+			}
+
+			int chooseplayer;
+			int chooselocation;
+			cout << "Who would you like to move? (0-4) : ";
+			cin >> chooseplayer;
+			cout << endl << "Where would you like to move " << players[chooseplayer].playerName << "? (0-47):";
+			cin >> chooselocation;
+
+			players[chooseplayer].location = chooselocation;
+
+			players[playernum].cardsonhand[cardchoose].value = -1;
+			cout << endl << endl;
+
+
+			
+		}
+
+		if(cardchosenvalue == 55) //Forecast
+		{
+
+		}
+
+		if(cardchosenvalue == 56) //Government Grant
+		{
+
+		}
+
+		if(cardchosenvalue == 57) //One Quiet Night
+		{
+
+		}
+
+		if(cardchosenvalue == 58) //Resilient Population
+		{
+
+		}
+
+
+	}
+
 
 }
 
@@ -639,6 +708,20 @@ infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
 void PandModel::discardPlayCard(playerCard discarding)
 {
 	discardPlayerDeckD.push_back(discarding);
+}
+
+void PandModel::printCityColumn()
+{
+	for(int i = 0; i < 16; i++)
+	{
+		cout << left << setw(3) << i    << "  " << setw(20) << cities[i].cityName;
+		cout << left << setw(3) << i+16 << "  " << setw(20) << cities[i+16].cityName;
+		cout << left << setw(3) << i+32 << "  " << setw(20) << cities[i+32].cityName << endl;
+	}
+
+
+
+
 }
 
 
