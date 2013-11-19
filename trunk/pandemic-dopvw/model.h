@@ -199,7 +199,7 @@ PandModel::PandModel()//constructor
 	for(int i = 0; i<48; i++)
 		cities[i].cityColor = citycolors[i];//assign city colors to cities
 
-	 std::string cityname[48] = {"Algiers", "Atlanta", "Baghdad", "Bangkok", "Beijing", "Bogota", "Buenos Aires", "Cairo", "Chennai", "Chicago", "Delhi", "Essen", "Ho Chi Minh City",
+	 std::string cityname[48] = {"Algiers", "Atlanta", "Baghdad", "Bangkok", "Beijing", "Bogota", "Buenos Aires", "Cairo", "Chennai", "Chicago", "Delhi", "Essen", "HoChiMinh City",
                             "Hong Kong", "Istanbul", "Jakarta", "Johannesburg", "Karachi", "Khartoum", "Kinshasa", "Kolkata", "Lagos", "Lima", "London", "Los Angeles", "Madrid",
                             "Manila", "Mexico City", "Miami", "Milan", "Moscow", "Mumbai", "New York", "Osaka", "Paris", "Riyadh", "San Francisco", "Santiago",
                             "Sao Paulo", "Seoul", "Shanghai", "St. Petersburg", "Sydney", "Taipei", "Tehran", "Tokyo", "Toronto", "Washington"};
@@ -601,13 +601,23 @@ void PandModel::PlayCard(int playernum)
 
 		if(cardchosenvalue == 56) //Government Grant
 		{
-			cout << "Event card played: Government Grant!" << endl;
+			cout << "Event card played: Government Grant!" << endl << endl;
+			cout << "Listing Cities in regard to possession of Research Stations..." << endl;
 		for(int i = 0; i < 16; i++)
         {
-                cout << left << setw(3) << i    << "  " << setw(20) << cities[i].cityName << setw(5) << returnResearch(i);
-                cout << left << setw(3) << i+16 << "  " << setw(20) << cities[i+16].cityName << setw(5) << returnResearch(i+16);
-                cout << left << setw(3) << i+32 << "  " << setw(20) << cities[i+32].cityName << setw(5) << returnResearch(i+32) << endl;
-        }
+                cout << left << setw(2) << i    << "  " << setw(16) << cities[i].cityName;
+				if(returnResearch(i) == 1){ cout << setw(5) << ":Yes";}
+				else {cout << setw(5) << ":No";}
+
+                cout << left << setw(3) << i+16 << "  " << setw(16) << cities[i+16].cityName;
+				if(returnResearch(i+16) == 1){cout << setw(5) << ":Yes";}
+				else {cout << setw(5) << ":No";}
+
+                cout << left << setw(3) << i+32 << "  " << setw(16) << cities[i+32].cityName;
+				if(returnResearch(i+32) == 1){ cout << setw(5) << ":Yes" << endl;}
+				else {cout << setw(5) << ":No" << endl;}
+		
+		}
 		int citychosen;
 		cout << "Choose a city (0-47): ";
 		cin >> citychosen;
