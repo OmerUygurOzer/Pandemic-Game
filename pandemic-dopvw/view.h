@@ -26,6 +26,7 @@ public:
 	void listDescriptions(int role);//lists the descriptons of roles
 	void listActions(int role);//lists specific role actions
 	void askPlayerNumber();
+	void printCityColumns();
 };
 
 PandView::PandView()
@@ -214,6 +215,19 @@ void PandView::listActions(int role){
 	}
 
 }
+
+void PandView::printCityColumns()
+{
+	for(int i = 0; i < 16; i++)
+	{
+		cout << left << setw(3) << i    << "  " << setw(20) << getCityName(i);
+		cout << left << setw(3) << i+16 << "  " << setw(20) << getCityName(i+16);
+		cout << left << setw(3) << i+32 << "  " << setw(20) << getCityName(i+32) << endl;
+	}
+}
+
+
+
 
 void PandView::listDescriptions(int role)
 {

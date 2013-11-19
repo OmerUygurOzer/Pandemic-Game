@@ -86,6 +86,7 @@ public:
 	PandModel();
 	//observers
 	city getCityInfo(int citynum) {return cities[citynum];}//maybe seperate into getcityname, getadjcities, getcubes...etc
+	string getCityName(int citynum) {return cities[citynum].cityName;}
 	int getNeighbor(int currentcity, int nextcity){return cities[currentcity].adjacentCities[nextcity];}
 	bool validNeighbor(int currentcity, int nextcity); //stub - need function to work with Ly's new movement function to check adjacency
 	int getnumberOfPlayers();
@@ -107,8 +108,6 @@ public:
 	infectionCard drawInfectionCard();//will draw from top of infection deck
 	void discardPlayCard(playerCard discarding);//add a discarded card to discarded player card pile
 	bool returnResearch(int citynum){return cities[citynum].researchcenter;}
-
-	void printCityColumn();
 	void PrintAdjacent();
 	void FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum);
 	//void FillValue(int x) {value = x;};
@@ -563,7 +562,14 @@ void PandModel::PlayCard(int playernum)
 			
 			cout << "Event Played: Airlift!" << endl << endl;
 
-			printCityColumn();
+	for(int i = 0; i < 16; i++)
+        {
+                cout << left << setw(3) << i    << "  " << setw(20) << cities[i].cityName;
+                cout << left << setw(3) << i+16 << "  " << setw(20) << cities[i+16].cityName;
+                cout << left << setw(3) << i+32 << "  " << setw(20) << cities[i+32].cityName << endl;
+        }
+
+
 
 
 			cout << "Player locations:" << endl;
@@ -595,6 +601,34 @@ void PandModel::PlayCard(int playernum)
 
 		if(cardchosenvalue == 56) //Government Grant
 		{
+			cout << "Event card played: Government Grant!" << endl;
+		for(int i = 0; i < 16; i++)
+        {
+                cout << left << setw(3) << i    << "  " << setw(20) << cities[i].cityName << setw(5) << returnResearch(i);
+                cout << left << setw(3) << i+16 << "  " << setw(20) << cities[i+16].cityName << setw(5) << returnResearch(i+16);
+                cout << left << setw(3) << i+32 << "  " << setw(20) << cities[i+32].cityName << setw(5) << returnResearch(i+32) << endl;
+        }
+		int citychosen;
+		cout << "Choose a city (0-47): ";
+		cin >> citychosen;
+
+		if(cities[citychosen].researchcenter == true)
+			{
+				cout << "This city already has a research center!" << endl << endl;
+				setActionsLeft(playernum-1, 1);
+			}
+			if(cities[citychosen].researchcenter == false)
+			{
+			addResearchCenter(citychosen);
+			cout << "A Research Center has been constructed in " << cities[citychosen].cityName;
+			players[playernum].cardsonhand[cardchoose].value = -1;
+			cout << string(5, '\n');
+			}
+
+
+
+
+
 
 		}
 
@@ -710,19 +744,7 @@ void PandModel::discardPlayCard(playerCard discarding)
 	discardPlayerDeckD.push_back(discarding);
 }
 
-void PandModel::printCityColumn()
-{
-	for(int i = 0; i < 16; i++)
-	{
-		cout << left << setw(3) << i    << "  " << setw(20) << cities[i].cityName;
-		cout << left << setw(3) << i+16 << "  " << setw(20) << cities[i+16].cityName;
-		cout << left << setw(3) << i+32 << "  " << setw(20) << cities[i+32].cityName << endl;
-	}
 
-
-
-
-}
 
 
 void PandModel::setOutbreakLevel()//stub
