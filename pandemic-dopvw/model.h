@@ -145,7 +145,7 @@ public:
 		}
 		return z;
 	}
-	void ReceiveCard(int playernum, int cardnum); //Player # - Receives card #  -Functional but not complete    -Vu
+	void ReceiveCard(int playernum, playerCard card); //Player # - Receives card #  -Functional but not complete    -Vu
 
 	// SAVE-LOAD/////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Save(int loadf, string sfname, int turn);
@@ -167,7 +167,7 @@ public:
 PandModel::PandModel()//constructor
 {
 	outbreakLevel = 0;
-	infectionRate = 0;
+	infectionRate = 2;
 	playerturn = 0; //turn indicator
 	loadflag = false;
 
@@ -237,22 +237,28 @@ PandModel::PandModel()//constructor
 	 {
 		 playerDeck[i].cardType = "Epidemic";
 		 playerDeck[i].cardDescription = "1.Increase\n 2.Infect\n 3.Intensify\n";
+		 playerDeck[i].value = i;
 	 }
 	 ////////////////////////////////////////////////Special Event Cards for player deck
 	 playerDeck[54].cardType = "Special Event";
 	 playerDeck[54].cardDescription = "Airlift: Move a pawn ( yours or another player's) to any city. You must have a player's permission to move their pawn \n";
+	 playerDeck[54].value = 54;
 
 	 playerDeck[55].cardType = "Special Event";
 	 playerDeck[55].cardDescription = "Forecast: Examine the top 6 cards of the Infection Draw Pile, rearrange them in the order of your choice, then place them back on the pile. \n";
+	 playerDeck[55].value = 55;
 
 	 playerDeck[56].cardType = "Special Event";
 	 playerDeck[56].cardDescription = "Government Grant: Add a Research Station to any city for free \n";
+	 playerDeck[56].value = 56;
 
 	 playerDeck[57].cardType = "Special Event";
 	 playerDeck[57].cardDescription = "One Quiet Night: The next player to begin the Playing the Infector phase of their turn may skip that phase entirely \n";
+	 playerDeck[56].value = 56;
 
 	 playerDeck[58].cardType = "Special Event";
 	 playerDeck[58].cardDescription = "Resilient Population: Take a card from the Infection Discard Pile and remove it from the game \n";
+	 playerDeck[58].value = 58;
 
 	 for(int i = 0; i < 59; i++)
 		 PlayerDeckD.push_back(playerDeck[i]);
@@ -435,7 +441,7 @@ void PandModel::setDiseaseCubes(int cno, int a, int b, int c, int d){
 ////////////////CURRENTLY WORKING ON   -VU////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-void PandModel::ReceiveCard(int playernum, int cardnum)
+void PandModel::ReceiveCard(int playernum, playerCard card)
 {
 	int z = 0; //Variable check
 
@@ -443,10 +449,7 @@ void PandModel::ReceiveCard(int playernum, int cardnum)
 	{
 		if(players[playernum].cardsonhand[i].value == -1)
 		{
-			players[playernum].cardsonhand[i].value = playerDeck[cardnum].value;
-			players[playernum].cardsonhand[i].cardType = playerDeck[cardnum].cardType;
-			players[playernum].cardsonhand[i].cardDescription = playerDeck[cardnum].cardDescription;
-			players[playernum].cardsonhand[i].color = playerDeck[cardnum].color;
+			players[playernum].cardsonhand[i]= card;
 			
 			i = 10; //If card placed into hand, end loop
 			z = 1; //Card Received

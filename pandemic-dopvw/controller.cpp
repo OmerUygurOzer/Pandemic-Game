@@ -187,11 +187,11 @@ start:
 	}*/
 
 	//Gonna give the players some cards for test purposes
-	GameInstance.ReceiveCard(1, 0);
-	GameInstance.ReceiveCard(1, 1);
-	GameInstance.ReceiveCard(1, 9);
-	GameInstance.ReceiveCard(2, 2);
-	GameInstance.ReceiveCard(2, 46);
+	//GameInstance.ReceiveCard(1, 0);
+	//GameInstance.ReceiveCard(1, 1);
+	//GameInstance.ReceiveCard(1, 9);
+	//GameInstance.ReceiveCard(2, 2);
+	//GameInstance.ReceiveCard(2, 46);
 //	GameInstance.ReceiveCard(3, 4);
 //	GameInstance.ReceiveCard(4, 6);
 
@@ -206,7 +206,7 @@ start:
 		for (int j = 0; j<numofCards; j++)
 		{
 			tempCard = GameInstance.drawPlayerCard();//will draw from the shuffled player cards deck
-			//GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
+			GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
 
@@ -284,7 +284,7 @@ start:
 
 			if(ans == 5)
 			{
-				Screens.showCubeLocations();
+				newScreen.showCubeLocations();
 			}
 
 			if (ans == 9)//game save
@@ -408,7 +408,11 @@ start:
 		}//end of player turn
 
 		//draw 2 player cards
-		//GameInstance.ReceiveCard(charnum, GameInstance.drawPlayerCard());//Testing to see if i can receive card without using temp
+		playerCard drawn = GameInstance.drawPlayerCard();//draw from deck
+		//if epidemic card
+		//call epidemic function
+		//else store in hand
+		GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
 		//if already have 7 cards, discard some
 
 		//draw 2-4 infection cards. How many drawn depends on infection rate.
