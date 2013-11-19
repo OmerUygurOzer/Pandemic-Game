@@ -285,6 +285,7 @@ start:
 			if(ans == 5)
 			{
 				newScreen.showCubeLocations();
+				GameInstance.setActionsLeft(charnum, 1);
 			}
 
 			if (ans == 9)//game save
