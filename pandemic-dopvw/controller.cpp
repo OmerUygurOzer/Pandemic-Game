@@ -172,9 +172,6 @@ int main()
 	system("CLS");
 
 start:
-	
-//New Turn system		
-
 	int charnum; //temp variable
 	charnum = GameInstance.getTurn(); //Had to change it so it works with SAVE/LOAD functions
 	// debug cout << charnum << endl;
@@ -209,6 +206,14 @@ start:
 			GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
+	/////Harcoded Cards for testing
+	
+	playerCard TESTcard;
+	TESTcard.value = 56; //Testing 56 = Government Grant
+	TESTcard.cardDescription = "Gov Grant";
+	GameInstance.ReceiveCard(1, TESTcard);
+	
+	///////////////////////////////
 
 
 	//while(game not ended yet) //STUB
