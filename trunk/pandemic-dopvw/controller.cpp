@@ -290,7 +290,7 @@ start:
 
 			if(ans == 6) //Tester
 			{
-				GameInstance.printCityColumn();
+				newScreen.printCityColumns();
 				GameInstance.setActionsLeft(charnum,1);
 			}
 
