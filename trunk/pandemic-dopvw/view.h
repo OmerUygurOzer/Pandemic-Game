@@ -54,11 +54,19 @@ void PandView::askPlayerNumber(){
 
 void PandView::showCityInfo(int citynum)
 {
+	char infectionColor[4] = {'R', 'G', 'B', 'Y'};
 	city temp = model.getCityInfo(citynum);//reference model 
 	//print player info, eg. name, role
 	std::cout<<"City: " <<temp.cityName<<std::endl;
 	std::cout<<"City color: " <<temp.cityColor<<std::endl;
-	std::cout<<"Cubes: " <<temp.diseasecubes<<std::endl;
+
+	std::cout<<"Cubes: ";
+	for(int j = 0; j < 4; j++)//traverse through different color cubes that may be stored in this city
+		if (temp.diseasecubes[j] > 0)
+			for(int p = 0; p < temp.diseasecubes[j]; p++)
+				std::cout<<infectionColor[j];//each letter printed represents a cube of that color
+			
+	std::cout<<endl;
 	//std::cout<<"Research Center: " <<temp.researchcenter<<std::endl;//should be converted to yes or no
 	std::cout<< "Research Center: ";
 	if(returnResearch(citynum) == true){std::cout << "Yes";}
