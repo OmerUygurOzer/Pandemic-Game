@@ -1168,7 +1168,7 @@ void PandModel::shufflePlayerDeck(deque<playerCard> & shuffleDeck)
 		shuffleDeck.push_back(tempDeck[shufflePlayer[p]]);//repopulating deck
 }
 
-void mergeInfectionDecks(deque<infectionCard> &deckA, deque<infectionCard> &deckB) // puts deckA on top of deckB
+void PandModel::mergeInfectionDecks(deque<infectionCard> &deckA, deque<infectionCard> &deckB) // puts deckA on top of deckB
 {
 	// remove cards from bottom of deckA and put on top of deckB until none remain in deckA
 	int cardAmount = deckA.size();
