@@ -805,6 +805,7 @@ void PandModel::epidemicDrawn()
 
 	// Increase infection rate by 1
 	infectionRate++;
+	// might need to test game over here
 	
 	drawnInfCard = drawBottomInfectionCard();
 	if (cities[drawnInfCard.city].diseasecubes[drawnInfCard.color] > 0){// If adding cubes causes city to go over 3 cubes then outbreak
@@ -1169,7 +1170,17 @@ void PandModel::shufflePlayerDeck(deque<playerCard> & shuffleDeck)
 
 void mergeInfectionDecks(deque<infectionCard> &deckA, deque<infectionCard> &deckB) // puts deckA on top of deckB
 {
-	// haven't worked on yet
+	// remove cards from bottom of deckA and put on top of deckB until none remain in deckA
+	int cardAmount = deckA.size();
+	infectionCard temp;
+	
+	for(int i = 0; i < cardAmount; i++) // repeat for how many cards are in deckA
+	{
+		temp = deckA.back(); // set temp as card on bottom deckA
+		deckB.push_front(temp); // put temp on top of deckB
+		deckA.pop_back(); // remove temp from deckA
+	}
+	
 }
 
 void PandModel::addDiseaseCubes(int cityNum, char cubeColr, int infectRate)
