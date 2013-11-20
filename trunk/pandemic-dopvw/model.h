@@ -73,7 +73,7 @@ class PandModel
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 	int outbreakLevel;//0-8, if 8 game is over?
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
-	
+	int infectRateArray[7]; //represents the infection rate  2-2-2-3-3-4-4
 
 	//SAVE-LOAD VARIABLES////////////////////////////
 	string availability[6]; //availabilty of the files
@@ -126,7 +126,7 @@ public:
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
 	
 
-	int getInfectionRate(){return infectionRate;}//for view to access/display infection rate
+	int getInfectionRate(){return infectRateArray[infectionRate];}//for view to access/display infection rate
 	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
 	void setInfectionRate();//stub
 	void setOutbreakLevel();//stub
@@ -170,7 +170,14 @@ public:
 PandModel::PandModel()//constructor
 {
 	outbreakLevel = 0;
-	infectionRate = 2;
+	infectionRate = 0;
+	infectRateArray[0] = 2;
+	infectRateArray[1] = 2;
+	infectRateArray[2] = 2;
+	infectRateArray[3] = 3;
+	infectRateArray[4] = 3;
+	infectRateArray[5] = 4;
+	infectRateArray[6] = 4;
 	playerturn = 0; //turn indicator
 	loadflag = false;
 
