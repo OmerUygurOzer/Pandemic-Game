@@ -134,6 +134,7 @@ public:
 	
 	void shuffleInfectionDeck(deque<infectionCard> &shuffleDeck);//shuffle infection deck pass in a deque<infectionCard>
 	void shufflePlayerDeck(deque<playerCard> & shuffleDeck);//shuffle player deck pass in a deque<playerCard>
+	void mergeInfectionDecks(deque<infectionCard> &deckA, deque<infectionCard> &deckB); // puts deckA on top of deckB
 	void outbreak(int city);//stub
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
@@ -822,7 +823,7 @@ void PandModel::epidemicDrawn()
 	shuffleInfectionDeck(discardInfectionDeck);
 
 	// Place on top of infection deck
-
+	mergeInfectionDecks(discardInfectionDeck, infectionDeck); // puts discardInfection Deck on top of infectionDeck
 }
 
 void PandModel::discardPlayCard(playerCard discarding)
@@ -1164,6 +1165,11 @@ void PandModel::shufflePlayerDeck(deque<playerCard> & shuffleDeck)
         }///////////////////////////////////////////////////////////////////////////////
 		for(int p = 0; p<cardAmount; p++)
 		shuffleDeck.push_back(tempDeck[shufflePlayer[p]]);//repopulating deck
+}
+
+void mergeInfectionDecks(deque<infectionCard> &deckA, deque<infectionCard> &deckB) // puts deckA on top of deckB
+{
+	// haven't worked on yet
 }
 
 void PandModel::addDiseaseCubes(int cityNum, char cubeColr, int infectRate)
