@@ -517,6 +517,7 @@ void PandModel::PlayCard(int playernum)
 			cin >>newlocation;
 
 			players[playernum-1].location = newlocation;
+			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << endl << "You have moved to : " << cities[newlocation].cityName << endl << endl;
 			}
@@ -532,6 +533,7 @@ void PandModel::PlayCard(int playernum)
 			{
 			addResearchCenter(players[playernum].cardsonhand[cardchoose].value);
 			cout << "A Research Center has been constructed in " << cities[players[playernum].cardsonhand[cardchoose].value].cityName;
+			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << string(5, '\n');
 			}
@@ -544,6 +546,7 @@ void PandModel::PlayCard(int playernum)
 		{
 		cout << "City Card chosen, you have been moved to: " << players[playernum].cardsonhand[cardchoose].cardDescription << endl;
 		players[playernum-1].location = players[playernum].cardsonhand[cardchoose].value;
+		discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 		players[playernum].cardsonhand[cardchoose].value = -1;
 		cout << endl << endl;
 		}
@@ -587,6 +590,11 @@ void PandModel::PlayCard(int playernum)
 
 			players[chooseplayer].location = chooselocation;
 
+			cout << players[chooseplayer].playerName << " has been moved to";
+			cout << cities[players[chooseplayer].location].cityName << endl << endl;
+
+
+			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << endl << endl;
 
@@ -596,7 +604,25 @@ void PandModel::PlayCard(int playernum)
 
 		if(cardchosenvalue == 55) //Forecast
 		{
-
+			cout << "Event card played: Forecast!" << endl;
+			cout << "Drawing 6 cards..." << endl;
+			//pop 6 cards
+			//cout << "Enter the cards that you'd like to place on to the deck" << endl;
+			//player chooses one card at a time to pop back in
+			//int rearrange[6];
+			//for(int i = 0; i < 6; i++)
+			//{
+			//	rearrange[i] = stack.pop
+			//}
+			int pushcard;
+			//for(int i = 0; i < 6; i++)
+			//{
+			//   cin >> pushcard
+			//   push(pushcard)
+			//}
+			cout << "Card effect not implemented yet! Now discarding." << endl << endl;
+			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			players[playernum].cardsonhand[cardchoose].value = -1;
 		}
 
 		if(cardchosenvalue == 56) //Government Grant
@@ -631,6 +657,7 @@ void PandModel::PlayCard(int playernum)
 			{
 			addResearchCenter(citychosen);
 			cout << "A Research Center has been constructed in " << cities[citychosen].cityName;
+			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << string(5, '\n');
 			}
@@ -644,12 +671,23 @@ void PandModel::PlayCard(int playernum)
 
 		if(cardchosenvalue == 57) //One Quiet Night
 		{
+			cout << "Event card played: One Quiet Night!" << endl;
 
+
+			cout << "Card not implemented yet! Discarding card." << endl << endl;
+
+			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			players[playernum].cardsonhand[cardchoose].value = -1;
 		}
 
 		if(cardchosenvalue == 58) //Resilient Population
 		{
+			cout << "Event card played: Resilient Population!" << endl;
 
+			cout << "Card not implemented yet! Discarding card." << endl << endl;
+
+			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			players[playernum].cardsonhand[cardchoose].value = -1;
 		}
 
 
