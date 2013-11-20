@@ -102,10 +102,12 @@ public:
 	bool getloadflag(){ return loadflag; };//Whether the game is being loaded or starting as a new game
 	void setloadflag(int x){ loadflag = x; };
 	int colorToInt(char color); // returns int corresponding to color (0,1,2,3 = R,G,B,Y)
+	void epidemicDrawn(); // call when an epidemic card is drawn
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck
 	infectionCard drawInfectionCard();//will draw from top of infection deck
+	infectionCard drawBottomInfectionCard();  // will draw from bottom of infection deck
 	void discardPlayCard(playerCard discarding);//add a discarded card to discarded player card pile
 	bool returnResearch(int citynum){return cities[citynum].researchcenter;}
 	void PrintAdjacent();
@@ -785,6 +787,42 @@ infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
 	discardInfectionDeck.push_back(temp);//add to discarded cards deck//may need to separate this out as a separate function depending on game rules
 	infectionDeck.pop_front();//remove top card
 	return temp;  
+}
+
+infectionCard PandModel::drawBottomInfectionCard() // will draw from bottom of infection deck
+{
+	infectionCard temp;
+	temp = infectionDeck.back();//from the top
+	discardInfectionDeck.push_back(temp);//add to discarded cards deck//may need to separate this out as a separate function depending on game rules
+	infectionDeck.pop_back(); // remove bottom card
+	return temp;  
+}
+
+void PandModel::epidemicDrawn()
+{
+	infectionCard drawnInfCard;
+
+	// Increase infection rate by 1
+	infectionRate++;
+	
+	drawnInfCard = drawBottomInfectionCard();
+	if (cities[drawnInfCard.city].diseasecubes[drawnInfCard.color] > 0){// If adding cubes causes city to go over 3 cubes then outbreak
+
+		diseaseCubes[drawnInfCard.color] = diseaseCubes[drawnInfCard.color] + cities[drawnInfCard.city].diseasecubes[drawnInfCard.color] - 3; // set stock cubes
+		cities[drawnInfCard.city].diseasecubes[drawnInfCard.color] = 3; // city now at 3 cubes
+
+		outbreak(drawnInfCard.city); // start outbreak in the city
+
+	}else{ // otherwise add 3 cubes to city/color on card
+		cities[drawnInfCard.city].diseasecubes[drawnInfCard.color] = 3; // city now at 3 cubes
+		diseaseCubes[drawnInfCard.color] = diseaseCubes[drawnInfCard.color] - 3;  // remove 3 cubes from stock pile
+	}
+	
+	// Shuffle infection discard pile
+	shuffleInfectionDeck(discardInfectionDeck);
+
+	// Place on top of infection deck
+
 }
 
 void PandModel::discardPlayCard(playerCard discarding)
