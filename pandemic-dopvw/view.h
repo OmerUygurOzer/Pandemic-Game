@@ -72,8 +72,8 @@ void PandView::showCityInfo(int citynum)
 	std::cout<<endl;
 	//std::cout<<"Research Center: " <<temp.researchcenter<<std::endl;//should be converted to yes or no
 	std::cout<< "Research Center: ";
-	if(returnResearch(citynum) == true){std::cout << "Yes";}
-	if(returnResearch(citynum) == false){std::cout << "No";}
+	if(model.returnResearch(citynum) == true){std::cout << "Yes";}
+	if(model.returnResearch(citynum) == false){std::cout << "No";}
 }
 void PandView::showNeighbors(int citynum)
 {
@@ -255,15 +255,15 @@ void PandView::printResearchCenters()
 		for(int i = 0; i < 16; i++)
         {
                 cout << left << setw(2) << i    << "  " << setw(15) << getCityName(i);
-				if(returnResearch(i) == 1){ cout << setw(5) << ":Yes" << '|';}
+				if(model.returnResearch(i) == 1){ cout << setw(5) << ":Yes" << '|';}
 				else {cout << setw(5) << ":No" << '|';}
 
                 cout << left << setw(3) << i+16 << "  " << setw(15) << getCityName(i+16);
-				if(returnResearch(i+16) == 1){cout << setw(5) << ":Yes" << '|';}
+				if(model.returnResearch(i+16) == 1){cout << setw(5) << ":Yes" << '|';}
 				else {cout << setw(5) << ":No" << '|';}
 
                 cout << left << setw(3) << i+32 << "  " << setw(16) << getCityName(i+32);
-				if(returnResearch(i+32) == 1){ cout << setw(5) << ":Yes" << endl;}
+				if(model.returnResearch(i+32) == 1){ cout << setw(5) << ":Yes" << endl;}
 				else {cout << setw(5) << ":No" << endl;}
 		
 		}

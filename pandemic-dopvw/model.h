@@ -116,6 +116,7 @@ public:
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck
 	infectionCard drawInfectionCard();//will draw from top of infection deck
+	void placeInfectionCard(infectionCard temp); //Place a card on top of infection deck
 	infectionCard drawBottomInfectionCard();  // will draw from bottom of infection deck
 	void discardPlayCard(playerCard discarding);//add a discarded card to discarded player card pile
 	bool returnResearch(int citynum){return cities[citynum].researchcenter;}
@@ -580,6 +581,7 @@ void PandModel::PlayCard(int playernum)
 	//if EVENT CARD
 	if(cardchosenvalue >=54 && cardchosenvalue <= 58)
 	{
+		setActionsLeft(playernum-1, 1); //Event card takes up no turns
 		cout << "Playing an event card: ";
 
 		if(cardchosenvalue == 54)
@@ -785,7 +787,13 @@ infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
 	temp = infectionDeck.front();//from the top
 	discardInfectionDeck.push_back(temp);//add to discarded cards deck//may need to separate this out as a separate function depending on game rules
 	infectionDeck.pop_front();//remove top card
+
 	return temp;  
+}
+
+void PandModel::placeInfectionCard(infectionCard temp)
+{
+	infectionDeck.push_front(temp);
 }
 
 infectionCard PandModel::drawBottomInfectionCard() // will draw from bottom of infection deck
