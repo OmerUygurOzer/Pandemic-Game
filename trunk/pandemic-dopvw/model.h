@@ -758,12 +758,6 @@ void PandModel::ShuttleFlight(int playernum)
 
 ///////////////////END COMMENT///////////////////////////////////////////////
 
-void RandomizeCubes()//<------------needs to be a member function
-{
-     // Randomizing the cubes. 
-     // Something we'll need??
-}
-
 void PandModel::setPlayerRole(int playernum, int profession, std::string pName){
 	players[playernum].profession = profession;
 	players[playernum].profName = pName;
