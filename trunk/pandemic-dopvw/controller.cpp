@@ -196,9 +196,14 @@ start:
 	}
 	/////Hardcoded Cards for testing
 	playerCard TESTcard;
-	TESTcard.value = 56; //Testing 56 = Government Grant
-	TESTcard.cardDescription = "Gov Grant";
+	TESTcard.value = 55; //Testing 55 = Forecast
+	TESTcard.cardDescription = "ForecastTest";
 	GameInstance.ReceiveCard(1, TESTcard);
+
+	playerCard TESTcard2;
+	TESTcard2.value = 56;
+	TESTcard.cardDescription = "GovGrantTEST";
+	GameInstance.ReceiveCard(1, TESTcard2);
 	
 	///////////////////////////////
 
@@ -266,11 +271,67 @@ start:
 				if(GameInstance.CheckHand(charnum+1) == 1) //If player has card, allow to play card
 				{GameInstance.PlayCard(charnum+1);}
 
+
+
+			////////EVENT CARD: FORECAST////////////////////
 				if(GameInstance.ReturnForecast() == 1)
 				{
 					cout << "Forecast is being played!  Drawing 6 cards..." << endl;
-					cout << "Not implemented yet!" << endl << endl;
+					//cout << "Not implemented yet!" << endl << endl;
+					int cardplace;
+					infectionCard rearrange[6];
 
+					for(int i = 0; i < 6; i++) //Draw 6 cards
+					{
+					infectionCard tempInfectCard = GameInstance.drawInfectionCard();
+					PandView newCards(GameInstance);
+					rearrange[i] = tempInfectCard;
+					}
+
+					int doneYet = 0;
+
+					//Note: I'm using a copy of the cards inside rearrange. Instead of making a new flag
+					//I just use .colors as my flag and change it. Game is unaffected.  -Vu
+					while(doneYet != 1) //while cards not all placed
+					{
+						for(int i = 0; i < 6; i++)
+						{
+							if(rearrange[i].color != -1)
+							{cout << i+1 << ". " << "Infection:  " << rearrange[i].cardDescription << endl;}
+							//DEBUG : Test to see if flags for card already used is set
+							//cout << "DEBUG #" << i+1 << " = " << rearrange[i].color << endl;
+						}
+						cout << "Choose which card to place on top of the deck (1-6): ";
+						cin >> cardplace;
+						while(cardplace < 1 || cardplace > 6)
+						{cout << "Invalid Input!" << endl; cin >> cardplace;}
+						cardplace = cardplace -1; //1 to 0 fix
+						
+						if(rearrange[cardplace].color != -1)
+						{
+							GameInstance.placeInfectionCard(rearrange[cardplace]);
+							rearrange[cardplace].color = -1;
+						}
+						else{cout << "Card already chosen!" << endl;}
+
+
+						//Loop had issues.. trying the long way  -  Tested and it works.
+						if(rearrange[0].color == -1 && rearrange[1].color == -1 && rearrange[2].color == -1 && 
+							rearrange[3].color == -1 && rearrange[4].color == -1 && rearrange[5].color == -1)
+						{doneYet = 1;}
+						cout << endl;
+					}
+
+					GameInstance.setForecastPlayed(0); //Forecast has been played and ended
+					//DEBUG////////////
+					/*
+					cout << "DEBUG: DRAWING TOP CARD (should be last card you put in)" << endl;
+					infectionCard tempInfectCard = GameInstance.drawInfectionCard();
+					PandView newCards(GameInstance);
+					newCards.showInfectCard(tempInfectCard);//display infection card drawn
+					*/
+					cout << endl << endl;
+					//////////////////
 				}
 
 			}
