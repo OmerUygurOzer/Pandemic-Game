@@ -264,7 +264,7 @@ PandModel::PandModel()//constructor
 
 	 playerDeck[57].cardType = "Special Event";
 	 playerDeck[57].cardDescription = "One Quiet Night: The next player to begin the Playing the Infector phase of their turn may skip that phase entirely \n";
-	 playerDeck[56].value = 56;
+	 playerDeck[56].value = 57;
 
 	 playerDeck[58].cardType = "Special Event";
 	 playerDeck[58].cardDescription = "Resilient Population: Take a card from the Infection Discard Pile and remove it from the game \n";
@@ -671,12 +671,6 @@ void PandModel::PlayCard(int playernum)
 			players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << string(5, '\n');
 			}
-
-
-
-
-
-
 		}
 
 		if(cardchosenvalue == 57) //One Quiet Night

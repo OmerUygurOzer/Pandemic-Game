@@ -29,6 +29,7 @@ public:
 	void listActions(int role);//lists specific role actions
 	void askPlayerNumber();
 	void printCityColumns();
+	void printResearchCenters();
 };
 
 PandView::PandView()
@@ -98,10 +99,13 @@ void PandView::showActionMenu(int p)
 	std::cout<<"3. Remove cube " << std::endl;
 	std::cout<<"4. Shuttle Flight " << std::endl;
 	std::cout<<"5. List infected cities " << std::endl;
-	std::cout<<"6. List other things " << std::endl;//expansion for later
-	listActions(p); //additional actions that are unique to each player are being shown here
-	//Commented this out since it was getting messy while debugging
-	//Let's use listActions in another function, such as  7. Use Role Ability    -Vu
+	std::cout<<"6. List Cities " << std::endl;//expansion for later
+	std::cout<<"7. Use Profession Ability " << std::endl;
+
+	//listActions(p); //additional actions that are unique to each player are being shown here
+	//I think have the above line print if the player chooses to in Use Profession Ability
+	std::cout<<"8. List other things " << std::endl;
+
 	std::cout << "9. Save current game " << std::endl;
 	std::cout << "10. Load a different game " << std::endl;
 
@@ -244,10 +248,28 @@ void PandView::printCityColumns()
 		cout << left << setw(3) << i+16 << "  " << setw(20) << getCityName(i+16);
 		cout << left << setw(3) << i+32 << "  " << setw(20) << getCityName(i+32) << endl;
 	}
+	cout << endl;
 }
+void PandView::printResearchCenters()
+{
+		for(int i = 0; i < 16; i++)
+        {
+                cout << left << setw(2) << i    << "  " << setw(15) << getCityName(i);
+				if(returnResearch(i) == 1){ cout << setw(5) << ":Yes" << '|';}
+				else {cout << setw(5) << ":No" << '|';}
 
+                cout << left << setw(3) << i+16 << "  " << setw(15) << getCityName(i+16);
+				if(returnResearch(i+16) == 1){cout << setw(5) << ":Yes" << '|';}
+				else {cout << setw(5) << ":No" << '|';}
 
+                cout << left << setw(3) << i+32 << "  " << setw(16) << getCityName(i+32);
+				if(returnResearch(i+32) == 1){ cout << setw(5) << ":Yes" << endl;}
+				else {cout << setw(5) << ":No" << endl;}
+		
+		}
+		cout << endl;
 
+}
 
 void PandView::listDescriptions(int role)
 {
