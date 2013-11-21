@@ -74,7 +74,9 @@ class PandModel
 	int outbreakLevel;//0-8, if 8 game is over?
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
 	int infectRateArray[7]; //represents the infection rate  2-2-2-3-3-4-4
-
+	int ForecastPlayed;
+	int QuietNightPlayed;
+	int ResilientPlayed;
 	//SAVE-LOAD VARIABLES////////////////////////////
 	string availability[6]; //availabilty of the files
 	string gameName[6];
@@ -103,6 +105,13 @@ public:
 	void setloadflag(int x){ loadflag = x; };
 	int colorToInt(char color); // returns int corresponding to color (0,1,2,3 = R,G,B,Y)
 	void epidemicDrawn(); // call when an epidemic card is drawn
+
+	void setForecastPlayed(int value){ForecastPlayed = value;}
+	void setQuietNightPlayed(int value){QuietNightPlayed = value;}
+	void setResilientPlayed(int value){ResilientPlayed = value;}
+	int ReturnForecast(){return ForecastPlayed;}
+	int ReturnQuietNight(){return QuietNightPlayed;}
+	int returnResilient(){return ResilientPlayed;}
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck
@@ -178,6 +187,9 @@ PandModel::PandModel()//constructor
 	infectRateArray[4] = 3;
 	infectRateArray[5] = 4;
 	infectRateArray[6] = 4;
+	ForecastPlayed = 0;
+	QuietNightPlayed = 0;
+	ResilientPlayed = 0;
 	playerturn = 0; //turn indicator
 	loadflag = false;
 
@@ -615,22 +627,12 @@ void PandModel::PlayCard(int playernum)
 		if(cardchosenvalue == 55) //Forecast
 		{
 			cout << "Event card played: Forecast!" << endl;
-			cout << "Drawing 6 cards..." << endl;
-			//pop 6 cards
-			//cout << "Enter the cards that you'd like to place on to the deck" << endl;
-			//player chooses one card at a time to pop back in
-			//int rearrange[6];
-			//for(int i = 0; i < 6; i++)
-			//{
-			//	rearrange[i] = stack.pop
-			//}
-			int pushcard;
-			//for(int i = 0; i < 6; i++)
-			//{
-			//   cin >> pushcard
-			//   push(pushcard)
-			//}
-			cout << "Card effect not implemented yet! Now discarding." << endl << endl;
+			//cout << "Drawing 6 cards..." << endl;
+			setForecastPlayed(1); //Event Played is set to Forecast, this will be read in controller.cpp
+			//I realized that we need to access the current game instance so this cannot be done in model.h
+			//Instead a flag will set it off
+
+			//cout << "Card effect not implemented yet! Now discarding." << endl << endl;
 			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 		}
@@ -676,8 +678,8 @@ void PandModel::PlayCard(int playernum)
 		if(cardchosenvalue == 57) //One Quiet Night
 		{
 			cout << "Event card played: One Quiet Night!" << endl;
-
-
+			setQuietNightPlayed(1);
+			cout << "The next Infection Phase will be skipped!" << endl;
 			cout << "Card not implemented yet! Discarding card." << endl << endl;
 
 			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
@@ -687,7 +689,8 @@ void PandModel::PlayCard(int playernum)
 		if(cardchosenvalue == 58) //Resilient Population
 		{
 			cout << "Event card played: Resilient Population!" << endl;
-
+			setResilientPlayed(1);
+			
 			cout << "Card not implemented yet! Discarding card." << endl << endl;
 
 			discardPlayCard(players[playernum].cardsonhand[cardchoose]);

@@ -266,6 +266,13 @@ start:
 				if(GameInstance.CheckHand(charnum+1) == 1) //If player has card, allow to play card
 				{GameInstance.PlayCard(charnum+1);}
 
+				if(GameInstance.ReturnForecast() == 1)
+				{
+					cout << "Forecast is being played!  Drawing 6 cards..." << endl;
+					cout << "Not implemented yet!" << endl << endl;
+
+				}
+
 			}
 
 			if(ans == 4)//shuttleFlight
@@ -278,12 +285,7 @@ start:
 			}
 
 
-			//Thinking of expanding this:  6 = List cities
-			//Options: 
-			//1 List cities only
-			//2 List # of infection cubes in each city
-			//3 List research center
-			//etc.
+
 			if(ans == 6) //Tester: This prints all the cities in 3 columns, no additional info.
 			{
 				int printchoice;
