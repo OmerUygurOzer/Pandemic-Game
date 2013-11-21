@@ -173,24 +173,12 @@ int main()
 
 start:
 	int charnum; //temp variable
-	charnum = GameInstance.getTurn(); //Had to change it so it works with SAVE/LOAD functions
+	charnum = GameInstance.getTurn();
 	// debug cout << charnum << endl;
 
-	//Initialize all turns to 0. // done in constructor
-	/*Could someone do a constructor to automatically set this up?
-	for(int i = 0; i < numberofplayers; i++)
-	{
-		GameInstance.ActionsInitialize(i);
-	}*/
 
-	//Gonna give the players some cards for test purposes
-	//GameInstance.ReceiveCard(1, 0);
-	//GameInstance.ReceiveCard(1, 1);
-	//GameInstance.ReceiveCard(1, 9);
-	//GameInstance.ReceiveCard(2, 2);
-	//GameInstance.ReceiveCard(2, 46);
-//	GameInstance.ReceiveCard(3, 4);
-//	GameInstance.ReceiveCard(4, 6);
+
+
 
 	//Starting hand
 	for(int i = 0; i < numberofplayers; i++) 
@@ -206,8 +194,7 @@ start:
 			GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
-	/////Harcoded Cards for testing
-	
+	/////Hardcoded Cards for testing
 	playerCard TESTcard;
 	TESTcard.value = 56; //Testing 56 = Government Grant
 	TESTcard.cardDescription = "Gov Grant";
@@ -236,12 +223,12 @@ start:
 
 
 		//DEBUG cout << "Debug actionsleft:" << GameInstance.getActionsLeft(charnum) << endl << endl;
-
+		//Prints out actions left directly to see how many turns you have before anything happens
 
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
 			into:
-			//cout << string(50, '\n');
+			//cout << string(50, '\n'); //Screen clearer.
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
 			//GameInstance.loadActionsLeft(charnum, GameInstance.getActionsLeft(charnum) - 1);
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
@@ -255,7 +242,6 @@ start:
 			cin>>ans;
 
 
-			/////////////////////////////////////////////////
 			///////////Adjacent Movement////////////////////
 			if(ans == 1)
 			{
@@ -263,16 +249,14 @@ start:
 				newScreen.showNeighbors(temp.location);
 				int moveto;
 				cin>>moveto;
-				//while (  validNeighbor(current location, moveto)   )
-				//True =
+				//need a way to determine if the input is valid
+				//The amount of cities vary.. should we just assume the player will make the correct input?
 				GameInstance.setPlayerLocation(charnum+1, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
-				//False =
-				//cin >>moveto
 				cout << string(10, '\n');
 			}
 			
-			
-			if(ans == 2)//////////////Use card
+			/////////////Use Card/////////////////////////////
+			if(ans == 2)
 			{
 				if(GameInstance.CheckHand(charnum+1) == 0)
 				{
@@ -293,9 +277,28 @@ start:
 				GameInstance.setActionsLeft(charnum, 1);
 			}
 
-			if(ans == 6) //Tester
+
+			//Thinking of expanding this:  6 = List cities
+			//Options: 
+			//1 List cities only
+			//2 List # of infection cubes in each city
+			//3 List research center
+			//etc.
+			if(ans == 6) //Tester: This prints all the cities in 3 columns, no additional info.
 			{
-				newScreen.printCityColumns();
+				int printchoice;
+				cout << "1. Cities only" << endl;
+				cout << "2. Infected Cities" << endl;
+				cout << "3. Research Centers" << endl;
+				cout << endl << "What would you like shown? : ";
+				cin >> printchoice;
+				cout << endl;
+				if(printchoice == 1)
+				{newScreen.printCityColumns();}
+				if(printchoice == 2)
+				{newScreen.showCubeLocations();}
+				if(printchoice ==3)
+				{newScreen.printResearchCenters();}
 				GameInstance.setActionsLeft(charnum,1);
 			}
 
@@ -402,18 +405,10 @@ start:
 
 
 
-			////////////
-			//Profession Ability
-
-
-
-			/////////
-
-
 			////////////Exit Function//////////////////////
-			if(ans == 10)
+			if(ans == 11)
 			{
-				charnum = -2; //Will add up to -1 and cause while loop to end
+				charnum = -2; //Will add up to -1 and cause while loop to end. Kind of just crashes the program
 			}
 
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
@@ -446,15 +441,14 @@ start:
 			GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color, GameInstance.getInfectionRate());
 		}
 		
-		//Debug outputs show the current # of player before and after the changes
-		//cout << "debug charnum before" << charnum << endl;
+
 		//Next Player
 		if(charnum != (numberofplayers-1) ) //If last player, go to first player
 		{charnum++;} //0
 		else if(charnum == numberofplayers-1){charnum = 0;} //go to next player
 
 
-		//cout << "debug charnum after" << charnum << endl;
+
 		
 		cout << string(10, '\n');
 
