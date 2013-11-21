@@ -420,17 +420,31 @@ start:
 		}//end of player turn
 
 		//draw 2 player cards
-		playerCard drawn = GameInstance.drawPlayerCard();//draw from deck
-		//if epidemic card
-		//call epidemic function
-		//else store in hand
-		GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
-		//if already have 7 cards, discard some
+		for(int i = 0; i < 2; i++)
+		{
+			playerCard drawn = GameInstance.drawPlayerCard();//draw from deck
+			PandView newCards(GameInstance);
+			newCards.showPlayCard(drawn);//display play card drawn
+			//if epidemic card
+			if(drawn.value > 47 && drawn.value < 54)//if epidemic card
+			{
+				GameInstance.epidemicDrawn();//call epidemic function
+				i = 2;//end draw
+			}
+			else
+			//else store in hand
+			GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
+			//if already have 7 cards, discard some
+		}
 
 		//draw 2-4 infection cards. How many drawn depends on infection rate.
-		infectionCard tempInfectCard = GameInstance.drawInfectionCard();
-		GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color, GameInstance.getInfectionRate());
-
+		for(int i = 0; i < 2; i++)
+		{
+			infectionCard tempInfectCard = GameInstance.drawInfectionCard();
+			PandView newCards(GameInstance);
+			newCards.showInfectCard(tempInfectCard);//display infection card drawn
+			GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color, GameInstance.getInfectionRate());
+		}
 		
 		//Debug outputs show the current # of player before and after the changes
 		//cout << "debug charnum before" << charnum << endl;

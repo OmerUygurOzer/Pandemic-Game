@@ -23,6 +23,8 @@ public:
 	void showHowManyCardsLeft();//stub
 	void showDiscardedPlayerCards();//stub
 	void showDiscardedInfectionCards();//stub
+	void showPlayCard(playerCard);
+	void showInfectCard(infectionCard);
 	void listDescriptions(int role);//lists the descriptons of roles
 	void listActions(int role);//lists specific role actions
 	void askPlayerNumber();
@@ -183,6 +185,16 @@ void PandView::showHowManyCardsLeft()
 void PandView::showDiscardedInfectionCards()
 {
 	std::cout<<"This function will show the cards that have been discarded \n";
+}
+void PandView::showPlayCard(playerCard card)
+{
+	std::cout<<card.cardType<<" \n";
+	std::cout<<card.cardDescription<<std::endl;
+}
+void PandView::showInfectCard(infectionCard card)
+{
+	std::cout<<"Infect \n";
+	std::cout<<card.cardDescription<<std::endl;
 }
 
 void PandView::listActions(int role){
