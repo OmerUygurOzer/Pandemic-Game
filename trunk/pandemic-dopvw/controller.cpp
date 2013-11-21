@@ -202,7 +202,7 @@ start:
 
 	playerCard TESTcard2;
 	TESTcard2.value = 56;
-	TESTcard.cardDescription = "GovGrantTEST";
+	TESTcard2.cardDescription = "GovGrantTEST";
 	GameInstance.ReceiveCard(1, TESTcard2);
 	
 	///////////////////////////////
