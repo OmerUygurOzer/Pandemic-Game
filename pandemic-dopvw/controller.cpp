@@ -496,7 +496,7 @@ start:
 		}
 
 		//draw 2-4 infection cards. How many drawn depends on infection rate.
-		for(int i = 0; i < 2; i++)
+		for(int i = 0; i < GameInstance.getInfectionRate(); i++)
 		{
 			infectionCard tempInfectCard = GameInstance.drawInfectionCard();
 			PandView newCards(GameInstance);
