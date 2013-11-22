@@ -121,9 +121,12 @@ int main()
 	bool validPlayer;
 	validPlayer = false;
 
-	while(validPlayer == false)
+	while(!validPlayer)
 	{
-		cin >> numberofplayers;
+		char num[256];
+		std::cout<<"Enter how many players: ";
+		std::cin >> num;//this is being skipped the second time around for some reason.
+		numberofplayers = atoi(num);
         if (numberofplayers < 2 )
                 {
                         cout << "There must be at least 2 players!" << endl;
