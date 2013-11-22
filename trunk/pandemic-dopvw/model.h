@@ -77,6 +77,11 @@ class PandModel
 	int ForecastPlayed;
 	int QuietNightPlayed;
 	int ResilientPlayed;
+	// game win/lose variables
+	bool gameWin;
+	bool gameLose;
+	bool cureMarkers[4]; // not too sure how to implement the check to see if all cure markers are true
+
 	//SAVE-LOAD VARIABLES////////////////////////////
 	string availability[6]; //availabilty of the files
 	string gameName[6];
@@ -105,6 +110,8 @@ public:
 	void setloadflag(int x){ loadflag = x; };
 	int colorToInt(char color); // returns int corresponding to color (0,1,2,3 = R,G,B,Y)
 	void epidemicDrawn(); // call when an epidemic card is drawn
+	void GameOver();
+
 
 	void setForecastPlayed(int value){ForecastPlayed = value;}
 	void setQuietNightPlayed(int value){QuietNightPlayed = value;}
@@ -1204,14 +1211,24 @@ void PandModel::addDiseaseCubes(int cityNum, char cubeColr, int infectRate)
 
 }
 
-void GameOver()//<------------needs to be a member function
+void PandModel::GameOver()
 {
 	/* I will add test cases to check for the end of the game:
 	   1. if all four diseases are cured = win
 	   2. if outbreaks reach all the way to the end = lose
 	   3. if unable to place number of disease cubes needed on the board = lose
 	   4. if a player cannot draw two player cards after doing his actions = lose
-	*/
+	   */
+	// case 1
+	// if (cureMarkers == [true, true, true, true])
+	//     gameWin = true;
+	// case 2
+	if (outbreakLevel == 8)
+		gameLose = true;
+	// case 3: still trying to figure out best way to check. maybe if error when cubes are placed?
+	// case 4: still trying to determine how to check if less than 2 player cards are drawn
+
+
 };
 
 #endif
