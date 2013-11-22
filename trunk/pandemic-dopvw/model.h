@@ -91,7 +91,7 @@ class PandModel
 	/////////////////////////////////////////////////
 public:
 	PandModel();
-	//observers
+	//getters
 	city getCityInfo(int citynum) {return cities[citynum];}//maybe seperate into getcityname, getadjcities, getcubes...etc
 	string getCityName(int citynum) {return cities[citynum].cityName;}
 	int getNeighbor(int currentcity, int nextcity){return cities[currentcity].adjacentCities[nextcity];}
@@ -104,6 +104,9 @@ public:
 	int getDiseaseCubes(int cno, int a);
 	int getRCenter(int cno);
 	int getoutbreakLevel();
+	int getInfectionRate(){return infectRateArray[infectionRate];}//for view to access/display infection rate
+	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
+	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	int getDCLeft(int a);//Disease cubes left
 	int getTurn();
 	bool getloadflag(){ return loadflag; };//Whether the game is being loaded or starting as a new game
@@ -120,7 +123,7 @@ public:
 	int ReturnQuietNight(){return QuietNightPlayed;}
 	int returnResilient(){return ResilientPlayed;}
 
-	Playerchar getPlayerInfo(int playernum){return players[playernum];}
+	
 	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck
 	infectionCard drawInfectionCard();//will draw from top of infection deck
 	void placeInfectionCard(infectionCard temp); //Place a card on top of infection deck
@@ -131,6 +134,7 @@ public:
 	void FillAdjacent(int a, int b, int c, int d, int e, int f, int g, int citynum);
 	//void FillValue(int x) {value = x;};
 	bool isAdjacent(int x);	//For ground travel, will check if desired destination is included in adjacentCities
+
 	//setters
 	void setPlayerName(int playernum, std::string name);
 	void setPlayerRole(int playernum, int profession, std::string profName);
@@ -143,10 +147,8 @@ public:
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
 	
 
-	int getInfectionRate(){return infectRateArray[infectionRate];}//for view to access/display infection rate
-	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
-	void setInfectionRate();//stub
-	void setOutbreakLevel();//stub
+	
+
 	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
 	
 	void shuffleInfectionDeck(deque<infectionCard> &shuffleDeck);//shuffle infection deck pass in a deque<infectionCard>
@@ -846,12 +848,6 @@ void PandModel::discardPlayCard(playerCard discarding)
 }
 
 
-
-
-void PandModel::setOutbreakLevel()//stub
-{
-			//std::cout<<"Outbreak Level Increases \n";
-}
 
 void PandModel::outbreak(int cityNum)//stub
 {
