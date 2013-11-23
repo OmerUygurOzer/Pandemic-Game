@@ -106,6 +106,8 @@ public:
 	int getoutbreakLevel();
 	int getInfectionRate(){return infectRateArray[infectionRate];}//for view to access/display infection rate
 	int getPlayerRole(int playerNo){ return players[playerNo].profession; } //returns the player role
+	int getNumPlayCardsLeft(){return PlayerDeckD.size();}//
+
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
 	int getDCLeft(int a);//Disease cubes left
 	int getTurn();
