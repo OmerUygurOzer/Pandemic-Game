@@ -21,6 +21,7 @@ struct city//empty city container
 	char cityColor;//city color
 	int diseasecubes[4]; //Number of disease cubes currently for each of the 4 colors(0,1,2,3 = red,black,blue,yellow)
 	bool researchcenter; //Could be a bool instead, 0 or 1 to indicate presence of a research center
+	int value;
 	
 };
 
@@ -89,6 +90,9 @@ class PandModel
 	int playerturn;
 	bool loadflag;
 	/////////////////////////////////////////////////
+
+	////outbreak tracker for chain outbreak
+	std::deque<city> trackInfect;//every city infected will be tracked. Could return this into main and use view to display
 public:
 	PandModel();
 	//getters
@@ -156,7 +160,7 @@ public:
 	void shuffleInfectionDeck(deque<infectionCard> &shuffleDeck);//shuffle infection deck pass in a deque<infectionCard>
 	void shufflePlayerDeck(deque<playerCard> & shuffleDeck);//shuffle player deck pass in a deque<playerCard>
 	void mergeInfectionDecks(deque<infectionCard> &deckA, deque<infectionCard> &deckB); // puts deckA on top of deckB
-	void outbreak(int city);//stub
+	void outbreak(int city);
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
 	
@@ -298,7 +302,7 @@ PandModel::PandModel()//constructor
 		 PlayerDeckD.push_back(playerDeck[i]);
 	 shufflePlayerDeck(PlayerDeckD);
 
-
+	 //initialize map
 	 for(int i = 0; i < 48; i++)
 	{
 		cities[i].cityName = cityname[i];
@@ -306,7 +310,7 @@ PandModel::PandModel()//constructor
 		cities[i].researchcenter = 0;
 		for(int j = 0; j < 4; j++)
 			cities[i].diseasecubes[j] = 0;//initialize cube count to 0
-
+		cities[i].value = i;
 	}
 
 
@@ -851,44 +855,7 @@ void PandModel::discardPlayCard(playerCard discarding)
 
 
 
-void PandModel::outbreak(int cityNum)//stub
-{
-	city temp = getCityInfo(cityNum);
 
-	//std::cout<<"Outbreak will infect neighboring cities with current city color infection \n";
-	//when outbreak occurs. move outbreak marker forward 1 space.(increase outbreak level by 1)
-	outbreakLevel++;
-	char cubeColor = temp.cityColor;
-	//0,1,2,3 = red,black,blue,yellow
-	int infectIndex;
-	if(cubeColor == 'R') infectIndex = 0;
-	else if(cubeColor == 'G') infectIndex = 1;
-	else if(cubeColor == 'B') infectIndex = 2;
-	else if(cubeColor == 'Y') infectIndex = 3;
-	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
-	int i = 0;
-	while(cities[cityNum].adjacentCities[i] != -1)
-	{
-		//infect cities with cubes of city colors
-		//if neighbor has 3 already, do not add 4th
-		//instead of adding 4th, a chain reaction outbreak occurs after current outbreak is complete
-		if(cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] < 3)
-			cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex]++;//increase disease cube count by 1 at neighbors
-		else if (cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)
-			//cause a chain reaction outbreak
-			outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)
-			//(phat)do I want to do a recursive call?
-		i++;
-	
-	
-	
-	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
-		//(phat)found city with 3 cubes, infect neighbors if not already infected. Check through array
-	//except do not add to cities that have already had an outbreak or chain outbreak.
-		//(phat)keep track of cities that have already been infected maybe with an array of already infected cities.
-	//cities can have up to 3 diseasce cubes of each color.
-	}
-}
 
 void PandModel::Load(int loadf){
 	string temp;
@@ -1207,6 +1174,62 @@ void PandModel::addDiseaseCubes(int cityNum, char cubeColr)
 	else
 		cities[cityNum].diseasecubes[cubeIndex] = cities[cityNum].diseasecubes[cubeIndex] + 1;
 
+}
+void PandModel::outbreak(int cityNum)//
+{
+	city temp = getCityInfo(cityNum);
+
+	//std::cout<<"Outbreak will infect neighboring cities with current city color infection \n";
+	//when outbreak occurs. move outbreak marker forward 1 space.(increase outbreak level by 1)
+	outbreakLevel++;
+	char cubeColor = temp.cityColor;
+	//0,1,2,3 = red,black,blue,yellow
+	int infectIndex;
+	if(cubeColor == 'R') infectIndex = 0;
+	else if(cubeColor == 'G') infectIndex = 1;
+	else if(cubeColor == 'B') infectIndex = 2;
+	else if(cubeColor == 'Y') infectIndex = 3;
+	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
+	int i = 0;
+	bool alreadyInfected = false;
+	while(cities[cityNum].adjacentCities[i] != -1)
+	{
+		
+		//infect cities with cubes of city colors
+		//if neighbor has 3 already, do not add 4th
+		//instead of adding 4th, a chain reaction outbreak occurs after current outbreak is complete
+		if(cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] < 3)
+		{
+			for(int j = 0; j < trackInfect.size(); j++)//go through infect track to see if already infected
+			{
+				if(cities[cities[cityNum].adjacentCities[i]].value == trackInfect[j].value)
+				{
+					alreadyInfected = true;
+					break;
+				}
+			}
+			if(!alreadyInfected)//if not already infected, infect and add to tracker
+			{
+				cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex]++;//increase disease cube count by 1 at neighbors
+				trackInfect.push_back(cities[cities[cityNum].adjacentCities[i]]);//add infected city to tracker
+			}
+			
+		}
+		else if (cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)//cause another outbreak at this city
+		{
+			//outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)//done recursively
+			//cause a chain reaction outbreak recursively
+			PandModel::outbreak(cities[cities[cityNum].adjacentCities[i]].value);
+		}
+		i++;
+	
+
+	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
+		//(phat)found city with 3 cubes, infect neighbors if not already infected. Check through array
+	//except do not add to cities that have already had an outbreak or chain outbreak.
+		//(phat)keep track of cities that have already been infected maybe with an array of already infected cities.
+	//cities can have up to 3 diseasce cubes of each color.
+	}
 }
 
 void PandModel::GameOver()
