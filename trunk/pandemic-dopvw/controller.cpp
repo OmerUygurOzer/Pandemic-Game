@@ -508,7 +508,7 @@ start:
 			PandView newCards(GameInstance);
 			newCards.showInfectCard(tempInfectCard);//display infection card drawn
 			//will need a check to see if 3 cubes already exist, if so, dont add 3 but cause outbreak
-			GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color, GameInstance.getInfectionRate());
+			GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color);
 		}
 		
 
