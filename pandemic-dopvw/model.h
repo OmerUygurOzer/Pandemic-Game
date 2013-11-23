@@ -1230,6 +1230,8 @@ void PandModel::outbreak(int cityNum)//
 		//(phat)keep track of cities that have already been infected maybe with an array of already infected cities.
 	//cities can have up to 3 diseasce cubes of each color.
 	}
+	//reset tracker
+	trackInfect.clear();
 }
 
 void PandModel::GameOver()
