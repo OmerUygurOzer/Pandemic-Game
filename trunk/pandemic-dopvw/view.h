@@ -20,7 +20,7 @@ public:
 	void showCubeLocations();//
 	void showPlayersLocation(int numberofplayers);//
 	void showInfectionLevel();//stub
-	void showHowManyCardsLeft();//stub
+	void showHowManyPlayerCardsLeft();//stub
 	void showDiscardedPlayerCards();//stub
 	void showDiscardedInfectionCards();//stub
 	void showPlayCard(playerCard);
@@ -182,10 +182,7 @@ void PandView::showInfectionLevel()
 	int temp = model.getInfectionRate();
 	std::cout<<"Current Level of infection: " << temp<< std::endl;
 }
-void PandView::showHowManyCardsLeft()
-{
-	std::cout<<"This function will show how many cards are remaining in the deck \n";
-}
+
 void PandView::showDiscardedInfectionCards()
 {
 	std::cout<<"This function will show the cards that have been discarded \n";
@@ -311,4 +308,10 @@ void PandView::listDescriptions(int role)
 
 	std::cout << std::endl;
 };
+
+void PandView::showHowManyPlayerCardsLeft()
+{
+	int amt= model.getNumPlayCardsLeft();
+	std::cout<<"There are " << amt << " play cards left \n";
+}
 #endif

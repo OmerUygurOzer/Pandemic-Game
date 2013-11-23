@@ -4,6 +4,7 @@
 #include <stack>
 #include <string>
 #include <algorithm>
+#include <Windows.h>
 
 using namespace std;
 
@@ -490,13 +491,15 @@ start:
 			if(drawn.value > 47 && drawn.value < 54)//if epidemic card
 			{
 				GameInstance.epidemicDrawn();//call epidemic function
-				i = 2;//end draw
+				//i = 2;//end draw//read the manual again and it says it is possible to draw 2 epidemic cards
 			}
 			else
 			//else store in hand
 			GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
 			//if already have 7 cards, discard some
+			newCards.showHowManyPlayerCardsLeft();
 		}
+		
 
 		//draw 2-4 infection cards. How many drawn depends on infection rate.
 		for(int i = 0; i < GameInstance.getInfectionRate(); i++)
