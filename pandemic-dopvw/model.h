@@ -89,6 +89,7 @@ class PandModel
 	int numberOfPlayers;
 	int playerturn;
 	bool loadflag;
+	infectionCard SL_IC[48]; //Added by Omer for Save/Load Functions. Doesn't change the already implemented algorithm
 	/////////////////////////////////////////////////
 
 	////outbreak tracker for chain outbreak
@@ -190,6 +191,7 @@ public:
 	void loadinfectionRate(int ir);
 	void loadDCLeft(int a, int b, int c, int d);
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	void assignRoles();
 };
 
 PandModel::PandModel()//constructor
@@ -208,6 +210,8 @@ PandModel::PandModel()//constructor
 	ResilientPlayed = 0;
 	playerturn = 0; //turn indicator
 	loadflag = false;
+
+		
 
 	//SAVE-LOAD ////////////////////////////////////////////////////////////////////////////////////////////////
 	string str;//temporary string
@@ -254,12 +258,17 @@ PandModel::PandModel()//constructor
 		 players[3].cardsonhand[i].value = -1;
 	 }
 	 infectionCard infectCard;
+	
 	 for(int i = 0; i<48; i++)//city cards for infection deck populated but not shuffled
 	 {
 		 infectCard.cardType = "City";
+		 SL_IC[i].cardType = "City";//Added by Omer for Save/Load Functions. Doesn't change the already implemented algorithm
 		 infectCard.cardDescription = cityname[i];
+		 SL_IC[i].cardDescription = cityname[i];
 		 infectCard.city = i;
-		 infectCard.color = colorToInt(citycolors[i]);  // set infection card color
+		 SL_IC[i].city = i;
+		 infectCard.color = colorToInt(citycolors[i]);// set infection card color
+		 SL_IC[i].color = colorToInt(citycolors[i]);
 		 infectionDeck.push_back(infectCard);//add onto infectiondeck after info populated 
 	 }
 	 shuffleInfectionDeck(infectionDeck);//shuffle deck at start of game
@@ -444,6 +453,28 @@ void PandModel::Update(){
 		}
 	}
 	mainf.close();
+}
+
+void PandModel::assignRoles(){
+	// ROLES ARE ASSIGNED RANDOMLY /////////////////////////////////////////
+
+	char roles[7] = { 'a', 'a', 'a', 'a', 'a', 'a', 'a' };   //To keep a track of roles that are still available
+	string rolenames[7] = { "Contingency Plan", "Dispatcher", "Medic", "Operations Expert", "Quarantine Specialist", "Researcher", "Scientist" }; //RoleNames
+
+	for (int i = 0; i < numberOfPlayers; i++)
+	{
+		srand(time(NULL));
+		bool taken = false;
+		while (taken == false){ //Player roles are set(randomly)
+			int p = rand() % 7;
+			if (!(roles[p] == 't')){
+				setPlayerRole(i, p, rolenames[p]);
+				roles[p] = 't';
+				taken = true;
+			}
+		}
+	}
+	////////////////////////////////////////////////////////////////////////
 }
 
 string PandModel::GetAvail(int x){ return availability[x]; }
@@ -864,6 +895,7 @@ void PandModel::Load(int loadf){
 	int playernum;
 	int dcubes[4];
 	loadflag = true;
+	int decksize;
 
 	if (loadf == 1){savef.open("Save#1.txt");}
 	if (loadf == 2){savef.open("Save#2.txt");}
@@ -928,9 +960,11 @@ void PandModel::Load(int loadf){
 	savef >> temp;
 	tempint = atoi(temp.c_str());
 	loadoutbreakLevel(tempint);
-	savef >> temp;
-	tempint = atoi(temp.c_str());
-	loadinfectionRate(tempint);
+	for (int i = 0; i < 7; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		infectRateArray[i] = tempint;
+	}
 	savef >> temp;
 	dcubes[0] = atoi(temp.c_str());
 	savef >> temp;
@@ -940,6 +974,59 @@ void PandModel::Load(int loadf){
 	savef >> temp;
 	dcubes[3] = atoi(temp.c_str());
 	loadDCLeft(dcubes[0], dcubes[1], dcubes[2], dcubes[3]);
+	savef >> temp;
+	tempint = atoi(temp.c_str());
+	ForecastPlayed = tempint;
+	savef >> temp;
+	tempint = atoi(temp.c_str());
+	QuietNightPlayed = tempint;
+	savef >> temp;
+	tempint = atoi(temp.c_str());
+	ResilientPlayed = tempint;
+	
+	//NEW LINE
+
+	savef >> temp;//savef << "CardsRelatedVariables:";
+	//savef << " ";
+	for (int i = 0; i < numberOfPlayers; i++){
+		savef >> temp;//savef << "Player" << i << "Deck";
+		//savef << " ";
+		for (int x = 0; x < 7; x++){
+			savef >> temp;//savef << players[i].cardsonhand[x].value;
+			//savef << " ";
+			tempint = atoi(temp.c_str());
+			players[i].cardsonhand[x].value = tempint;
+			
+		}
+	}
+
+	savef >> temp; // savef << "DiscardedInfection:";
+	//savef << " ";
+	savef >> temp;
+	decksize = atoi(temp.c_str());
+	discardInfectionDeck.clear();
+
+	for (int i = 0; i < decksize; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		discardInfectionDeck.push_back(SL_IC[tempint]);
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		discardInfectionDeck.back().color = tempint;
+	}
+	
+	savef >> temp; // savef << "DiscardedPlayer:";
+	//savef << " ";
+	savef >> temp;//savef << discardPlayerDeckD.size();
+	decksize = atoi(temp.c_str());
+	//savef << " ";
+	discardPlayerDeckD.clear();
+	for (int i = 0; i < decksize; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		discardPlayerDeckD.push_back(playerDeck[tempint]);
+	}
+
 	savef.close();
 
 
@@ -951,6 +1038,8 @@ void PandModel::Save(int savefile , string sfname, int turn){
 	string contents="";
 	fstream savef;
 	bool begfound=false;
+	int tempint;
+
 	if (savefile == 1){
 		std::ofstream("Save#1.txt", std::ios::out).close();
 		savef.open("Save#1.txt");
@@ -1028,8 +1117,10 @@ void PandModel::Save(int savefile , string sfname, int turn){
 		savef << " ";
 		savef << getoutbreakLevel();
 		savef << " ";
-		savef << getInfectionRate();
-		savef << " ";
+		for (int i = 0; i < 7; i++){
+			savef << infectRateArray[i];
+			savef << " ";
+		}
 		savef << getDCLeft(0);
 		savef << " ";
 		savef << getDCLeft(1);
@@ -1037,6 +1128,70 @@ void PandModel::Save(int savefile , string sfname, int turn){
 		savef << getDCLeft(2);
 		savef << " ";
 		savef << getDCLeft(3);
+		savef << " ";
+		savef << ForecastPlayed;
+		savef << " ";
+		savef << QuietNightPlayed;
+		savef << " ";
+		savef << ResilientPlayed;
+		savef << " ";
+
+		//NEW LINE
+
+		savef << endl;
+
+		savef << "CardsRelatedVariables:";
+		savef << " ";
+		for (int i = 0; i < numberOfPlayers; i++){
+			savef << "Player" << i+1 << "Deck";
+			savef << " ";
+			for (int x = 0; x < 7; x++){
+				savef << players[i].cardsonhand[x].value;
+				savef << " ";
+			}
+		}
+		savef << "DiscardedInfection:";
+		savef << " ";
+		savef << discardInfectionDeck.size();
+		savef << " ";
+		std::deque<infectionCard> copyIC;
+		tempint = discardInfectionDeck.size();
+		for (int i = 0; i < tempint; i++){
+			copyIC.push_back(discardInfectionDeck.back());
+			savef << discardInfectionDeck.back().city;
+			savef << " ";
+			savef << discardInfectionDeck.back().color;
+			discardInfectionDeck.pop_back();
+			savef << " ";
+		}
+		//RELOADING THE DISCARDED INFECTION DECK
+		for (int i = 0; i < tempint; i++){
+			discardInfectionDeck.push_back(copyIC.back());
+			copyIC.pop_back();
+		}
+
+		savef << "DiscardedPlayer:";
+		savef << " ";
+		savef << discardPlayerDeckD.size();
+		savef << " ";
+		std::deque<playerCard> copyPC;
+		tempint = discardPlayerDeckD.size();
+		for (int i = 0; i < tempint; i++){
+			copyPC.push_back(discardPlayerDeckD.back());
+			savef << discardPlayerDeckD.back().value;
+			discardPlayerDeckD.pop_back();
+			savef << " ";
+		}
+
+		//RELOADING THE DISCARDED PLAYER DECK
+		for (int i = 0; i < tempint; i++){
+			discardPlayerDeckD.push_back(copyPC.back());
+			copyPC.pop_back();
+		}
+
+
+
+
 
 		savef.close();
 		
@@ -1051,7 +1206,7 @@ void PandModel::Save(int savefile , string sfname, int turn){
 			if (contents[i] == '#'){ counter++; }
 			strc++;
 			if ((counter == savefile) && !begfound){ strbeg = i+1; begfound = true; }
-			if (counter == savefile +1){ strc = strc - 3;  goto out; }
+			if (counter == savefile +1){ strc = strc - 2;  goto out; }
 	
 		}
 	out:

@@ -151,24 +151,13 @@ int main()
 
   
 	GameInstance.setnumberOfPlayers(numberofplayers);
-
-	// ROLES ARE ASSIGNED RANDOMLY /////////////////////////////////////////
+	GameInstance.assignRoles();//Assigns random roles
 
 	for(int i = 0; i < numberofplayers; i++) 
 	{
 		cout << "Please enter the name of player " <<i+1<< endl;
 		cin >> player[i];
 		GameInstance.setPlayerName(i,player[i]);//set player names
-		srand(time(NULL));
-		bool taken = false;
-		while (taken == false){ //Player roles are set(randomly)
-			int p = rand() % 7;
-			if (!(roles[p] == 't')){
-				GameInstance.setPlayerRole(i, p, rolenames[p]);
-				roles[p] = 't';
-				taken = true;
-			}
-		}
 	}
 	////////////////////////////////////////////////////////////////////////
 
@@ -450,34 +439,6 @@ start:
 				goto load;
 			}
 
-
-
-
-			///////////////////////////////////////////////////////////
-			// WILL WORK ON IT LATER
-			/*if (ans == 7)
-			{
-				if ((temp.profession == 0) & !(temp.extracardFlag)){
-					
-					cout << endl << "Pick a card:";
-					GameInstance.performRoleActions(charnum, 7,0);
-
-				}
-				if ((temp.profession == 0) & (temp.extracardFlag)){
-					cout << endl << "You already have a card!";
-				}
-				if (temp.profession == 1){
-
-					Screens.showPlayersLocation(numberofplayers);
-					cout << 
-					GameInstance.performRoleActions(charnum, 7,0);
-
-				}
-
-			
-			}
-
-			*/
 
 
 
