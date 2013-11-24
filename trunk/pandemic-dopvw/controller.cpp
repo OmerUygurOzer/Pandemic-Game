@@ -74,6 +74,15 @@ int main()
 	PandModel testdeck;
 	infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
 
+	////outbreak tests
+	PandModel testOutbreak;
+	testOutbreak.outbreak(1);//outbreak atlanta
+	testOutbreak.outbreak(1);//outbreak atlanta
+	testOutbreak.outbreak(1);//outbreak atlanta
+	//testOutbreak.outbreak(1);//outbreak atlanta should cause chain
+	PandView showOutbreak(testOutbreak);
+	showOutbreak.showCubeLocations();
+
 	// Opening introduction and asking for number of players
 	Screens.showIntro();
 

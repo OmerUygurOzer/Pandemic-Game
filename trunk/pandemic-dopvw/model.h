@@ -1219,7 +1219,7 @@ void PandModel::outbreak(int cityNum)//
 		{
 			//outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)//done recursively
 			//cause a chain reaction outbreak recursively
-			PandModel::outbreak(cities[cities[cityNum].adjacentCities[i]].value);
+			//outbreak(cities[cities[cityNum].adjacentCities[i]].value);
 		}
 		i++;
 	
