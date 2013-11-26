@@ -49,9 +49,10 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	int location; //This will be the ID number of the city the character is currently located.
 	
 
-	////change cardsonhand to linked list
-	playerCard cardsonhand[7]; //Player can hold 7 cards
-	playerCard CPextracard; //Extra card for the contigency planner
+
+	playerCard cardsonhand[9]; //Player can hold 7 cards   --Upped to 9. --Vu
+	int numOfCards;
+	//playerCard CPextracard; //Extra card for the contigency planner   --Working on a workaround  --Vu
 	bool extracardFlag;// = false; //whether a card is chosen already or not
 
 
@@ -166,16 +167,27 @@ public:
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
 	
-	void PlayCard(int playernum); //Stub
+	void PlayCard(int playernum);
+	void PlayEventCard(int playernum, int eventvalue, int cardchoose);
 	int CheckHand(int playernum) {	//If player has non-blank card, return 1
 		int z = 0;
-		for(int i = 0; i < 7; i++)
+		for(int i = 0; i < 9; i++)
 		{if(players[playernum].cardsonhand[i].value != -1)
 		{z = 1;}
 		}
 		return z;
 	}
 	void ReceiveCard(int playernum, playerCard card);
+	
+	void discardCard(int playernum, playerCard card);
+	int cardcount(int playernum)
+	{
+		players[playernum].numOfCards = 0;
+		for(int i = 0; i < 9; i++)
+		{if(players[playernum].cardsonhand[i].value != -1){players[playernum].numOfCards = players[playernum].numOfCards + 1;}}
+		return players[playernum].numOfCards;}
+	void cleanHand(int playernum); //Cleans up the player's hand
+
 
 	// SAVE-LOAD/////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Save(int loadf, string sfname, int turn);
@@ -252,7 +264,7 @@ PandModel::PandModel()//constructor
 		 diseaseCubes[i] = 24;
 	 }
 
-	 for(int i = 0; i < 7; i++) //Empty player hand initialize    -Vu
+	 for(int i = 0; i < 9; i++) //Empty player hand initialize    -Vu
 	 {
 		 players[0].cardsonhand[i].value = -1; //Basically with value =-1, the player is holding "blank" cards
 		 players[1].cardsonhand[i].value = -1; //If card is a blank, allow receiving of a real card
@@ -516,7 +528,7 @@ void PandModel::ReceiveCard(int playernum, playerCard card)
 {
 	int z = 0; //Variable check
 
-	for(int i = 0; i < 7; i++)
+	for(int i = 0; i < 9; i++)
 	{
 		if(players[playernum].cardsonhand[i].value == -1)
 		{
@@ -539,7 +551,7 @@ void PandModel::PlayCard(int playernum)
 	cout << "Cards on hand:" << endl;
 	//cout << "Color || Type || Name - Effect" << endl;
 
-	for(int i = 0; i < 7; i++)
+	for(int i = 0; i < 9; i++)
 	{
 		
 		if(players[playernum].cardsonhand[i].value != -1)
@@ -631,27 +643,35 @@ void PandModel::PlayCard(int playernum)
 	{
 		setActionsLeft(playernum-1, 1); //Event card takes up no turns
 		cout << "Playing an event card: ";
+		PlayEventCard(playernum, cardchosenvalue, cardchoose);
+	}
 
-		if(cardchosenvalue == 54)
+
+}
+
+void PandModel::PlayEventCard(int playernum, int eventvalue, int cardchoose)
+{
+	int cardchosenvalue = eventvalue;
+
+///////////AIRLIFT////////////////////
+	if(cardchosenvalue == 54)
 		{
 			
 			cout << "Event Played: Airlift!" << endl << endl;
-
+	////AirLift Data Output////
 	for(int i = 0; i < 16; i++)
         {
                 cout << left << setw(3) << i    << "  " << setw(20) << cities[i].cityName;
                 cout << left << setw(3) << i+16 << "  " << setw(20) << cities[i+16].cityName;
                 cout << left << setw(3) << i+32 << "  " << setw(20) << cities[i+32].cityName << endl;
         }
-
-
-
-
 			cout << "Player locations:" << endl;
 			for(int i = 0; i < numberOfPlayers; i++)
 			{
 				cout << i << "  " << players[i].playerName << " : " << cities[players[i].location].cityName << endl;
 			}
+	//////////////////////////
+
 
 			int chooseplayer;
 			int chooselocation;
@@ -673,26 +693,22 @@ void PandModel::PlayCard(int playernum)
 
 			
 		}
-
+//////////////////FORECAST///////////////////////
 		if(cardchosenvalue == 55) //Forecast
 		{
 			cout << "Event card played: Forecast!" << endl;
-			//cout << "Drawing 6 cards..." << endl;
-			setForecastPlayed(1); //Event Played is set to Forecast, this will be read in controller.cpp
-			//I realized that we need to access the current game instance so this cannot be done in model.h
-			//Instead a flag will set it off
-
-			//cout << "Card effect not implemented yet! Now discarding." << endl << endl;
+			setForecastPlayed(1); //Forecast has to be played in controller.cpp, this flag plays it
 			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 		}
 
-		if(cardchosenvalue == 56) //Government Grant
+/////////////////GOVERNMENT GRANT/////////////
+		if(cardchosenvalue == 56)
 		{
 			cout << "Event card played: Government Grant!" << endl << endl;
 			cout << "Listing Cities in regard to possession of Research Stations..." << endl;
-		for(int i = 0; i < 16; i++)
-        {
+			for(int i = 0; i < 16; i++)
+			 {
                 cout << left << setw(2) << i    << "  " << setw(16) << cities[i].cityName;
 				if(returnResearch(i) == 1){ cout << setw(5) << ":Yes";}
 				else {cout << setw(5) << ":No";}
@@ -704,8 +720,7 @@ void PandModel::PlayCard(int playernum)
                 cout << left << setw(3) << i+32 << "  " << setw(16) << cities[i+32].cityName;
 				if(returnResearch(i+32) == 1){ cout << setw(5) << ":Yes" << endl;}
 				else {cout << setw(5) << ":No" << endl;}
-		
-		}
+			}
 		int citychosen;
 		cout << "Choose a city (0-47): ";
 		cin >> citychosen;
@@ -724,7 +739,7 @@ void PandModel::PlayCard(int playernum)
 			cout << string(5, '\n');
 			}
 		}
-
+////////ONE QUIET NIGHT///////////////////////////// --Needs work
 		if(cardchosenvalue == 57) //One Quiet Night
 		{
 			cout << "Event card played: One Quiet Night!" << endl;
@@ -735,7 +750,7 @@ void PandModel::PlayCard(int playernum)
 			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 		}
-
+/////////RESILIENT POPULATION/////////////////////  --Draw infection card, never play or push it
 		if(cardchosenvalue == 58) //Resilient Population
 		{
 			cout << "Event card played: Resilient Population!" << endl;
@@ -746,12 +761,28 @@ void PandModel::PlayCard(int playernum)
 			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 		}
+}
+////////////////////////////////
 
-
+void PandModel::cleanHand(int playernum)
+{
+	playerCard tempdeck[9]; //Holds cleaned up values
+	for(int i = 0; i < 9; i++)
+	{tempdeck[i].value = -1;} //Initiliaze
+	int z = 0;
+	for(int i = 0; i < 9; i++)
+	{
+		if(players[playernum].cardsonhand[i].value != -1)
+		{
+			tempdeck[z] = players[playernum].cardsonhand[i];
+			z = z + 1; //Increase tempdeck counter
+		}
 	}
 
-
+	for(int i = 0; i < 9; i++)
+	{players[playernum].cardsonhand[i] = tempdeck[i];} //Pass back cleaned hand
 }
+
 
 void PandModel::ShuttleFlight(int playernum)
 {

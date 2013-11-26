@@ -448,6 +448,7 @@ start:
 				charnum = -2; //Will add up to -1 and cause while loop to end. Kind of just crashes the program
 			}
 
+			GameInstance.cleanHand(charnum+1);
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
 		}//end of player turn
 
