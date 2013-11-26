@@ -29,9 +29,6 @@
     <ClInclude Include="view.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="roleactions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Save#2.txt" />

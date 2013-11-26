@@ -20,7 +20,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v100</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -81,7 +81,6 @@
   <ItemGroup>
     <ClInclude Include="controller.h" />
     <ClInclude Include="model.h" />
-    <ClInclude Include="roleactions.h" />
     <ClInclude Include="view.h" />
   </ItemGroup>
   <ItemGroup>
