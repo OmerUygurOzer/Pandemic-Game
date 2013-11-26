@@ -76,13 +76,20 @@ int main()
 
 	////outbreak tests
 	PandModel testOutbreak;
+	if (true)
+	{
+		PandView showOutbreak(testOutbreak);
+		showOutbreak.showCubeLocations();
+	}
 	testOutbreak.outbreak(1);//outbreak atlanta
 	testOutbreak.outbreak(1);//outbreak atlanta
 	testOutbreak.outbreak(1);//outbreak atlanta
 	testOutbreak.outbreak(1);//outbreak atlanta should cause chain
-	PandView showOutbreak(testOutbreak);
-	showOutbreak.showCubeLocations();
-
+	if (true)
+	{
+		PandView showOutbreak(testOutbreak);
+		showOutbreak.showCubeLocations();
+	}
 	// Opening introduction and asking for number of players
 	Screens.showIntro();
 

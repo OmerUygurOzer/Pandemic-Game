@@ -1380,6 +1380,7 @@ void PandModel::outbreak(int cityNum)//
 	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
 	int i = 0;
 	bool alreadyInfected = false;
+	std::deque<int> chainThese;
 	while(cities[cityNum].adjacentCities[i] != -1)
 	{
 		
@@ -1403,16 +1404,9 @@ void PandModel::outbreak(int cityNum)//
 			}
 			
 		}
-		else if(cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)
-			int z = 0;//dummy. need to save city value of those we need to chain outbreak. make another deque.
-		//needs to happen after the outbreak is complete. When complete, we should have a completed already infected list.
-		/*else if (cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)//if this neighbor has 3 cubes, cause another outbreak at this city
-		{
-			outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)//done recursively
-			//cause a chain reaction outbreak recursively
-			trackOutbreak++;
-			outbreak(cities[cities[cityNum].adjacentCities[i]].value);//cause outbreak at this neighbor
-		}*/
+		else if(cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)//if this neighbor has 3 cubes, cause another outbreak at this city
+			chainThese.push_back(cities[cities[cityNum].adjacentCities[i]].value);	 //need to save city value of those we need to chain outbreak. make another deque.
+		
 		i++;
 	
 		
@@ -1422,6 +1416,16 @@ void PandModel::outbreak(int cityNum)//
 		//(phat)keep track of cities that have already been infected maybe with an array of already infected cities.
 	//cities can have up to 3 diseasce cubes of each color.
 	}
+	//needs to happen after the outbreak is complete. When complete, we should have a completed already infected list.
+		while (chainThese.size()>0)
+		{
+			outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)//done recursively
+			//cause a chain reaction outbreak recursively
+			trackOutbreak++;
+
+			//chainOutbreak(chainThese.front(),cubecolor);//cause outbreak at this neighbor
+			chainThese.pop_front();
+		}
 	//reset tracker
 	if(trackOutbreak == 0)
 		trackInfect.clear();//have to stop this when recursion maybe an int counter only if at base recursion
