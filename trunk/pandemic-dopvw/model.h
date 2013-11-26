@@ -73,6 +73,7 @@ class PandModel
 	std::deque<playerCard> discardPlayerDeckD;//discarded player cards
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 	int outbreakLevel;//0-8, if 8 game is over?
+	int trackOutbreak;//used for outbreak infected list
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
 	int infectRateArray[7]; //represents the infection rate  2-2-2-3-3-4-4
 	int ForecastPlayed;
@@ -197,6 +198,7 @@ public:
 PandModel::PandModel()//constructor
 {
 	outbreakLevel = 0;
+	trackOutbreak = 0;
 	infectionRate = 0;
 	infectRateArray[0] = 2;
 	infectRateArray[1] = 2;
@@ -1372,9 +1374,10 @@ void PandModel::outbreak(int cityNum)//
 		}
 		else if (cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)//cause another outbreak at this city
 		{
-			//outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)//done recursively
+			outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)//done recursively
 			//cause a chain reaction outbreak recursively
-			//outbreak(cities[cities[cityNum].adjacentCities[i]].value);
+			trackOutbreak++;
+			//outbreak(cities[cities[cityNum].adjacentCities[i]].value);//cause outbreak at this neighbor
 		}
 		i++;
 	
@@ -1386,7 +1389,9 @@ void PandModel::outbreak(int cityNum)//
 	//cities can have up to 3 diseasce cubes of each color.
 	}
 	//reset tracker
-	trackInfect.clear();
+	if(trackOutbreak == 0)
+		trackInfect.clear();//have to stop this when recursion maybe an int counter only if at base recursion
+	else trackOutbreak--;
 }
 
 void PandModel::GameOver()

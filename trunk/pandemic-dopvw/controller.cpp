@@ -79,7 +79,7 @@ int main()
 	testOutbreak.outbreak(1);//outbreak atlanta
 	testOutbreak.outbreak(1);//outbreak atlanta
 	testOutbreak.outbreak(1);//outbreak atlanta
-	//testOutbreak.outbreak(1);//outbreak atlanta should cause chain
+	testOutbreak.outbreak(1);//outbreak atlanta should cause chain
 	PandView showOutbreak(testOutbreak);
 	showOutbreak.showCubeLocations();
 
