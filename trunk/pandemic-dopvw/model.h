@@ -164,6 +164,7 @@ public:
 	void shufflePlayerDeck(deque<playerCard> & shuffleDeck);//shuffle player deck pass in a deque<playerCard>
 	void mergeInfectionDecks(deque<infectionCard> &deckA, deque<infectionCard> &deckB); // puts deckA on top of deckB
 	void outbreak(int city);
+	void chainOutbreak(int cityNum, char color);
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
 	
@@ -1420,7 +1421,8 @@ void PandModel::outbreak(int cityNum)//
 		while (chainThese.size()>0)
 		{
 			outbreakLevel++;//when chain reaction outbreak occurs, move outbreak marker by 1(increase outbreak level by 1)//done recursively
-			//cause a chain reaction outbreak recursively
+			//cause a chain reaction outbreak
+			chainOutbreak(chainThese.front(), cubeColor);//will use the cube color of orginal outbreak
 			trackOutbreak++;
 
 			//chainOutbreak(chainThese.front(),cubecolor);//cause outbreak at this neighbor
@@ -1431,7 +1433,55 @@ void PandModel::outbreak(int cityNum)//
 		trackInfect.clear();//have to stop this when recursion maybe an int counter only if at base recursion
 	else trackOutbreak--;
 }
+void PandModel::chainOutbreak(int cityNum, char color)
+{
+	//0,1,2,3 = red,black,blue,yellow
+	int infectIndex;
+	if(color == 'R') infectIndex = 0;
+	else if(color == 'G') infectIndex = 1;
+	else if(color == 'B') infectIndex = 2;
+	else if(color == 'Y') infectIndex = 3;
+	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
+	int i = 0;
+	bool alreadyInfected = false;
+	std::deque<int> chainThese;
+	while(cities[cityNum].adjacentCities[i] != -1)
+	{
+		
+		//infect cities with cubes of city colors
+		//if neighbor has 3 already, do not add 4th
+		//instead of adding 4th, a chain reaction outbreak occurs after current outbreak is complete
+		if(cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] < 3)
+		{
+			for(int j = 0; j < trackInfect.size(); j++)//go through infect track to see if already infected
+			{
+				if(cities[cities[cityNum].adjacentCities[i]].value == trackInfect[j].value)
+				{
+					alreadyInfected = true;
+					break;
+				}
+			}
+			if(!alreadyInfected)//if not already infected, infect and add to tracker
+			{
+				cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex]++;//increase disease cube count by 1 at neighbors
+				trackInfect.push_back(cities[cities[cityNum].adjacentCities[i]]);//add infected city to tracker
+			}
+			
+		}
+		else if(cities[cities[cityNum].adjacentCities[i]].diseasecubes[infectIndex] == 3)//if this neighbor has 3 cubes, cause another outbreak at this city
+			chainThese.push_back(cities[cities[cityNum].adjacentCities[i]].value);	 //need to save city value of those we need to chain outbreak. make another deque.
+		
+		i++;
+	
+		
+	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
+		//(phat)found city with 3 cubes, infect neighbors if not already infected. Check through array
+	//except do not add to cities that have already had an outbreak or chain outbreak.
+		//(phat)keep track of cities that have already been infected maybe with an array of already infected cities.
+	//cities can have up to 3 diseasce cubes of each color.
+	}
 
+}
 void PandModel::GameOver()
 {
 	/* I will add test cases to check for the end of the game:
