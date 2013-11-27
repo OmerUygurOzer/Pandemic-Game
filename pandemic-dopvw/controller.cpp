@@ -90,6 +90,7 @@ int main()
 		PandView showOutbreak(testOutbreak);
 		showOutbreak.showCubeLocations();
 	}
+	system("CLS");
 	// Opening introduction and asking for number of players
 	Screens.showIntro();
 
