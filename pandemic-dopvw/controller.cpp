@@ -456,8 +456,21 @@ start:
 				charnum = -2; //Will add up to -1 and cause while loop to end. Kind of just crashes the program
 			}
 
+			//research cure
+			if(ans == 12)
+			{
+				newScreen.showPlayerHand(charnum+1);
+				//check to see if research station available.
+
+				bool researchSuccess = GameInstance.researchCure(charnum+1);
+				if(!researchSuccess)
+					GameInstance.setActionsLeft(charnum, 1);//give back 1 action pt.
+				
+			}
+
 			GameInstance.cleanHand(charnum+1);
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
+
 		}//end of player turn
 
 		//draw 2 player cards

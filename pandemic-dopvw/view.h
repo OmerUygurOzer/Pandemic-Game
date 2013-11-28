@@ -16,6 +16,7 @@ public:
 	void showActionMenu(int p);
 	void showPlayerInfo(int playernum);
 	void showPlayerRoleInfo(int playernum);//
+	void showPlayerHand(int);
 	void showNeighbors(int citynum);
 	void showCubeLocations();//
 	void showPlayersLocation(int numberofplayers);//
@@ -108,7 +109,7 @@ void PandView::showActionMenu(int p)
 
 	std::cout << "9. Save current game " << std::endl;
 	std::cout << "10. Load a different game " << std::endl;
-
+	std::cout<<"12. Research Cure //will need to move to # 5 since it uses an action point. " << std::endl;
 	std::cout<<"What would you like to do: ";
 	
 }
@@ -314,4 +315,26 @@ void PandView::showHowManyPlayerCardsLeft()
 	int amt= model.getNumPlayCardsLeft();
 	std::cout<<"There are " << amt << " play cards left \n";
 }
+
+void PandView::showPlayerHand(int playernum)
+{
+	Playerchar temp = model.getPlayerInfo(playernum);
+	//Print cards in hand/////////////////////////////////////////
+	cout << "Cards on hand:" << endl;
+	//cout << "Color || Type || Name - Effect" << endl;
+
+	for(int i = 0; i < 9; i++)
+	{
+		
+		if(temp.cardsonhand[i].value != -1)
+		{
+			cout << "#" << i+1 << "    ";
+			cout << temp.cardsonhand[i].color << " || ";
+			cout << temp.cardsonhand[i].cardType << " || ";
+			cout << temp.cardsonhand[i].cardDescription << endl;
+		}
+	}
+	////////////////Hand print end////////////////////////////////
+}
+
 #endif
