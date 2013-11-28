@@ -165,6 +165,7 @@ public:
 	void mergeInfectionDecks(deque<infectionCard> &deckA, deque<infectionCard> &deckB); // puts deckA on top of deckB
 	void outbreak(int city);
 	void chainOutbreak(int cityNum, char color);
+	bool researchCure(int playerNum);
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
 	
@@ -1482,6 +1483,36 @@ void PandModel::chainOutbreak(int cityNum, char color)
 	}
 
 }
+bool PandModel::researchCure(int playerNum)
+{
+	int R, G, B, Y;//count how many cards of each color
+	
+	
+	
+	for(int i = 0; i < 9; i++)
+		if(players[playerNum].cardsonhand[i].value != -1)
+		{
+			if(players[playerNum].cardsonhand[i].color == 'B') B++;
+			if(players[playerNum].cardsonhand[i].color == 'R') R++;
+			if(players[playerNum].cardsonhand[i].color == 'G') G++;
+			if(players[playerNum].cardsonhand[i].color == 'Y') Y++;
+		}
+		//if available see if we have enough cards of the same color
+		if(players[playerNum].profession == 6)//if scientist
+			if(B>3||R>3||G>3||Y>3)//check for 4 of the same color cards
+			{
+				int dummy = 0;//place holder
+			}
+			else return false;//can not research
+		if(players[playerNum].profession != 6)//if not scientist
+			if(B>4||R>4||G>4||Y>4)//check for 4 of the same color cards
+			{
+				int dummy = 0;//place holder
+			}
+			else return false;//can not research
+		//if scientist discard 4 else discard 5
+			return true;//research successful
+}
 void PandModel::GameOver()
 {
 	/* I will add test cases to check for the end of the game:
@@ -1501,6 +1532,8 @@ void PandModel::GameOver()
 
 
 };
+
+
 
 #endif
 
