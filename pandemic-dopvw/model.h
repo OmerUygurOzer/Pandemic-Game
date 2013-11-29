@@ -170,7 +170,7 @@ public:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
 	
 	void PlayCard(int playernum);
-	void PlayEventCard(int playernum, int eventvalue, int cardchoose);
+	void PlayEventCard(int playernum, playerCard eventcard);
 	int CheckHand(int playernum) {	//If player has non-blank card, return 1
 		int z = 0;
 		for(int i = 0; i < 9; i++)
@@ -645,15 +645,16 @@ void PandModel::PlayCard(int playernum)
 	{
 		setActionsLeft(playernum-1, 1); //Event card takes up no turns
 		cout << "Playing an event card: ";
-		PlayEventCard(playernum, cardchosenvalue, cardchoose);
+		PlayEventCard(playernum, players[playernum].cardsonhand[cardchoose]);
 	}
 
 
 }
 
-void PandModel::PlayEventCard(int playernum, int eventvalue, int cardchoose)
+void PandModel::PlayEventCard(int playernum, playerCard eventcard)
 {
-	int cardchosenvalue = eventvalue;
+	int cardchosenvalue = eventcard.value;
+	int wascardused = 0;
 
 ///////////AIRLIFT////////////////////
 	if(cardchosenvalue == 54)
@@ -687,9 +688,9 @@ void PandModel::PlayEventCard(int playernum, int eventvalue, int cardchoose)
 			cout << players[chooseplayer].playerName << " has been moved to";
 			cout << cities[players[chooseplayer].location].cityName << endl << endl;
 
-
-			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			players[playernum].cardsonhand[cardchoose].value = -1;
+			wascardused = 1;
+			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			//players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << endl << endl;
 
 
@@ -700,8 +701,9 @@ void PandModel::PlayEventCard(int playernum, int eventvalue, int cardchoose)
 		{
 			cout << "Event card played: Forecast!" << endl;
 			setForecastPlayed(1); //Forecast has to be played in controller.cpp, this flag plays it
-			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			players[playernum].cardsonhand[cardchoose].value = -1;
+			wascardused = 1;
+			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			//players[playernum].cardsonhand[cardchoose].value = -1;
 		}
 
 /////////////////GOVERNMENT GRANT/////////////
@@ -736,8 +738,9 @@ void PandModel::PlayEventCard(int playernum, int eventvalue, int cardchoose)
 			{
 			addResearchCenter(citychosen);
 			cout << "A Research Center has been constructed in " << cities[citychosen].cityName;
-			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			players[playernum].cardsonhand[cardchoose].value = -1;
+			wascardused = 1;
+			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			//players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << string(5, '\n');
 			}
 		}
@@ -748,9 +751,9 @@ void PandModel::PlayEventCard(int playernum, int eventvalue, int cardchoose)
 			setQuietNightPlayed(1);
 			cout << "The next Infection Phase will be skipped!" << endl;
 			cout << "Card not implemented yet! Discarding card." << endl << endl;
-
-			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			players[playernum].cardsonhand[cardchoose].value = -1;
+			wascardused = 1;
+			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			//players[playernum].cardsonhand[cardchoose].value = -1;
 		}
 /////////RESILIENT POPULATION/////////////////////  --Draw infection card, never play or push it
 		if(cardchosenvalue == 58) //Resilient Population
@@ -759,12 +762,33 @@ void PandModel::PlayEventCard(int playernum, int eventvalue, int cardchoose)
 			setResilientPlayed(1);
 			
 			cout << "Card not implemented yet! Discarding card." << endl << endl;
-
-			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			players[playernum].cardsonhand[cardchoose].value = -1;
+			wascardused = 1;
+			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			//players[playernum].cardsonhand[cardchoose].value = -1;
 		}
+
+		if(wascardused == 1)
+		{discardCard(playernum, eventcard);}
 }
 ////////////////////////////////
+
+void PandModel::discardCard(int playernum, playerCard card)
+{
+
+	for(int i = 0; i < 9; i++)
+	{
+		if(card.value == players[playernum].cardsonhand[i].value)
+		{
+			discardPlayCard(card);
+			players[playernum].cardsonhand[i].value = -1;
+		}
+
+	}
+
+
+
+}
+
 
 void PandModel::cleanHand(int playernum)
 {
@@ -1530,7 +1554,7 @@ void PandModel::GameOver()
 	// case 3: still trying to figure out best way to check. maybe if error when cubes are placed?
 	// case 4: 
 	getNumPlayCardsLeft();
-	if (PlayerDeckD.size < 1)
+	if (PlayerDeckD.size() < 1)
 		gameLose = true;
 
 };
