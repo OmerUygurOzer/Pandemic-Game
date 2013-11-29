@@ -1522,14 +1522,16 @@ void PandModel::GameOver()
 	   4. if a player cannot draw two player cards after doing his actions = lose
 	   */
 	// case 1
-	// if (cureMarkers == [true, true, true, true])
+	//if (cureMarkers == [true, true, true, true])
 	//     gameWin = true;
 	// case 2
 	if (outbreakLevel == 8)
 		gameLose = true;
 	// case 3: still trying to figure out best way to check. maybe if error when cubes are placed?
-	// case 4: still trying to determine how to check if less than 2 player cards are drawn
-
+	// case 4: 
+	getNumPlayCardsLeft();
+	if (PlayerDeckD.size < 1)
+		gameLose = true;
 
 };
 
