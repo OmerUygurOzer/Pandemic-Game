@@ -83,7 +83,7 @@ class PandModel
 	// game win/lose variables
 	bool gameWin;
 	bool gameLose;
-	bool cureMarkers[4]; // not too sure how to implement the check to see if all cure markers are true
+	bool cureMarkers[4]; //color of the cure (0,1,2,3 = (R)red,(G)black,(B)blue,(Y)yellow)
 
 	//SAVE-LOAD VARIABLES////////////////////////////
 	string availability[6]; //availabilty of the files
@@ -133,7 +133,8 @@ public:
 	int returnResilient(){return ResilientPlayed;}
 
 	
-	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck
+	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck+
+	playerCard getPlayerCard(int num){return playerDeck[num];}//used for testing
 	infectionCard drawInfectionCard();//will draw from top of infection deck
 	void placeInfectionCard(infectionCard temp); //Place a card on top of infection deck
 	infectionCard drawBottomInfectionCard();  // will draw from bottom of infection deck
@@ -211,6 +212,10 @@ public:
 
 PandModel::PandModel()//constructor
 {
+	cureMarkers[0] = false;
+	cureMarkers[1] = false;
+	cureMarkers[2] = false;
+	cureMarkers[3] = false;
 	outbreakLevel = 0;
 	trackOutbreak = 0;
 	infectionRate = 0;
@@ -1509,33 +1514,178 @@ void PandModel::chainOutbreak(int cityNum, char color)
 }
 bool PandModel::researchCure(int playerNum)
 {
-	int R, G, B, Y;//count how many cards of each color
-	
-	
-	
-	for(int i = 0; i < 9; i++)
-		if(players[playerNum].cardsonhand[i].value != -1)
-		{
-			if(players[playerNum].cardsonhand[i].color == 'B') B++;
-			if(players[playerNum].cardsonhand[i].color == 'R') R++;
-			if(players[playerNum].cardsonhand[i].color == 'G') G++;
-			if(players[playerNum].cardsonhand[i].color == 'Y') Y++;
-		}
-		//if available see if we have enough cards of the same color
-		if(players[playerNum].profession == 6)//if scientist
-			if(B>3||R>3||G>3||Y>3)//check for 4 of the same color cards
+	//check to see if research station available.
+	//city temp = getCityInfo(players[playerNum].location);
+	if(cities[players[playerNum].location].researchcenter)
+	{
+
+		int R = 0, G = 0, B = 0, Y = 0;//count how many cards of each color
+		deque<playerCard> temp;
+
+		for(int i = 0; i < 9; i++)
+			if(players[playerNum].cardsonhand[i].value != -1)
 			{
-				int dummy = 0;//place holder
+				if(players[playerNum].cardsonhand[i].color == 'B') B++;
+				if(players[playerNum].cardsonhand[i].color == 'R') R++;
+				if(players[playerNum].cardsonhand[i].color == 'G') G++;
+				if(players[playerNum].cardsonhand[i].color == 'Y') Y++;
 			}
-			else return false;//can not research
-		if(players[playerNum].profession != 6)//if not scientist
-			if(B>4||R>4||G>4||Y>4)//check for 4 of the same color cards
-			{
-				int dummy = 0;//place holder
-			}
-			else return false;//can not research
-		//if scientist discard 4 else discard 5
-			return true;//research successful
+			//if available see if we have enough cards of the same color
+			if(players[playerNum].profession == 6)//if scientist
+				if(B>3||R>3||G>3||Y>3)//check for 4 of the same color cards
+				{
+					//display cards that have enough to research cure
+					cout<<"Choose 4 cards to discard \n";
+					if(B>3)
+						for(int i = 0; i < 9; i++)
+						if (players[playerNum].cardsonhand[i].color == 'B')
+						{
+							cout<<i+1<<": "<<players[playerNum].cardsonhand[i].cardDescription<<endl;
+							temp.push_back(players[playerNum].cardsonhand[i]);
+						}
+					if(R>3)
+						for(int i = 0; i < 9; i++)
+						if (players[playerNum].cardsonhand[i].color == 'R')
+						{
+							cout<<i+1<<": "<<players[playerNum].cardsonhand[i].cardDescription<<endl;
+							temp.push_back(players[playerNum].cardsonhand[i]);
+						}
+					if(G>3)
+						for(int i = 0; i < 9; i++)
+						if (players[playerNum].cardsonhand[i].color == 'G')
+						{
+							cout<<i+1<<": "<<players[playerNum].cardsonhand[i].cardDescription<<endl;
+							temp.push_back(players[playerNum].cardsonhand[i]);
+						}
+					if(Y>3)
+						for(int i = 0; i < 9; i++)
+						if (players[playerNum].cardsonhand[i].color == 'Y')
+						{
+							cout<<i+1<<": "<<players[playerNum].cardsonhand[i].cardDescription<<endl;
+							temp.push_back(players[playerNum].cardsonhand[i]);
+						}
+					//check to see if cure exists
+					if(temp[0].color == 'R' && cureMarkers[0] == true)
+					{
+						cout<<"This cure has already been discovered \n";
+						return false;
+					}
+					if(temp[0].color == 'G' && cureMarkers[1] == true)
+					{
+						cout<<"This cure has already been discovered \n";
+						return false;
+					}
+					if(temp[0].color == 'B' && cureMarkers[2] == true)
+					{
+						cout<<"This cure has already been discovered \n";
+						return false;
+					}
+					if(temp[0].color == 'Y' && cureMarkers[3] == true)
+					{
+						cout<<"This cure has already been discovered \n";
+						return false;
+					}
+					//if cure does not exist discard cards for cure
+					int cardNum[4];
+					cin>>cardNum[0];
+					cin>>cardNum[1];
+					cin>>cardNum[2];
+					cin>>cardNum[3];
+					for(int i = 0; i < 4; i++)
+						for(int j = 0; j < 9; j++)
+							if(players[playerNum].cardsonhand[j].value == temp[cardNum[i]-1].value)
+								discardCard(playerNum, players[playerNum].cardsonhand[j]);
+
+					cleanHand(playerNum);
+					//color of the cure (0,1,2,3 = (R)red,(G)black,(B)blue,(Y)yellow)
+					if(temp[0].color == 'R') cureMarkers[0] = true;
+					if(temp[0].color == 'G') cureMarkers[1] = true;
+					if(temp[0].color == 'B') cureMarkers[2] = true;
+					if(temp[0].color == 'Y') cureMarkers[3] = true;
+				}
+				else return false;//can not research
+			if(players[playerNum].profession != 6)//if not scientist
+				if(B>4||R>4||G>4||Y>4)//check for 4 of the same color cards
+				{
+					cout<<"Choose 5 cards to discard \n";
+					//display cards that have enough to research cure
+					if(B>4)
+						for(int i = 0; i < 9; i++)
+						if (players[playerNum].cardsonhand[i].color == 'B')
+						{
+							cout<<i+1<<": "<<players[playerNum].cardsonhand[i].cardDescription<<endl;
+							temp.push_back(players[playerNum].cardsonhand[i]);
+						}
+					if(R>4)
+						for(int i = 0; i < 9; i++)
+						if (players[playerNum].cardsonhand[i].color == 'R')
+						{
+							cout<<i+1<<": "<<players[playerNum].cardsonhand[i].cardDescription<<endl;
+							temp.push_back(players[playerNum].cardsonhand[i]);
+						}
+					if(G>4)
+						for(int i = 0; i < 9; i++)
+						if (players[playerNum].cardsonhand[i].color == 'G')
+						{
+							cout<<i+1<<": "<<players[playerNum].cardsonhand[i].cardDescription<<endl;
+							temp.push_back(players[playerNum].cardsonhand[i]);
+						}
+					if(Y>4)
+						for(int i = 0; i < 9; i++)
+						if (players[playerNum].cardsonhand[i].color == 'Y')
+						{
+							cout<<i+1<<": "<<players[playerNum].cardsonhand[i].cardDescription<<endl;
+							temp.push_back(players[playerNum].cardsonhand[i]);
+						}
+					//check to see if cure exists
+					if(temp[0].color == 'R' && cureMarkers[0] == true)
+					{
+						cout<<"This cure has already been discovered \n";
+						return false;
+					}
+					if(temp[0].color == 'G' && cureMarkers[1] == true)
+					{
+						cout<<"This cure has already been discovered \n";
+						return false;
+					}
+					if(temp[0].color == 'B' && cureMarkers[2] == true)
+					{
+						cout<<"This cure has already been discovered \n";
+						return false;
+					}
+					if(temp[0].color == 'Y' && cureMarkers[3] == true)
+					{
+						cout<<"This cure has already been discovered \n";
+						return false;
+					}
+					//if cure does not exist discard cards for cure
+					int cardNum[5];
+					cin>>cardNum[0];
+					cin>>cardNum[1];
+					cin>>cardNum[2];
+					cin>>cardNum[3];
+					cin>>cardNum[4];
+					for(int i = 0; i < 5; i++)
+						for(int j = 0; j < 9; j++)
+							if(players[playerNum].cardsonhand[j].value == temp[cardNum[i]-1].value)
+								discardCard(playerNum, players[playerNum].cardsonhand[j]);
+
+					cleanHand(playerNum);
+					//color of the cure (0,1,2,3 = (R)red,(G)black,(B)blue,(Y)yellow)
+					if(temp[0].color == 'R') cureMarkers[0] = true;
+					if(temp[0].color == 'G') cureMarkers[1] = true;
+					if(temp[0].color == 'B') cureMarkers[2] = true;
+					if(temp[0].color == 'Y') cureMarkers[3] = true;
+				}
+				else return false;//can not research
+			//if scientist discard 4 else discard 5
+				return true;//research successful
+	}
+	else
+	{
+		cout<<"You are not at a research center \n";
+		return false;//research unsuccessful
+	}
 }
 void PandModel::GameOver()
 {
