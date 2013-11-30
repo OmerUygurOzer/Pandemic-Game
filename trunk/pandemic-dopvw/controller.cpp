@@ -71,7 +71,7 @@ int main()
 	string rolenames[7] = { "Contingency Plan", "Dispatcher", "Medic", "Operations Expert", "Quarantine Specialist", "Researcher", "Scientist" }; //RoleNames
 	//RoleActions Role[numberofplayers];//Role Actions are being managed
 
-	PandModel testdeck;
+	/*PandModel testdeck;
 	infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
 
 	////outbreak tests
@@ -90,7 +90,20 @@ int main()
 		PandView showOutbreak(testOutbreak);
 		showOutbreak.showCubeLocations();
 	}
-	system("CLS");
+	system("CLS");*/
+
+	//test research cure
+	PandModel testResearch;
+	//0,2,7,8,10
+	testResearch.ReceiveCard(1, testResearch.getPlayerCard(0));
+	testResearch.ReceiveCard(1, testResearch.getPlayerCard(2));
+	testResearch.ReceiveCard(1, testResearch.getPlayerCard(7));
+	testResearch.ReceiveCard(1, testResearch.getPlayerCard(8));
+	testResearch.ReceiveCard(1, testResearch.getPlayerCard(10));
+	//5 gray city cards
+	//research
+	testResearch.researchCure(1);
+
 	// Opening introduction and asking for number of players
 	Screens.showIntro();
 
@@ -178,8 +191,8 @@ int main()
 	////test draw infection card
 	
 	//infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed //Also moved to the top
-	cout<<tempinfecthand.cardDescription<<" infected city \n";
-	system("CLS");
+	//cout<<tempinfecthand.cardDescription<<" infected city \n";
+	//system("CLS");
 
 start:
 	int charnum; //temp variable
@@ -460,10 +473,10 @@ start:
 			if(ans == 12)
 			{
 				newScreen.showPlayerHand(charnum+1);
-				//check to see if research station available.
+				
 
 				bool researchSuccess = GameInstance.researchCure(charnum+1);
-				if(!researchSuccess)
+				if(!researchSuccess)//if research not successful
 					GameInstance.setActionsLeft(charnum, 1);//give back 1 action pt.
 				
 			}
