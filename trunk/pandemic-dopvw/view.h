@@ -27,10 +27,12 @@ public:
 	void showPlayCard(playerCard);
 	void showInfectCard(infectionCard);
 	void listDescriptions(int role);//lists the descriptons of roles
-	void listActions(int role);//lists specific role actions
+	string listActions(int role,int line);//lists specific role actions
 	void askPlayerNumber();
 	void printCityColumns();
 	void printResearchCenters();
+	void dispatcherloc(int playernum);
+
 };
 
 PandView::PandView()
@@ -95,20 +97,20 @@ void PandView::showNeighbors(int citynum)
 void PandView::showActionMenu(int p)
 {
 	std::cout<<std::endl;
-	std::cout<<"1. Move to an adjacent city" << std::endl;
-	std::cout<<"2. Play a card " << std::endl;
-	std::cout<<"3. Remove cube " << std::endl;
-	std::cout<<"4. Shuttle Flight " << std::endl;
-	std::cout<<"5. List infected cities " << std::endl;
-	std::cout<<"6. List Cities " << std::endl;//expansion for later
-	std::cout<<"7. Use Profession Ability " << std::endl;
+	std::cout<<  "1. Move to an adjacent city  ||Profession Abilities:" << std::endl;
+	std::cout<<  "2. Play a card		     ||"; std::cout << listActions(p,1)<< std::endl;
+	std::cout << "3. Remove cube		     ||"; std::cout << listActions(p, 2) << std::endl;
+	std::cout << "4. Shuttle Flight            ||"; std::cout << listActions(p, 3) << std::endl;
+	std::cout << "5. List infected cities      ||"; std::cout << listActions(p, 4) << std::endl;
+	std::cout<<  "6. List Cities               ||" << std::endl;//expansion for later
+	//std::cout<<  "7. Use Profession Ability " << std::endl;
 
 	//listActions(p); //additional actions that are unique to each player are being shown here
 	//I think have the above line print if the player chooses to in Use Profession Ability
-	std::cout<<"8. List other things " << std::endl;
+	std::cout<<"8. List other things         ||" << std::endl;
 
-	std::cout << "9. Save current game " << std::endl;
-	std::cout << "10. Load a different game " << std::endl;
+	std::cout << "9. Save current game         ||" << std::endl;
+	std::cout << "10. Load a different game    ||" << std::endl;
 	std::cout<<"12. Research Cure //will need to move to # 5 since it uses an action point. " << std::endl;
 	std::cout<<"What would you like to do: ";
 	
@@ -145,6 +147,7 @@ void PandView::showPlayerInfo(int playernum)
 
 
 }
+
 
 void PandView::showCubeLocations()//show all 4 types of cubes per city
 {
@@ -199,41 +202,52 @@ void PandView::showInfectCard(infectionCard card)
 	std::cout<<card.cardDescription<<std::endl;
 }
 
-void PandView::listActions(int role){
+string PandView::listActions(int role,int line){
 	if (role == 0){
-		std::cout << "7. Store a discarded card" << std::endl;
 		
+		if (line == 1){ return "a. Store a discarded card";}
+		if (line == 2){ return ""; }
+		if (line == 3){ return ""; }
+		if (line == 4){ return ""; }
 	}
 	if (role == 1){
-		std::cout << "7. Move a pawn of your own" << std::endl;
-		std::cout << "8. Move a pawn of another player" << std::endl;
-		
+		if (line == 1){return "a. Move a pawn next to another pawn";}
+		if (line == 2){return "b. Move a pawn of another player";}
+		if (line == 3){ return "to a city its nearby"; }
+		if (line == 4){ return ""; }
 	}
 	if (role == 2){
-		std::cout << "Passive abilities:" << std::endl;
-	    std::cout << "* When a city is treated, all cubes of the same color are treated " << std::endl;
-		std::cout << "* Known cures are administered with no action cost " << std::endl;
-		
+		if (line == 1){return "Passive Abilities:";}
+		if (line == 2){return "*When a city is treated,";}
+		if (line == 3){ return "all cubes of the same color are treated"; }
+		if (line == 4){ return "*Known cures are administered with no action cost"; }
 
 	}
 	if (role == 3){
-		std::cout << "7. Build a research station" << std::endl;
-		
+		if (line == 1){ return "a. Build a research station";}
+		if (line == 2){ return ""; }
+		if (line == 3){ return ""; }
+		if (line == 4){ return ""; }
 
 	}
 	if (role == 4){
-		std::cout << "Passive abilities:" << std::endl;
-		std::cout << "* Prevents disease cube placemenets in the city and the ones surrounding " << std::endl;
-	
+		if (line == 1){ return "Passive Abilities:"; }
+		if (line == 2){	return "*Prevents disease cube placemenets in the city";}
+		if (line == 3){ return "and the ones surrounding"; }
+		if (line == 4){ return ""; }
 
 	}
 	if (role == 5){
-		std::cout << "7. Give one of your cards to another player" << std::endl;
-		
+		if (line == 1){return "a. Give one of your cards to another player";}
+		if (line == 2){ return ""; }
+		if (line == 3){ return ""; }
+		if (line == 4){ return ""; }
 	}
 	if (role == 6){
-		std::cout << "Passive abilities:" << std::endl;
-		std::cout << "* Needs only 4 cards of the same color to discover a cure " << std::endl;
+		if (line == 1){ return "Passive Abilities:"; }
+		if (line == 2){	return  "*Needs only 4 cards of the same color to discover a cure";}
+		if (line == 3){ return "to discover a cure"; }
+		if (line == 4){ return ""; }
 	}
 
 }
@@ -336,5 +350,6 @@ void PandView::showPlayerHand(int playernum)
 	}
 	////////////////Hand print end////////////////////////////////
 }
+
 
 #endif
