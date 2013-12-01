@@ -22,7 +22,7 @@ Public Class Form1
         Dim tempP As PictureBox = RoleBox
         While activeThread
             Threading.Thread.Sleep(200)
-            line = My.Computer.FileSystem.ReadAllText("C:\Pand\hfile.txt")
+            line = My.Computer.FileSystem.ReadAllText("C:\Pand\hfile.txt") 'PIPED DATA IS READ
             If line.Length > 0 Then
                 For index As Integer = 0 To line.Length - 1
                     If Not line(index) = " " Then temp = temp + line(index)
