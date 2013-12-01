@@ -573,6 +573,7 @@ start:
 		}//end of player turn
 
 		//draw 2 player cards
+		cout<<"Draw 2 player cards \n";
 		for(int i = 0; i < 2; i++)
 		{
 			playerCard drawn = GameInstance.drawPlayerCard();//draw from deck
@@ -590,9 +591,10 @@ start:
 			//if already have 7 cards, discard some
 			newCards.showHowManyPlayerCardsLeft();
 		}
-		
+		system("pause");
 
 		//draw 2-4 infection cards. How many drawn depends on infection rate.
+		cout<<"Draw " << GameInstance.getInfectionRate() << " infection cards\n";
 		for(int i = 0; i < GameInstance.getInfectionRate(); i++)
 		{
 			infectionCard tempInfectCard = GameInstance.drawInfectionCard();
@@ -600,7 +602,7 @@ start:
 			newCards.showInfectCard(tempInfectCard);//display infection card drawn
 			GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color);//if 3 cubes already exist, if so, dont add 3 but cause outbreak. Done in model
 		}
-		
+		system("pause");
 
 		//Next Player
 		if(charnum != (numberofplayers-1) ) //If last player, go to first player
