@@ -41,6 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandLib;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandLib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -84,6 +86,7 @@
     <ClInclude Include="view.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="hfile.txt" />
     <Text Include="Save#1.txt" />
     <Text Include="Save#2.txt" />
     <Text Include="Save#3.txt" />

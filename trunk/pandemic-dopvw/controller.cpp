@@ -1,12 +1,13 @@
 #include "controller.h"
-#include "roleactions.h"
 #include <time.h>
 #include <stack>
 #include <string>
 #include <algorithm>
 #include <Windows.h>
 
+
 using namespace std;
+
 
 string delSpaces(string &str);
 
@@ -60,6 +61,18 @@ void PandController::NextTurn(){
 
 int main()
 {
+	//PIPING DATA TO WINDOWS FORM
+	system("mkdir C:\\Pand");
+	std::ofstream("C:\\Pand\\hfile.txt", std::ios::out).close();
+	fstream tempfile;
+	tempfile.open("C:\\Pand\\hfile.txt");
+	tempfile << "Name -1 -1 -1 -1 -1 -1 -1 -1 ";
+	tempfile.close();
+	//PIPING DONE
+	
+
+
+	
 	int numberofplayers;
 	string player[4];
 	PandModel GameInstance;//start game
@@ -258,6 +271,7 @@ start:
 		{
 		into:
 			system("CLS");
+			GameInstance.updateHandsFile(charnum);
 			//cout << string(50, '\n'); //Screen clearer.
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
 			//GameInstance.loadActionsLeft(charnum, GameInstance.getActionsLeft(charnum) - 1);

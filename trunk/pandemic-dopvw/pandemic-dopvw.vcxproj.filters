@@ -38,5 +38,8 @@
     <Text Include="Save#1.txt" />
     <Text Include="Save#5.txt" />
     <Text Include="SaveMain.txt" />
+    <Text Include="hfile.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
