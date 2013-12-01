@@ -375,6 +375,19 @@ start:
 
 			}
 
+			if(ans == "3") // treat city
+			{
+				int cubecolor;
+				cout << "What color cube would you like to treat?(r, g ,b , y)\n";
+				cin >> cubecolor;
+				while (cubecolor != 'r' && cubecolor != 'g' && cubecolor != 'b' && cubecolor != 'y')
+				{
+					cout << "Please enter valid cube color: r, g, b, or y\n";
+					cin >> cubecolor;
+				}
+				GameInstance.treatCity(GameInstance.getPlayerLocation(charnum), cubecolor, GameInstance.getPlayerRole(charnum));
+			}
+
 			if(ans == "4")//shuttleFlight
 			{GameInstance.ShuttleFlight(charnum+1);}
 
