@@ -1711,7 +1711,7 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 	hfile << players[pno].profession;
 	hfile << " ";
 		for (int x = 0; x < 7; x++){
-			hfile << players[pno].cardsonhand[x].value;
+			hfile << players[pno+1].cardsonhand[x].value;
 			hfile << " ";
 		}
 		hfile.close();
