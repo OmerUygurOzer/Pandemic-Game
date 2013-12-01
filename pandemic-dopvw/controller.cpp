@@ -93,7 +93,7 @@ int main()
 	system("CLS");*/
 
 	//test research cure
-	PandModel testResearch;
+	/* PandModel testResearch; //Temporarily commented out to compile and test the code - Omer
 	//0,2,7,8,10
 	testResearch.ReceiveCard(1, testResearch.getPlayerCard(0));
 	testResearch.ReceiveCard(1, testResearch.getPlayerCard(2));
@@ -102,7 +102,7 @@ int main()
 	testResearch.ReceiveCard(1, testResearch.getPlayerCard(10));
 	//5 gray city cards
 	//research
-	testResearch.researchCure(1);
+	testResearch.researchCure(1); */
 
 	// Opening introduction and asking for number of players
 	Screens.showIntro();
@@ -235,6 +235,7 @@ start:
 	while(charnum != -1) //Temp infinite loop - Insert a bool here to check if the game has ended
 	{
 
+
 		if (GameInstance.getloadflag()){
 			//in case we add a mid game load function
 			GameInstance.setloadflag(0);
@@ -255,7 +256,8 @@ start:
 
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
-			into:
+		into:
+			system("CLS");
 			//cout << string(50, '\n'); //Screen clearer.
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
 			//GameInstance.loadActionsLeft(charnum, GameInstance.getActionsLeft(charnum) - 1);
@@ -266,12 +268,12 @@ start:
 			newScreen.showCityInfo(temp.location);
 
 			newScreen.showActionMenu(temp.profession);
-			int ans;
+			string ans;
 			cin>>ans;
 
 
 			///////////Adjacent Movement////////////////////
-			if(ans == 1)
+			if(ans == "1")
 			{
 				cout<<"Where would you like to move :" <<endl;//will move to view.h
 				newScreen.showNeighbors(temp.location);
@@ -284,7 +286,7 @@ start:
 			}
 			
 			/////////////Use Card/////////////////////////////
-			if(ans == 2)
+			if(ans == "2")
 			{
 				if(GameInstance.CheckHand(charnum+1) == 0)
 				{
@@ -359,10 +361,10 @@ start:
 
 			}
 
-			if(ans == 4)//shuttleFlight
+			if(ans == "4")//shuttleFlight
 			{GameInstance.ShuttleFlight(charnum+1);}
 
-			if(ans == 5)
+			if(ans == "5")
 			{
 				newScreen.showCubeLocations();
 				GameInstance.setActionsLeft(charnum, 1);
@@ -370,7 +372,7 @@ start:
 
 
 
-			if(ans == 6) //Tester: This prints all the cities in 3 columns, no additional info.
+			if(ans == "6") //Tester: This prints all the cities in 3 columns, no additional info.
 			{
 				int printchoice;
 				cout << "1. Cities only" << endl;
@@ -388,7 +390,7 @@ start:
 				GameInstance.setActionsLeft(charnum,1);
 			}
 
-			if (ans == 9)//game save
+			if (ans == "9")//game save
 			{
 			save:	
 				string sfname;
@@ -455,22 +457,92 @@ start:
 
 			}
 
-			if (ans == 10)
+			if (ans == "10")
 			{
 				goto load;
+			}
+			// Only these role have active abilities: "Contingency Plan", "Dispatcher","Operations Expert","Researcher"
+
+			if (ans == "a"){ ////////////////////// ===ACTIVE ROLE ABILITES SHOULD BE CALLED HERE
+				if (GameInstance.getPlayerRole(charnum) == 0){//"Contingency Plan"
+
+				}
+				if (GameInstance.getPlayerRole(charnum) == 1){//"Dispatcher"
+					
+					for (int i = 0; i < GameInstance.getnumberOfPlayers(); i++){
+						if (charnum != i)cout << i << ")" << GameInstance.getPlayerName(i) << " @ " << GameInstance.getCityName(GameInstance.getPlayerLocation(i)) << endl;
+
+					}
+					cout << "Chose a player pawn to move:";
+					int pick;
+					cin >> pick;
+					while (pick<0 || pick > GameInstance.getnumberOfPlayers()-1 || pick == charnum){
+						cout << endl << "Invalid Entry. Try Again:";
+						cin >> pick;
+						cout << endl;
+					}
+					
+					for (int i = 0; i < GameInstance.getnumberOfPlayers(); i++){
+						if (i != pick){ cout << i << ")" << GameInstance.getCityName(GameInstance.getPlayerLocation(i)) << endl; }
+
+					}
+
+					cout << "Where would you like to move " << GameInstance.getPlayerName(pick)<<"?";
+					int target;
+					int loc;
+					cin >> target;
+					while (target<0 || target>GameInstance.getnumberOfPlayers()-1 || target == pick){
+						cout << endl << "Invalid Entry. Try Again:";
+						cin >> target;
+						cout << endl;
+					}
+					loc = GameInstance.getPlayerLocation(target);
+					GameInstance.setPlayerLocation(pick+1, loc);
+
+
+				}
+				if (GameInstance.getPlayerRole(charnum) == 3){//"Operations Expert"
+
+				}
+				if (GameInstance.getPlayerRole(charnum) == 5){//"Researcher"
+
+				}
+
+			}
+			if (ans == "b"){ ///////////////////// ====AND HERE
+				if (GameInstance.getPlayerRole(charnum) == 1){//"Dispatcher"
+					for (int i = 0; i < GameInstance.getnumberOfPlayers(); i++){
+						if (charnum != i)cout << i << ")" << GameInstance.getPlayerName(i) << " @ " << GameInstance.getCityName(GameInstance.getPlayerLocation(i))<< endl;
+
+					}
+					cout << "Chose a player pawn to move:";
+					int pick;
+					cin >> pick;
+					while (pick<0 || pick>GameInstance.getnumberOfPlayers()-1 || pick == charnum){
+					cout << endl << "Invalid Entry. Try Again:";
+					cin >> pick;
+					cout << endl;
+					}
+					Screens.showNeighbors(GameInstance.getPlayerLocation(pick));
+					int moveto;
+					Playerchar temploc = GameInstance.getPlayerInfo(pick);
+					cin >> moveto;
+					GameInstance.setPlayerLocation(pick+1, newScreen.getNeighbor(temploc.location, moveto - 1));//set player location to new location.
+				}
+
 			}
 
 
 
 
 			////////////Exit Function//////////////////////
-			if(ans == 11)
+			if(ans == "11")
 			{
 				charnum = -2; //Will add up to -1 and cause while loop to end. Kind of just crashes the program
 			}
 
 			//research cure
-			if(ans == 12)
+			if(ans == "12")
 			{
 				newScreen.showPlayerHand(charnum+1);
 				
