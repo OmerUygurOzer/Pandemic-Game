@@ -322,9 +322,6 @@
     <None Include="Resources\Scientist.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\hfile.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\qm1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
