@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7F003F6-83A2-413F-9610-DE9D043850DF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>PandForms.My.MyApplication</StartupObject>
+    <RootNamespace>PandForms</RootNamespace>
+    <AssemblyName>PandForms</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>PandForms.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>PandForms.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ALGIERS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ATLANTA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BAGHDAD.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BANGKOK.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BEIJING.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOGOTA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BUENOSAIRES.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CAIRO.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CHENNAI.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CHICAGO.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DELHI.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ESSEN.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HOCHIMINHCITY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HONGKONG.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ISTANBUL.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JAKARTA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\JOHANNESBURG.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KARACHI.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KHARTOUM.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KINSHASA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\KOLKATA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LAGOS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LIMA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LONDON.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LOSANGELES.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MADRID.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MANILA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MEXICOCITY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MIAMI.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MILAN.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MOSCOW.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MUMBAI.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NEWYORK.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OSAKA.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PARIS.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RIYADH.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SANFRANCISCO.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SANTIAGO.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SAOPAULO.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SEOUL.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SHANGHAI.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\STPETERSBURG.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SYDNEY.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TAIPEI.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TEHRAN.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TOKYO.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TORONTO.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WASHINGTON.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VirulentStrain2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VirulentStrain3.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VirulentStrain4.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VirulentStrain5.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VirulentStrain6.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VirulentStrain7.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VirulentStrain8.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VirulentStrain1.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Airlift.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Forecast.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GovernmentGrant.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OneQuietNight.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ResilientPopulation.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ContingencyPlanner.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Dispatcher.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Medic.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OperationsExpert.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\QuarantineSpecialist.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Researcher.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Scientist.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hfile.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\qm1.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
