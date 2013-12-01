@@ -1060,7 +1060,7 @@ void PandModel::Load(int loadf){
 			savef >> temp;//savef << players[i].cardsonhand[x].value;
 			//savef << " ";
 			tempint = atoi(temp.c_str());
-			players[i].cardsonhand[x].value = tempint;
+			players[i].cardsonhand[x] = playerDeck[tempint];
 			
 		}
 	}
