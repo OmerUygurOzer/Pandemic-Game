@@ -167,6 +167,7 @@ public:
 	void outbreak(int city);
 	void chainOutbreak(int cityNum, char color);
 	bool researchCure(int playerNum);
+	void treatCity(int city, int cubecolor, int role); // treat city for disease corresponding to cubecolor
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
 	
@@ -1379,6 +1380,18 @@ void PandModel::mergeInfectionDecks(deque<infectionCard> &deckA, deque<infection
 		deckA.pop_back(); // remove temp from deckA
 	}
 	
+}
+
+void PandModel::treatCity(int city, int cubecolor, int role) // remove 1 cube of cubecolor from city, all cubes of cubecolor if medic
+{
+	if(role == 2) // if medic
+	{
+		cities[city].diseasecubes[cubecolor] = 0; // remove all cubes
+	}
+	else if(cities[city].diseasecubes[cubecolor] > 0)  // if not medic and there are cubes on the city
+	{
+		cities[city].diseasecubes[cubecolor]--; // remove one cube
+	}
 }
 
 void PandModel::addDiseaseCubes(int cityNum, char cubeColr)
