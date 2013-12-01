@@ -1,0 +1,10 @@
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\bin\Release\PandForms.exe.config
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\bin\Release\PandForms.exe
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\bin\Release\PandForms.pdb
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\bin\Release\PandForms.xml
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Release\PandForms.Form1.resources
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Release\PandForms.Resources.resources
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Release\PandForms.vbproj.GenerateResource.Cache
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Release\PandForms.exe
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Release\PandForms.xml
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Release\PandForms.pdb

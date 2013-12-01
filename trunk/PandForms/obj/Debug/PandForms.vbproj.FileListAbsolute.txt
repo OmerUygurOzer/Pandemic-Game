@@ -1,0 +1,10 @@
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\bin\Debug\PandForms.exe.config
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\bin\Debug\PandForms.exe
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\bin\Debug\PandForms.pdb
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\bin\Debug\PandForms.xml
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.Resources.resources
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.vbproj.GenerateResource.Cache
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.exe
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.xml
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.pdb
+C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.Form1.resources
