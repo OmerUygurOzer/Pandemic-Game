@@ -231,15 +231,6 @@ Namespace My.Resources
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to 4 -1 -1 -1 -1 -1 -1 -1 .
-        '''</summary>
-        Friend ReadOnly Property hfile() As String
-            Get
-                Return ResourceManager.GetString("hfile", resourceCulture)
-            End Get
-        End Property
-        
-        '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
         Friend ReadOnly Property HOCHIMINHCITY() As System.Drawing.Bitmap

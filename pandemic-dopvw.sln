@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pandemic-dopvw", "pandemic-dopvw\pandemic-dopvw.vcxproj", "{13372F34-E151-4759-B91D-9F298B6345DD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C7C3A142-E817-485D-8510-C6E99707C508}"
-	ProjectSection(SolutionItems) = preProject
-		TextFile1.txt = TextFile1.txt
-	EndProjectSection
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PandForms", "PandForms\PandForms.vbproj", "{B7F003F6-83A2-413F-9610-DE9D043850DF}"
 EndProject
