@@ -216,7 +216,7 @@ start:
 
 
 
-	//Starting hand
+	//Starting hand //need to check for epidemic cards
 	for(int i = 0; i < numberofplayers; i++) 
 	{
 		int numofCards;
@@ -227,7 +227,13 @@ start:
 		for (int j = 0; j<numofCards; j++)
 		{
 			tempCard = GameInstance.drawPlayerCard();//will draw from the shuffled player cards deck
-			GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
+			if(tempCard.value >47 && tempCard.value < 54)
+			{
+				j--;//epidemic card, do not store//
+				//will need to reinsert epidemic card if drawn
+			}
+			else
+				GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
 	/////Hardcoded Cards for testing
@@ -257,7 +263,7 @@ start:
 			//if player = special profession
 			//GameInstance.setActionsLeft(charnum, #)
 			//else
-			GameInstance.setActionsLeft(charnum, 3);
+			GameInstance.setActionsLeft(charnum, 4);//default 4 actions per turn
 			
 			} 
 		//Change the second argument here for base # of moves
