@@ -8,3 +8,14 @@ C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debu
 C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.xml
 C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.pdb
 C:\Users\Omer\Desktop\School\Software Engineering\Repwc\trunk\PandForms\obj\Debug\PandForms.Form1.resources
+C:\Users\Phat\Desktop\Pandemic\PandForms\bin\Debug\PandForms.exe.config
+C:\Users\Phat\Desktop\Pandemic\PandForms\bin\Debug\PandForms.exe
+C:\Users\Phat\Desktop\Pandemic\PandForms\bin\Debug\PandForms.pdb
+C:\Users\Phat\Desktop\Pandemic\PandForms\bin\Debug\PandForms.xml
+C:\Users\Phat\Desktop\Pandemic\PandForms\obj\Debug\PandForms.vbprojResolveAssemblyReference.cache
+C:\Users\Phat\Desktop\Pandemic\PandForms\obj\Debug\PandForms.Form1.resources
+C:\Users\Phat\Desktop\Pandemic\PandForms\obj\Debug\PandForms.Resources.resources
+C:\Users\Phat\Desktop\Pandemic\PandForms\obj\Debug\PandForms.vbproj.GenerateResource.Cache
+C:\Users\Phat\Desktop\Pandemic\PandForms\obj\Debug\PandForms.exe
+C:\Users\Phat\Desktop\Pandemic\PandForms\obj\Debug\PandForms.xml
+C:\Users\Phat\Desktop\Pandemic\PandForms\obj\Debug\PandForms.pdb
