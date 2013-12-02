@@ -82,40 +82,7 @@ int main()
 	//Added this part for role actions ./////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	char roles[7] = { 'a', 'a', 'a', 'a', 'a', 'a', 'a' };   //To keep a track of roles that are still available
 	string rolenames[7] = { "Contingency Plan", "Dispatcher", "Medic", "Operations Expert", "Quarantine Specialist", "Researcher", "Scientist" }; //RoleNames
-	//RoleActions Role[numberofplayers];//Role Actions are being managed
 
-	/*PandModel testdeck;
-	infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed
-
-	////outbreak tests
-	PandModel testOutbreak;
-	if (true)
-	{
-		PandView showOutbreak(testOutbreak);
-		showOutbreak.showCubeLocations();
-	}
-	testOutbreak.outbreak(1);//outbreak atlanta
-	testOutbreak.outbreak(1);//outbreak atlanta
-	testOutbreak.outbreak(1);//outbreak atlanta
-	testOutbreak.outbreak(1);//outbreak atlanta should cause chain
-	if (true)
-	{
-		PandView showOutbreak(testOutbreak);
-		showOutbreak.showCubeLocations();
-	}
-	system("CLS");*/
-
-	//test research cure
-	/* PandModel testResearch; //Temporarily commented out to compile and test the code - Omer
-	//0,2,7,8,10
-	testResearch.ReceiveCard(1, testResearch.getPlayerCard(0));
-	testResearch.ReceiveCard(1, testResearch.getPlayerCard(2));
-	testResearch.ReceiveCard(1, testResearch.getPlayerCard(7));
-	testResearch.ReceiveCard(1, testResearch.getPlayerCard(8));
-	testResearch.ReceiveCard(1, testResearch.getPlayerCard(10));
-	//5 gray city cards
-	//research
-	testResearch.researchCure(1); */
 
 	// Opening introduction and asking for number of players
 	Screens.showIntro();
@@ -195,17 +162,6 @@ int main()
 	}
 	////////////////////////////////////////////////////////////////////////
 
-
-	//test shuffle infectiondeck
-	//PandModel testdeck;  Moved to the top with all the other initializers
-
-
-
-	////test draw infection card
-	
-	//infectionCard tempinfecthand = testdeck.drawInfectionCard(); // removed 'infectionDeck.top()' from function input because not needed //Also moved to the top
-	//cout<<tempinfecthand.cardDescription<<" infected city \n";
-	//system("CLS");
 
 start:
 	int charnum; //temp variable
@@ -600,10 +556,8 @@ start:
 			newCards.showPlayCard(drawn);//display play card drawn
 			//if epidemic card
 			if(drawn.value > 47 && drawn.value < 54)//if epidemic card
-			{
 				GameInstance.epidemicDrawn();//call epidemic function
-				//i = 2;//end draw//read the manual again and it says it is possible to draw 2 epidemic cards
-			}
+
 			else
 			//else store in hand
 			GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
