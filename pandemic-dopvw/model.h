@@ -28,8 +28,8 @@ struct city//empty city container
 struct playerCard
 {
 	int value; //Holds the card's number
-	std::string cardType;
-	std::string cardDescription;
+	string cardType;
+	string cardDescription;
 	char color;
 };
 struct infectionCard
@@ -80,6 +80,7 @@ class PandModel
 	int ForecastPlayed;
 	int QuietNightPlayed;
 	int ResilientPlayed;
+	
 	// game win/lose variables
 	bool gameWin;
 	bool gameLose;
@@ -152,13 +153,9 @@ public:
 	void setDiseaseCubes(int cno, int a, int b, int c, int d);
 	void addDiseaseCubes(int cityNum, char cubeColr);//Add cube(s) of a corresponding color to city
 	void ShuttleFlight(int playernum);
-	//void ActionsInitialize(int playernum) {players[playernum].ActionsLeft = 0;}
-	void setActionsLeft(int playernum, int addAction); // {Playerchar.ActionsLeft += addAction;       }
+	void setActionsLeft(int playernum, int addAction); //adds # of actions for a player
 	int getActionsLeft (int playernum) {return players[playernum].ActionsLeft;}
 	
-
-	
-
 	void addResearchCenter(int city){cities[city].researchcenter=true;}//build research center at current city. Will need a check to see if research center already exists
 	
 	void shuffleInfectionDeck(deque<infectionCard> &shuffleDeck);//shuffle infection deck pass in a deque<infectionCard>
@@ -182,16 +179,19 @@ public:
 		return z;
 	}
 	void ReceiveCard(int playernum, playerCard card);
-	
 	void discardCard(int playernum, playerCard card);
 	int cardcount(int playernum)
 	{
 		players[playernum].numOfCards = 0;
 		for(int i = 0; i < 9; i++)
-		{if(players[playernum].cardsonhand[i].value != -1){players[playernum].numOfCards = players[playernum].numOfCards + 1;}}
+			{
+			if(players[playernum].cardsonhand[i].value != -1){
+				players[playernum].numOfCards = players[playernum].numOfCards + 1;}
+			}
 		return players[playernum].numOfCards;}
-	void cleanHand(int playernum); //Cleans up the player's hand
 
+	void cleanHand(int playernum); //Cleans up the player's hand
+	void handOverdraw(int playernum);
 
 	// SAVE-LOAD/////////////////////////////////////////////////////////////////////////////////////////////////////
 	void Save(int loadf, string sfname, int turn);
@@ -530,13 +530,11 @@ void PandModel::setDiseaseCubes(int cno, int a, int b, int c, int d){
 	cities[cno].diseasecubes[3] = d;
 }
 
-////////////////CURRENTLY WORKING ON   -VU////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////
+
 void PandModel::ReceiveCard(int playernum, playerCard card)
 {
+	cout << "RECEIVE DEBUG: YOU ARE PLAYER #:" << playernum << endl;
 	int z = 0; //Variable check
-
 	for(int i = 0; i < 9; i++)
 	{
 		if(players[playernum].cardsonhand[i].value == -1)
@@ -548,10 +546,7 @@ void PandModel::ReceiveCard(int playernum, playerCard card)
 		}
 		
 	}
-
-	//Alter this later for when the player hits maximum cards
-
-	
+	handOverdraw(playernum);
 }
 
 void PandModel::PlayCard(int playernum)
@@ -586,9 +581,6 @@ void PandModel::PlayCard(int playernum)
 
 	cardchoose = cardchoose - 1; //Player displays cards as 1 to 7. If select 1, we need to access deck[0]
 
-
-	//ifcardchoose = 8 (exit)     //If we want to give an option to cancel using a card
-	// playerturn +1  (player gains back used turn)
 
 	if(players[playernum].cardsonhand[cardchoose].value < 48 && players[playernum].cardsonhand[cardchoose].value >= 0)
 	{
@@ -663,24 +655,20 @@ void PandModel::PlayEventCard(int playernum, playerCard eventcard)
 	int cardchosenvalue = eventcard.value;
 	int wascardused = 0;
 
-///////////AIRLIFT////////////////////
+	//AIRLIFT
 	if(cardchosenvalue == 54)
 		{
-			
 			cout << "Event Played: Airlift!" << endl << endl;
-	////AirLift Data Output////
-	for(int i = 0; i < 16; i++)
-        {
+		////AirLift Data Output////
+		for(int i = 0; i < 16; i++)
+		    {
                 cout << left << setw(3) << i    << "  " << setw(20) << cities[i].cityName;
                 cout << left << setw(3) << i+16 << "  " << setw(20) << cities[i+16].cityName;
                 cout << left << setw(3) << i+32 << "  " << setw(20) << cities[i+32].cityName << endl;
-        }
-			cout << "Player locations:" << endl;
-			for(int i = 0; i < numberOfPlayers; i++)
-			{
-				cout << i << "  " << players[i].playerName << " : " << cities[players[i].location].cityName << endl;
 			}
-	//////////////////////////
+		cout << "Player locations:" << endl;
+		for(int i = 0; i < numberOfPlayers; i++)
+			{cout << i << "  " << players[i].playerName << " : " << cities[players[i].location].cityName << endl;}
 
 
 			int chooseplayer;
@@ -689,32 +677,23 @@ void PandModel::PlayEventCard(int playernum, playerCard eventcard)
 			cin >> chooseplayer;
 			cout << endl << "Where would you like to move " << players[chooseplayer].playerName << "? (0-47):";
 			cin >> chooselocation;
-
 			players[chooseplayer].location = chooselocation;
-
 			cout << players[chooseplayer].playerName << " has been moved to";
 			cout << cities[players[chooseplayer].location].cityName << endl << endl;
 
 			wascardused = 1;
-			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			//players[playernum].cardsonhand[cardchoose].value = -1;
-			cout << endl << endl;
-
-
-			
+			cout << endl << endl;			
 		}
-//////////////////FORECAST///////////////////////
-		if(cardchosenvalue == 55) //Forecast
+	//FORECAST//////////
+	if(cardchosenvalue == 55)
 		{
 			cout << "Event card played: Forecast!" << endl;
 			setForecastPlayed(1); //Forecast has to be played in controller.cpp, this flag plays it
 			wascardused = 1;
-			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			//players[playernum].cardsonhand[cardchoose].value = -1;
 		}
 
-/////////////////GOVERNMENT GRANT/////////////
-		if(cardchosenvalue == 56)
+	//GOVERNMENT GRANT//
+	if(cardchosenvalue == 56)
 		{
 			cout << "Event card played: Government Grant!" << endl << endl;
 			cout << "Listing Cities in regard to possession of Research Stations..." << endl;
@@ -741,63 +720,93 @@ void PandModel::PlayEventCard(int playernum, playerCard eventcard)
 				cout << "This city already has a research center!" << endl << endl;
 				setActionsLeft(playernum-1, 1);
 			}
-			if(cities[citychosen].researchcenter == false)
+		if(cities[citychosen].researchcenter == false)
 			{
 			addResearchCenter(citychosen);
 			cout << "A Research Center has been constructed in " << cities[citychosen].cityName;
 			wascardused = 1;
-			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			//players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << string(5, '\n');
 			}
 		}
-////////ONE QUIET NIGHT///////////////////////////// --Needs work
-		if(cardchosenvalue == 57) //One Quiet Night
+	//ONE QUIET NIGHT///////////////////////////// --Needs work
+	if(cardchosenvalue == 57)
 		{
 			cout << "Event card played: One Quiet Night!" << endl;
 			setQuietNightPlayed(1);
 			cout << "The next Infection Phase will be skipped!" << endl;
 			cout << "Card not implemented yet! Discarding card." << endl << endl;
 			wascardused = 1;
-			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			//players[playernum].cardsonhand[cardchoose].value = -1;
 		}
-/////////RESILIENT POPULATION/////////////////////  --Draw infection card, never play or push it
-		if(cardchosenvalue == 58) //Resilient Population
+	//RESILIENT POPULATION/////////////////////  --Draw infection card, never play or push it
+	if(cardchosenvalue == 58)
 		{
 			cout << "Event card played: Resilient Population!" << endl;
 			setResilientPlayed(1);
 			
 			cout << "Card not implemented yet! Discarding card." << endl << endl;
 			wascardused = 1;
-			//discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			//players[playernum].cardsonhand[cardchoose].value = -1;
 		}
-
-		if(wascardused == 1)
-		{discardCard(playernum, eventcard);}
+	//Discard Event Card if Used/////
+	if(wascardused == 1){discardCard(playernum, eventcard);}
 }
-////////////////////////////////
 
 void PandModel::discardCard(int playernum, playerCard card)
 {
-
-	for(int i = 0; i < 9; i++)
-	{
+	for(int i = 0; i < 9; i++){
 		if(card.value == players[playernum].cardsonhand[i].value)
-		{
+			{
 			discardPlayCard(card);
 			players[playernum].cardsonhand[i].value = -1;
-		}
-
+			}
 	}
+}
+
+void PandModel::handOverdraw(int playernum)
+{
+
+	int numcards;
+	numcards = cardcount(playernum);
+
+	while(numcards > 7)
+	{
+		int cardchoose = -1;
+		int choice;
+
+		cout << endl << "You have too many cards! - Discard cards or play your event cards" << endl << endl;
 
 
+			cout << "Cards on hand:" << endl;
+			for(int i = 0; i < 9; i++)
+			{
+				if(players[playernum].cardsonhand[i].value != -1){
+					cout << "#" << i+1 << "    ";
+					cout << players[playernum].cardsonhand[i].color << " || ";
+					cout << players[playernum].cardsonhand[i].cardType << " || ";
+					cout << players[playernum].cardsonhand[i].cardDescription << endl;}}
+			cout << endl << "Choose a city card to discard it. Choose an event card to play or discard it." << endl;
+			cout << "Choose a card (0-8):";
+
+			while(cardchoose < 0 || cardchoose > 8){cin >> cardchoose;}
+			cardchoose = cardchoose -1;
+			if(players[playernum].cardsonhand[cardchoose].cardType == "City")
+			{discardCard(playernum, players[playernum].cardsonhand[cardchoose]);}
+
+			if(players[playernum].cardsonhand[cardchoose].value >= 54 && players[playernum].cardsonhand[cardchoose].value <= 58)
+			{
+				cout << "1. Play" << endl << "2. Discard" << endl;
+				cin >> choice;
+
+				if(choice == 1){PlayEventCard(playernum, players[playernum].cardsonhand[cardchoose]);}
+				if(choice == 2){discardCard(playernum, players[playernum].cardsonhand[cardchoose]);}
+				choice == 0;
+			}
+			numcards = cardcount(playernum);
+			cleanHand(playernum);
+	}
 
 }
 
-
-void PandModel::cleanHand(int playernum)
+void PandModel::cleanHand(int playernum) //Shifts all cards in player's hand to the left and fills empty gaps
 {
 	playerCard tempdeck[9]; //Holds cleaned up values
 	for(int i = 0; i < 9; i++)
@@ -830,27 +839,29 @@ void PandModel::ShuttleFlight(int playernum)
 		}
 	}
 
-
 	if(cities[players[playernum-1].location].researchcenter == true) //If current city has researchcenter
 	{
 
-	if(z == 1)
-	{
-	cout << endl << endl << "Please choose a location: ";
-	int choice;
-	int x = 0;
+		if(z == 1){
+			cout << endl << endl << "Please choose a location: ";
+			int choice;
+			int x = 0;
 
-	while(x != 1) //Until player chooses valid location
-	{
-	cin >> choice;
-	if(cities[choice].researchcenter == true && (players[playernum-1].location != choice) )
-		{
-		players[playernum-1].location = choice;
-		x = 1;}
-	if(x == 0)
-	{cout << "Invalid Choice!" << endl;}
-	}
-	}
+			while(x != 1) //Until player chooses valid location
+				{
+				cin >> choice;
+				if(cities[choice].researchcenter == true && (players[playernum-1].location != choice) )
+					{
+					players[playernum-1].location = choice;
+					x = 1;}
+				if(players[playernum-1].location == choice)
+					{
+						cout << "Cannot move to same location." << endl << endl;
+						setActionsLeft(playernum-1, 1);
+					}
+				if(x == 0){cout << "Invalid Choice!" << endl;}
+				}
+			}
 	}
 
 	if(cities[players[playernum-1].location].researchcenter == false)
@@ -858,16 +869,13 @@ void PandModel::ShuttleFlight(int playernum)
 		cout << "You can only use Shuttle Flight when you're on a city with a Research Center!" << endl;
 		cout << endl;
 
-		setActionsLeft(playernum, 1); //Returns action
+		setActionsLeft(playernum-1, 1); //Returns action
 
 	}
-
-
 
 }
 
 
-///////////////////END COMMENT///////////////////////////////////////////////
 
 void PandModel::setPlayerRole(int playernum, int profession, std::string pName){
 	players[playernum].profession = profession;

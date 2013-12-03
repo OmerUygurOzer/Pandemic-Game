@@ -560,8 +560,8 @@ start:
 
 			else
 			//else store in hand
+			cout << "Debug: You are player #" << charnum << endl << endl;
 			GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
-			//if already have 7 cards, discard some
 			newCards.showHowManyPlayerCardsLeft();
 		}
 		system("pause");
