@@ -188,7 +188,7 @@ start:
 				j--;//epidemic card, do not store//
 				//will need to reinsert epidemic card if drawn
 			}
-			else
+			else//there's a bug here when there are 4 players, hand is incorrect
 				GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
