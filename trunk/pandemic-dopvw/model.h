@@ -1722,6 +1722,11 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 }
 void PandModel::GameOver()
 {
+	// assigning tempbool array to compare to cureMarkers array of bools
+	bool tempbool[4];
+	for (int i = 0; i < 4;)
+	tempbool[i] = true;
+
 	/* I will add test cases to check for the end of the game:
 	   1. if all four diseases are cured = win
 	   2. if outbreaks reach all the way to the end = lose
@@ -1729,8 +1734,9 @@ void PandModel::GameOver()
 	   4. if a player cannot draw two player cards after doing his actions = lose
 	   */
 	// case 1
-	//if (cureMarkers == [true, true, true, true])
-	//     gameWin = true;
+	int j = 0;
+	if (cureMarkers[j] == true, j < 4, j++)
+	    gameWin = true;
 	// case 2
 	if (outbreakLevel == 8)
 		gameLose = true;
