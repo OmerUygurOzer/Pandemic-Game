@@ -534,7 +534,7 @@ void PandModel::setDiseaseCubes(int cno, int a, int b, int c, int d){
 void PandModel::ReceiveCard(int playernum, playerCard card)
 {
 	cout << "RECEIVE DEBUG: YOU ARE PLAYER #:" << playernum << endl;
-	int z = 0; //Variable check
+
 	for(int i = 0; i < 9; i++)
 	{
 		if(players[playernum].cardsonhand[i].value == -1)
@@ -542,7 +542,6 @@ void PandModel::ReceiveCard(int playernum, playerCard card)
 			players[playernum].cardsonhand[i]= card;
 			
 			i = 10; //If card placed into hand, end loop
-			z = 1; //Card Received
 		}
 		
 	}
