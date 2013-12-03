@@ -192,7 +192,11 @@ start:
 				GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
+
+
 	/////Hardcoded Cards for testing
+
+	/*  Please do not remove /////////////////
 	playerCard TESTcard;
 	TESTcard.value = 55; //Testing 55 = Forecast
 	TESTcard.cardDescription = "ForecastTest";
@@ -202,7 +206,7 @@ start:
 	TESTcard2.value = 56;
 	TESTcard2.cardDescription = "GovGrantTEST";
 	GameInstance.ReceiveCard(1, TESTcard2);
-	
+	*/
 	///////////////////////////////
 
 
@@ -353,15 +357,17 @@ start:
 			if(ans == "4")//shuttleFlight
 			{GameInstance.ShuttleFlight(charnum+1);}
 
-			if(ans == "5")
-			{
-				newScreen.showCubeLocations();
-				GameInstance.setActionsLeft(charnum, 1);
-			}
+
+			//Added to the below function, we can remove this one
+			//if(ans == "5")
+			//{
+			//	newScreen.showCubeLocations();
+			//	GameInstance.setActionsLeft(charnum, 1);
+			//}
 
 
 
-			if(ans == "6") //Tester: This prints all the cities in 3 columns, no additional info.
+			if(ans == "5") //Tester: This prints all the cities in 3 columns, no additional info.
 			{
 				int printchoice;
 				cout << "1. Cities only" << endl;
@@ -377,6 +383,13 @@ start:
 				if(printchoice ==3)
 				{newScreen.printResearchCenters();}
 				GameInstance.setActionsLeft(charnum,1);
+				system("pause");
+			}
+
+			if(ans == "7")
+			{
+				cout << "Share knowledge not implemented! Returning action" << endl;
+				GameInstance.setActionsLeft(charnum, 1);
 			}
 
 			if (ans == "9")//game save
@@ -491,6 +504,27 @@ start:
 
 				}
 				if (GameInstance.getPlayerRole(charnum) == 3){//"Operations Expert"
+					cout << "1. Build a Research Center" << endl;
+					cout << "2. Discard any city card for charter flight" << endl;
+					int expertchoice;
+					cout << "What would you like to do? :";
+					cin >> expertchoice;
+
+					if(expertchoice == 1)
+					{
+						//are there 6 research stations yet?
+
+						int playerlocation = GameInstance.getPlayerLocation(charnum);
+						GameInstance.addResearchCenter(playerlocation);
+						cout << "A Research Station has been constructed in " << GameInstance.getCityName(playerlocation);
+						cout << endl << endl;
+					}
+
+					if(expertchoice == 2)
+					{
+
+					}
+
 
 				}
 				if (GameInstance.getPlayerRole(charnum) == 5){//"Researcher"
