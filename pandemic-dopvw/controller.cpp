@@ -558,11 +558,12 @@ start:
 			if(drawn.value > 47 && drawn.value < 54)//if epidemic card
 				GameInstance.epidemicDrawn();//call epidemic function
 
-			else
+			else{
 			//else store in hand
 			cout << "Debug: You are player #" << charnum << endl << endl;
-			GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
+			GameInstance.ReceiveCard(charnum+1, drawn);//draw card and store in hand
 			newCards.showHowManyPlayerCardsLeft();
+			}
 		}
 		system("pause");
 
