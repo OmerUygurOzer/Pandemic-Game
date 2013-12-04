@@ -140,7 +140,7 @@ void PandView::showPlayerInfo(int playernum)
 							"Hong Kong", "Istanbul", "Jakarta", "Johannesburg", "Karachi", "Khartoum", "Kinshasa", "Kolkata", "Lagos", "Lima", "London", "Los Angeles", "Madrid",
 							"Manila", "Mexico City", "Miami", "Milan", "Moscow", "Mumbai", "New York", "Osaka", "Paris", "Riyadh", "San Francisco", "Santiago",
 							"Sao Paulo", "Seoul", "Shanghai", "St. Petersburg", "Sydney", "Taipei", "Tehran", "Tokyo", "Toronto", "Washington"};
-	Playerchar temp = model.getPlayerInfo(playernum-1);
+	Playerchar temp = model.getPlayerInfo(playernum);//changing to match controller call
 	std::cout<<"Player name: " <<  temp.playerName << std::endl;
 	std::cout<<"Player location: " << cityname[temp.location] << std::endl;
 	std::cout << "Player Role: " << temp.profName << std::endl;

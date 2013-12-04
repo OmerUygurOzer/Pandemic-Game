@@ -516,7 +516,7 @@ void PandModel::setPlayerName(int playernum, std::string name)
 
 void PandModel::setPlayerLocation(int playernum, int location)
 {
-	players[playernum-1].location = location;
+	players[playernum].location = location;
 }
 
 void PandModel::setActionsLeft(int playernum, int addAction)
@@ -838,7 +838,7 @@ void PandModel::ShuttleFlight(int playernum)
 		}
 	}
 
-	if(cities[players[playernum-1].location].researchcenter == true) //If current city has researchcenter
+	if(cities[players[playernum].location].researchcenter == true) //If current city has researchcenter
 	{
 
 		if(z == 1){
@@ -846,29 +846,29 @@ void PandModel::ShuttleFlight(int playernum)
 			int choice;
 			int x = 0;
 
-			while(x != 1) //Until player chooses valid location
+			while(x != 1) //Until player chooses valid location//infinite loop when already in the same city
 				{
 				cin >> choice;
-				if(cities[choice].researchcenter == true && (players[playernum-1].location != choice) )
+				if(cities[choice].researchcenter == true && (players[playernum].location != choice) )
 					{
-					players[playernum-1].location = choice;
+					players[playernum].location = choice;
 					x = 1;}
-				if(players[playernum-1].location == choice)
+				if(players[playernum].location == choice)
 					{
 						cout << "Cannot move to same location." << endl << endl;
-						setActionsLeft(playernum-1, 1);
+						setActionsLeft(playernum, 1);
 					}
 				if(x == 0){cout << "Invalid Choice!" << endl;}
 				}
 			}
 	}
 
-	if(cities[players[playernum-1].location].researchcenter == false)
+	if(cities[players[playernum].location].researchcenter == false)
 	{
 		cout << "You can only use Shuttle Flight when you're on a city with a Research Center!" << endl;
 		cout << endl;
 
-		setActionsLeft(playernum-1, 1); //Returns action
+		setActionsLeft(playernum, 1); //Returns action
 
 	}
 
@@ -1718,7 +1718,7 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 	hfile << players[pno].profession;
 	hfile << " ";
 		for (int x = 0; x < 7; x++){
-			hfile << players[pno+1].cardsonhand[x].value;
+			hfile << players[pno].cardsonhand[x].value;
 			hfile << " ";
 		}
 		hfile.close();
