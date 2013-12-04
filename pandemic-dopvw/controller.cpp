@@ -189,7 +189,7 @@ start:
 				//will need to reinsert epidemic card if drawn
 			}
 			else//there's a bug here when there are 4 players, hand is incorrect
-				GameInstance.ReceiveCard(i+1,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
+				GameInstance.ReceiveCard(i,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
 
@@ -237,14 +237,14 @@ start:
 		{
 		into:
 			system("CLS");
-			GameInstance.updateHandsFile(charnum);
+			GameInstance.updateHandsFile(charnum);//used to display in form
 			//cout << string(50, '\n'); //Screen clearer.
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
 			//GameInstance.loadActionsLeft(charnum, GameInstance.getActionsLeft(charnum) - 1);
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
 			Playerchar temp = GameInstance.getPlayerInfo(charnum);
-			city tempcity = GameInstance.getCityInfo(charnum+1);
-			newScreen.showPlayerInfo(charnum+1);
+			city tempcity = GameInstance.getCityInfo(temp.location);//integer in getCityInfo should be the int of the city the player is in.
+			newScreen.showPlayerInfo(charnum);
 			newScreen.showCityInfo(temp.location);
 
 			newScreen.showActionMenu(temp.profession);
@@ -261,20 +261,20 @@ start:
 				cin>>moveto;
 				//need a way to determine if the input is valid
 				//The amount of cities vary.. should we just assume the player will make the correct input?
-				GameInstance.setPlayerLocation(charnum+1, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
+				GameInstance.setPlayerLocation(charnum, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
 				cout << string(10, '\n');
 			}
 			
 			/////////////Use Card/////////////////////////////
 			if(ans == "2")
 			{
-				if(GameInstance.CheckHand(charnum+1) == 0)
+				if(GameInstance.CheckHand(charnum) == 0)
 				{
 				cout << endl << endl << "You have no cards!" << endl << endl; //Maybe I'll move this to model. -Vu
 				GameInstance.setActionsLeft(charnum, 1); //Return action used to Play Card
 				}
-				if(GameInstance.CheckHand(charnum+1) == 1) //If player has card, allow to play card
-				{GameInstance.PlayCard(charnum+1);}
+				if(GameInstance.CheckHand(charnum) == 1) //If player has card, allow to play card
+				{GameInstance.PlayCard(charnum);}
 
 
 
@@ -355,7 +355,7 @@ start:
 			}
 
 			if(ans == "4")//shuttleFlight
-			{GameInstance.ShuttleFlight(charnum+1);}
+			{GameInstance.ShuttleFlight(charnum);}
 
 
 			//Added to the below function, we can remove this one
@@ -567,16 +567,16 @@ start:
 			//research cure
 			if(ans == "12")
 			{
-				newScreen.showPlayerHand(charnum+1);
+				newScreen.showPlayerHand(charnum);
 				
 
-				bool researchSuccess = GameInstance.researchCure(charnum+1);
+				bool researchSuccess = GameInstance.researchCure(charnum);
 				if(!researchSuccess)//if research not successful
 					GameInstance.setActionsLeft(charnum, 1);//give back 1 action pt.
 				
 			}
 
-			GameInstance.cleanHand(charnum+1);
+			GameInstance.cleanHand(charnum);
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
 
 		}//end of player turn
@@ -595,7 +595,7 @@ start:
 			else{
 			//else store in hand
 			cout << "Debug: You are player #" << charnum << endl << endl;
-			GameInstance.ReceiveCard(charnum+1, drawn);//draw card and store in hand
+			GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
 			newCards.showHowManyPlayerCardsLeft();
 			}
 		}
