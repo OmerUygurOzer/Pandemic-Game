@@ -1742,17 +1742,19 @@ void PandModel::GameOver()
 	   */
 	// case 1
 	int j = 0;
-	if (cureMarkers[j] == true, j < 4, j++)
+	if (cureMarkers[j] == true, j < 4, j++)//can do check with if(cureMarkers[0] == true && cureMarkers[1] == true && cureMarkers[2] == true && cureMarkers[3] == true)
 	    gameWin = true;
 	// case 2
 	if (outbreakLevel == 8)
 		gameLose = true;
-	// case 3: still trying to figure out best way to check. maybe if error when cubes are placed?
+	// case 3: still trying to figure out best way to check. maybe if error when cubes are placed? //as a temp I would just check to see if available cubes does not equal 0
 	// case 4: 
 	getNumPlayCardsLeft();
-	if (PlayerDeckD.size() < 1)
+	if (PlayerDeckD.size() < 1)//should be less than 2. If the player can draw 1 but not 2 game is over
 		gameLose = true;
 
+
+	//for each case it should return true, game is over. else return false, game not over.
 };
 
 
