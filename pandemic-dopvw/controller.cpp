@@ -386,6 +386,23 @@ start:
 				system("pause");
 			}
 
+			//research cure
+			if(ans == "6")
+			{
+				newScreen.showPlayerHand(charnum);
+				
+
+				bool researchSuccess = GameInstance.researchCure(charnum);
+				if(!researchSuccess)//if research not successful
+				{
+					GameInstance.setActionsLeft(charnum, 1);//give back 1 action pt.
+					cout<<"You do not have enough cards to research a cure \n";
+				}
+				else
+					cout<<"Research successful \n";
+				system("pause");
+			}
+
 			if(ans == "7")
 			{
 				cout << "Share knowledge not implemented! Returning action" << endl;
@@ -564,21 +581,11 @@ start:
 				charnum = -2; //Will add up to -1 and cause while loop to end. Kind of just crashes the program
 			}
 
-			//research cure
-			if(ans == "12")
-			{
-				newScreen.showPlayerHand(charnum);
-				
-
-				bool researchSuccess = GameInstance.researchCure(charnum);
-				if(!researchSuccess)//if research not successful
-					GameInstance.setActionsLeft(charnum, 1);//give back 1 action pt.
-				
-			}
+			
 
 			GameInstance.cleanHand(charnum);
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
-
+			
 		}//end of player turn
 
 		//draw 2 player cards

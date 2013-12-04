@@ -102,7 +102,7 @@ void PandView::showActionMenu(int p)
 	std::cout << "3. Remove cube		     ||"; std::cout << listActions(p, 2) << std::endl;
 	std::cout << "4. Shuttle Flight            ||"; std::cout << listActions(p, 3) << std::endl;
 	std::cout << "5. List City Data            ||"; std::cout << listActions(p, 4) << std::endl;
-	std::cout<<  "6. ------------              ||" << std::endl;//expansion for later
+	std::cout<<  "6. Research Cure             ||" << std::endl;//expansion for later
 	std::cout<<  "7. Share Knowledge " << std::endl;
 
 	//listActions(p); //additional actions that are unique to each player are being shown here
@@ -111,7 +111,7 @@ void PandView::showActionMenu(int p)
 
 	std::cout << "9. Save current game         ||" << std::endl;
 	std::cout << "10. Load a different game    ||" << std::endl;
-	std::cout<<"12. Research Cure //will need to move to # 5 since it uses an action point. " << std::endl;
+	std::cout<<"12.______________ " << std::endl;
 	std::cout<<"What would you like to do: ";
 	
 }
