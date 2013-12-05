@@ -123,7 +123,7 @@ public:
 	void setloadflag(int x){ loadflag = x; };
 	int colorToInt(char color); // returns int corresponding to color (0,1,2,3 = R,G,B,Y)
 	void epidemicDrawn(); // call when an epidemic card is drawn
-	void GameOver();
+	bool GameOver();
 
 
 	void setForecastPlayed(int value){ForecastPlayed = value;}
@@ -1727,13 +1727,8 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 
 
 }
-void PandModel::GameOver()
+bool PandModel::GameOver()
 {
-	// assigning tempbool array to compare to cureMarkers array of bools
-	bool tempbool[4];
-	for (int i = 0; i < 4;)
-	tempbool[i] = true;
-
 	/* I will add test cases to check for the end of the game:
 	   1. if all four diseases are cured = win
 	   2. if outbreaks reach all the way to the end = lose
@@ -1741,20 +1736,19 @@ void PandModel::GameOver()
 	   4. if a player cannot draw two player cards after doing his actions = lose
 	   */
 	// case 1
-	int j = 0;
-	if (cureMarkers[j] == true, j < 4, j++)//can do check with if(cureMarkers[0] == true && cureMarkers[1] == true && cureMarkers[2] == true && cureMarkers[3] == true)
-	    gameWin = true;
+	if (cureMarkers[0] == true && cureMarkers[1] == true && cureMarkers[2] == true && cureMarkers[3] == true)
+		return true;
+	else return false;
 	// case 2
 	if (outbreakLevel == 8)
-		gameLose = true;
+		return true;
+	else return false;
 	// case 3: still trying to figure out best way to check. maybe if error when cubes are placed? //as a temp I would just check to see if available cubes does not equal 0
 	// case 4: 
 	getNumPlayCardsLeft();
-	if (PlayerDeckD.size() < 1)//should be less than 2. If the player can draw 1 but not 2 game is over
-		gameLose = true;
-
-
-	//for each case it should return true, game is over. else return false, game not over.
+	if (PlayerDeckD.size() < 2)
+		return true;
+	else return false;
 };
 
 
