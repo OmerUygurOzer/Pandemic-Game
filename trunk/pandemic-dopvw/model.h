@@ -997,8 +997,8 @@ void PandModel::buildResearchCenter(int playernum)
 			}
 		if(cities[citychosen].researchcenter == false)
 			{
-				int decideRemove = 0;
-				if( countNumResearchCenters() == 6)
+				int decideRemove;
+				if( countNumResearchCenters() >= 6)
 				{
 				cout << "Hit max limit of Research Centers!" << endl;
 				cout << "Remove another Research Center?" << endl;
@@ -1011,7 +1011,7 @@ void PandModel::buildResearchCenter(int playernum)
 				cout << "Choose a city to remove a Research Center (0-47)" << endl;
 				int removedyet = 0;
 				int choosecity;
-				while(removedyet = 0)
+				while(removedyet != 1)
 				{
 					cin >> choosecity;
 					if(choosecity >= 0 && choosecity <= 47) //In case the player puts in a bad number
@@ -1022,7 +1022,7 @@ void PandModel::buildResearchCenter(int playernum)
 							removedyet = 1;
 						}
 						if(cities[choosecity].researchcenter == false)
-						{cout << "This city does not have a research center" << endl;}
+						{cout << "This city does not have a research center. Choose another city" << endl;}
 					}
 
 				}
