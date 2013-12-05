@@ -235,8 +235,8 @@ start:
 
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
-		into:
-			system("CLS");
+into:
+			//system("CLS");
 			GameInstance.updateHandsFile(charnum);//used to display in form
 			//cout << string(50, '\n'); //Screen clearer.
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
@@ -529,17 +529,13 @@ start:
 
 					if(expertchoice == 1)
 					{
-						//are there 6 research stations yet?
-
-						int playerlocation = GameInstance.getPlayerLocation(charnum);
-						GameInstance.addResearchCenter(playerlocation);
-						cout << "A Research Station has been constructed in " << GameInstance.getCityName(playerlocation);
-						cout << endl << endl;
+						GameInstance.buildResearchCenter(charnum);
 					}
 
 					if(expertchoice == 2)
 					{
-
+						newScreen.printCityColumns();
+						GameInstance.abilityCharterFlight(charnum);
 					}
 
 

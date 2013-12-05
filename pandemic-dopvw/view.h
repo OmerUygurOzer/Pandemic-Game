@@ -225,7 +225,7 @@ string PandView::listActions(int role,int line){
 	}
 	if (role == 3){
 		if (line == 1){ return "a. Build a research station";}
-		if (line == 2){ return ""; }
+		if (line == 2){ return "or discard any city card for Charter Flight"; }
 		if (line == 3){ return ""; }
 		if (line == 4){ return ""; }
 
