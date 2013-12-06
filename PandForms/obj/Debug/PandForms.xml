@@ -191,6 +191,22 @@ PandForms
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
+</member><member name="P:PandForms.My.Resources.Resources.P1">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:PandForms.My.Resources.Resources.P2">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:PandForms.My.Resources.Resources.P3">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:PandForms.My.Resources.Resources.P4">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
 </member><member name="P:PandForms.My.Resources.Resources.PARIS">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
@@ -200,6 +216,14 @@ PandForms
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>
 </member><member name="P:PandForms.My.Resources.Resources.QuarantineSpecialist">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:PandForms.My.Resources.Resources.RC">
+	<summary>
+  Looks up a localized resource of type System.Drawing.Bitmap.
+</summary>
+</member><member name="P:PandForms.My.Resources.Resources.Rcenter">
 	<summary>
   Looks up a localized resource of type System.Drawing.Bitmap.
 </summary>

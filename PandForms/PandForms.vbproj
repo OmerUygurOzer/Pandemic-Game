@@ -327,6 +327,39 @@
   <ItemGroup>
     <None Include="Resources\10_world-map.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\imageedit_2_9034716628.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Player1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Player2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Player3.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Player4.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\P1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\P2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\P3.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\P4.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RC.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Rcenter.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
