@@ -2209,12 +2209,6 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 }
 bool PandModel::GameOver()
 {
-	/* I will add test cases to check for the end of the game:
-	   1. if all four diseases are cured = win
-	   2. if outbreaks reach all the way to the end = lose
-	   3. if unable to place number of disease cubes needed on the board = lose
-	   4. if a player cannot draw two player cards after doing his actions = lose
-	   */
 	// case 1
 	if (cureMarkers[0] == true && cureMarkers[1] == true && cureMarkers[2] == true && cureMarkers[3] == true)
 		return true;
@@ -2223,7 +2217,10 @@ bool PandModel::GameOver()
 	if (outbreakLevel == 8)
 		return true;
 	else return false;
-	// case 3: still trying to figure out best way to check. maybe if error when cubes are placed? //as a temp I would just check to see if available cubes does not equal 0
+	// case 3: as a temp I would just check to see if available cubes does not equal 0
+	if (diseaseCubes == 0)
+		return true;
+	else return false;
 	// case 4: 
 	getNumPlayCardsLeft();
 	if (PlayerDeckD.size() < 2)
