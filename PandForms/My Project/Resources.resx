@@ -262,9 +262,6 @@
   <data name="ContingencyPlanner" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ContingencyPlanner.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="10_world-map" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\10_world-map.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="BUENOSAIRES" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BUENOSAIRES.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -328,9 +325,6 @@
   <data name="KOLKATA" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\KOLKATA.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="10_world-map1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\10_world-map.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="P1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\P1.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -348,5 +342,8 @@
   </data>
   <data name="Rcenter" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rcenter.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_10_world_map" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\10_world-map.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

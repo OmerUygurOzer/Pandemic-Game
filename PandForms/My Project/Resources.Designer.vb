@@ -65,17 +65,7 @@ Namespace My.Resources
         '''</summary>
         Friend ReadOnly Property _10_world_map() As System.Drawing.Bitmap
             Get
-                Dim obj As Object = ResourceManager.GetObject("10_world-map", resourceCulture)
-                Return CType(obj,System.Drawing.Bitmap)
-            End Get
-        End Property
-        
-        '''<summary>
-        '''  Looks up a localized resource of type System.Drawing.Bitmap.
-        '''</summary>
-        Friend ReadOnly Property _10_world_map1() As System.Drawing.Bitmap
-            Get
-                Dim obj As Object = ResourceManager.GetObject("10_world-map1", resourceCulture)
+                Dim obj As Object = ResourceManager.GetObject("_10_world_map", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -586,10 +576,10 @@ Namespace My.Resources
         Friend ReadOnly Property Rcenter() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("Rcenter", resourceCulture)
-                Return CType(obj, System.Drawing.Bitmap)
+                Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
-
+        
         '''<summary>
         '''  Looks up a localized resource of type System.Drawing.Bitmap.
         '''</summary>
