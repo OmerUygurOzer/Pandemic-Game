@@ -193,8 +193,10 @@ start:
 				GameInstance.ReceiveCard(i,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
-
-
+	playerCard tempCard = GameInstance.getPlayerCard(58);//resilient test
+	GameInstance.ReceiveCard(0,tempCard);
+	tempCard = GameInstance.getPlayerCard(57);//quiet night test
+	GameInstance.ReceiveCard(0,tempCard);
 	/////Hardcoded Cards for testing
 
 	/*  Please do not remove /////////////////
@@ -339,6 +341,18 @@ into:
 					*/
 					cout << endl << endl;
 					//////////////////
+				}
+				//Resilient population
+				if(GameInstance.returnResilient())
+				{
+					//take a card from the discard infect pile and remove from game
+					PandView newCards(GameInstance);
+
+					newCards.showDiscardedInfect();
+					cout<<"Choose a city to discard from the infection deck \n";
+					int chosen;
+					cin>>chosen;
+					GameInstance.removeDiscardInfect(chosen);//remove a card from infection deck
 				}
 
 			}
@@ -610,6 +624,8 @@ into:
 		}
 		system("pause");
 
+		if(!GameInstance.ReturnQuietNight())
+		{
 		//draw 2-4 infection cards. How many drawn depends on infection rate.
 		cout<<"Draw " << GameInstance.getInfectionRate() << " infection cards\n";
 		for(int i = 0; i < GameInstance.getInfectionRate(); i++)
@@ -618,6 +634,12 @@ into:
 			PandView newCards(GameInstance);
 			newCards.showInfectCard(tempInfectCard);//display infection card drawn
 			GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color);//if 3 cubes already exist, if so, dont add 3 but cause outbreak. Done in model
+		}
+		}
+		else
+		{
+			cout<<"One Quiet Night Played \n";
+			GameInstance.setQuietNightPlayed(false);//reset
 		}
 		system("pause");
 

@@ -32,7 +32,7 @@ public:
 	void printCityColumns();
 	void printResearchCenters();
 	void dispatcherloc(int playernum);
-
+	void showDiscardedInfect();//use for resilient population
 };
 
 PandView::PandView()
@@ -350,6 +350,12 @@ void PandView::showPlayerHand(int playernum)
 	}
 	////////////////Hand print end////////////////////////////////
 }
-
+void PandView::showDiscardedInfect()//use for resilient population
+{
+	
+	std::deque<infectionCard> temp = model.copyInfectDiscardDeck();
+	for(int i = 0; i<temp.size(); i++)
+		cout<<i<<": " << temp[i].cardDescription<<endl;
+}
 
 #endif
