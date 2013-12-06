@@ -1890,7 +1890,10 @@ void PandModel::addDiseaseCubes(int cityNum, char cubeColr)
 	if(cubeColr = 'B') cubeIndex = 2;
 	if(cubeColr = 'Y') cubeIndex = 3;
 	if(cities[cityNum].diseasecubes[cubeIndex] + 1 > 3)//if city already has 3 cubes of that color
+	{
 		outbreak(cityNum);//cause an outbreak
+		cout<<"Outbreak! \n";
+	}
 	else
 		cities[cityNum].diseasecubes[cubeIndex] = cities[cityNum].diseasecubes[cubeIndex] + 1;
 
