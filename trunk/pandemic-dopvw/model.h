@@ -80,8 +80,9 @@ class PandModel
 	int infectionRate;//not sure why this was removed before. Will need to reimplement to match board rate level/ ex: 2-2-2-3-3-4-4 maybe stack<int> infectionRate; populate in constructor and use increaseInfectRate();
 	int infectRateArray[7]; //represents the infection rate  2-2-2-3-3-4-4
 	int ForecastPlayed;
-	int QuietNightPlayed;
-	int ResilientPlayed;
+	bool QuietNightPlayed;//changed to bool. by default false
+	bool ResilientPlayed;//changed to bool. by default false
+	
 	int numResearchCenters;
 	
 	// game win/lose variables
@@ -120,6 +121,8 @@ public:
 	int getNumPlayCardsLeft(){return PlayerDeckD.size();}//
 
 	Playerchar getPlayerInfo(int playernum){return players[playernum];}
+	deque<infectionCard> copyInfectDiscardDeck(){return discardInfectionDeck;}//for view
+	void removeDiscardInfect(int index);//resilient population
 	int getDCLeft(int a);//Disease cubes left
 	int getTurn();
 	bool getloadflag(){ return loadflag; };//Whether the game is being loaded or starting as a new game
@@ -130,11 +133,11 @@ public:
 
 
 	void setForecastPlayed(int value){ForecastPlayed = value;}
-	void setQuietNightPlayed(int value){QuietNightPlayed = value;}
-	void setResilientPlayed(int value){ResilientPlayed = value;}
+	void setQuietNightPlayed(bool value){QuietNightPlayed = value;}
+	void setResilientPlayed(bool value){ResilientPlayed = value;}
 	int ReturnForecast(){return ForecastPlayed;}
-	int ReturnQuietNight(){return QuietNightPlayed;}
-	int returnResilient(){return ResilientPlayed;}
+	bool ReturnQuietNight(){return QuietNightPlayed;}
+	bool returnResilient(){return ResilientPlayed;}
 
 	
 	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck+
@@ -238,8 +241,8 @@ PandModel::PandModel()//constructor
 	infectRateArray[5] = 4;
 	infectRateArray[6] = 4;
 	ForecastPlayed = 0;
-	QuietNightPlayed = 0;
-	ResilientPlayed = 0;
+	QuietNightPlayed = false;
+	ResilientPlayed = false;
 	playerturn = 0; //turn indicator
 	loadflag = false;
 
@@ -846,18 +849,18 @@ void PandModel::PlayEventCard(int playernum, playerCard eventcard)
 	if(cardchosenvalue == 57)
 		{
 			cout << "Event card played: One Quiet Night!" << endl;
-			setQuietNightPlayed(1);
+			setQuietNightPlayed(true);
 			cout << "The next Infection Phase will be skipped!" << endl;
-			cout << "Card not implemented yet! Discarding card." << endl << endl;
+			//cout << "Card not implemented yet! Discarding card." << endl << endl;
 			wascardused = 1;
 		}
 	//RESILIENT POPULATION/////////////////////  --Draw infection card, never play or push it
 	if(cardchosenvalue == 58)
 		{
 			cout << "Event card played: Resilient Population!" << endl;
-			setResilientPlayed(1);
+			setResilientPlayed(true);
 			
-			cout << "Card not implemented yet! Discarding card." << endl << endl;
+			//cout << "Card not implemented yet! Discarding card." << endl << endl;
 			wascardused = 1;
 		}
 	//Discard Event Card if Used/////
@@ -2218,7 +2221,7 @@ bool PandModel::GameOver()
 		return true;
 	else return false;
 	// case 3: as a temp I would just check to see if available cubes does not equal 0
-	if (diseaseCubes == 0)
+	if (diseaseCubes[0] == 0 ||diseaseCubes[1] == 0 ||diseaseCubes[2] == 0 ||diseaseCubes[3] == 0)
 		return true;
 	else return false;
 	// case 4: 
@@ -2226,8 +2229,19 @@ bool PandModel::GameOver()
 	if (PlayerDeckD.size() < 2)
 		return true;
 	else return false;
-};
+}
 
+void PandModel::removeDiscardInfect(int index)//resilient population
+{
+	int size = discardInfectionDeck.size();
+	infectionCard *temp = new infectionCard[size];
+	for(int i = 0; i < discardInfectionDeck.size(); i++)//copy contents to temp
+		temp[i] = discardInfectionDeck[i];
+	discardInfectionDeck.clear();//erase contents
+	for(int i = 0; i < size; i++)//put everything back minus the city chosen
+		if(i!= index)
+			discardInfectionDeck.push_back(temp[i]);
+}
 
 
 #endif
