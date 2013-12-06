@@ -31,6 +31,7 @@ struct playerCard
 	string cardType;
 	string cardDescription;
 	char color;
+	bool remove;
 };
 struct infectionCard
 {
@@ -54,7 +55,7 @@ struct Playerchar  //Probably want to change to a class when we do the cards in 
 	int numOfCards;
 	//playerCard CPextracard; //Extra card for the contigency planner   --Working on a workaround  --Vu
 	bool extracardFlag;// = false; //whether a card is chosen already or not
-
+	playerCard extracard;
 
 	//If player draws a card and num of cards > 7, player can use cards until less than 7, or discard.
 	bool cardSlotAvailable[7];//if player uses a card from anywhere but end we'll need to keep track or use a shift
@@ -72,6 +73,7 @@ class PandModel
 	std::deque<infectionCard> infectionDeck;//48 infection cards shuffled
 	std::deque<infectionCard> discardInfectionDeck;//discarded infection cards
 	std::deque<playerCard> discardPlayerDeckD;//discarded player cards
+	std::deque<playerCard> discardedEventCards;
 	int diseaseCubes[4]; // number of disease cubes left for each color, (0,1,2,3 = red,black,blue,yellow)
 	int outbreakLevel;//0-8, if 8 game is over?
 	int trackOutbreak;//used for outbreak infected list
@@ -170,7 +172,8 @@ public:
 	void treatCity(int city, int cubecolor, int role); // treat city for disease corresponding to cubecolor
 	//Role action:
 	void performRoleActions(int playernum, int actionNo , int loc); //Performs unique player actions
-	
+	void pickEvent(int playernum);
+
 	void PlayCard(int playernum);
 	void PlayEventCard(int playernum, playerCard eventcard);
 	int CheckHand(int playernum) {	//If player has non-blank card, return 1
@@ -422,6 +425,12 @@ PandModel::PandModel()//constructor
 		players[1].ActionsLeft = 0;//actions left initialized to 0
 		players[2].ActionsLeft = 0;//actions left initialized to 0
 		players[3].ActionsLeft = 0;//actions left initialized to 0
+
+		players[0].extracardFlag = 0;
+		players[1].extracardFlag = 0;
+		players[2].extracardFlag = 0;
+		players[3].extracardFlag = 0;
+
 		
 		addResearchCenter(1);//Atlanta CDC research center default
 }
@@ -554,22 +563,72 @@ void PandModel::ReceiveCard(int playernum, playerCard card)
 	handOverdraw(playernum);
 }
 
+void PandModel::pickEvent(int playernum){
+	if (!players[playernum].extracardFlag){
+		if (discardedEventCards.size() == 0){
+			cout << "No Event Card was has been played yet!" << endl;
+			players[playernum].ActionsLeft = players[playernum].ActionsLeft + 1;
+		}
+		else{
+			cout << "List of discarded cards:" << endl << endl;
+			for (int i = 0; i < discardedEventCards.size(); i++){
+				cout << i + 1 << ")" << discardedEventCards[i].cardDescription << endl;
+			}
+		}
+		int temp;
+		cout << "Which event card would you like to pick:";
+		cin >> temp;
+		cout << endl;
+		while (temp<1 && temp > discardedEventCards.size() ){
+			cout << "Invalid Input. Try again:";
+			cin >> temp;
+			cout << endl;
+		}
+		cout << "TEST:" << discardedEventCards[temp - 1].value << endl;
+		players[playernum].extracard = playerDeck[discardedEventCards[temp - 1].value];
+		discardedEventCards.erase(discardedEventCards.begin() + temp - 1);
+		players[playernum].extracardFlag = true;
+		players[playernum].ActionsLeft = players[playernum].ActionsLeft + 1;
+	}
+	else{
+		cout <<  "You already have an extra card!" << endl;
+		players[playernum].ActionsLeft = players[playernum].ActionsLeft + 1;
+
+	}
+
+
+}
+
 void PandModel::PlayCard(int playernum)
 {
 	//Print cards in hand/////////////////////////////////////////
 	cout << "Cards on hand:" << endl;
 	//cout << "Color || Type || Name - Effect" << endl;
-
+	int temp;
+	bool skipped = false;
 	for(int i = 0; i < 9; i++)
 	{
 		
 		if(players[playernum].cardsonhand[i].value != -1)
 		{
+			temp = i;
 			cout << "#" << i+1 << "    ";
 			cout << players[playernum].cardsonhand[i].color << " || ";
 			cout << players[playernum].cardsonhand[i].cardType << " || ";
 			cout << players[playernum].cardsonhand[i].cardDescription << endl;
+
 		}
+	}
+	temp++; temp++; //this isn't a bug
+
+	if (players[playernum].extracardFlag){//Added by omer for contingency planner
+
+		cout << "Your Extra Card:" << endl;
+
+		cout << "#" << temp << "    ";
+		cout << players[playernum].extracard.color << " || ";
+		cout << players[playernum].extracard.cardType << " || ";
+		cout << players[playernum].extracard.cardDescription << endl;
 	}
 	////////////////Hand print end////////////////////////////////
 
@@ -577,14 +636,19 @@ void PandModel::PlayCard(int playernum)
 	cout << "Choose your card: ";
 	cin >> cardchoose;
 
-	while(cardchoose < 0 || cardchoose > 8)
+	while(cardchoose < 0 || cardchoose > 9)//had to chang it for contigency planner
 	{
 		cout << "Invalid choice! Please choose again: ";
 		cin >> cardchoose;
 	}
 	cout << endl << endl;
 
+	if (cardchoose == temp){ 
+		skipped = true;
+		goto extra; }
+
 	cardchoose = cardchoose - 1; //Player displays cards as 1 to 7. If select 1, we need to access deck[0]
+
 
 
 	if(players[playernum].cardsonhand[cardchoose].value < 48 && players[playernum].cardsonhand[cardchoose].value >= 0)
@@ -657,7 +721,13 @@ void PandModel::PlayCard(int playernum)
 		PlayEventCard(playernum, players[playernum].cardsonhand[cardchoose]);
 	}
 
-
+extra:
+	if (skipped){
+		setActionsLeft(playernum, 1); //Event card takes up no turns
+		cout << "Playing an event card: ";
+		PlayEventCard(playernum, playerDeck[players[playernum].extracard.value]);
+		players[playernum].extracardFlag = false;
+	}
 }
 
 void PandModel::PlayEventCard(int playernum, playerCard eventcard)
@@ -800,6 +870,7 @@ void PandModel::discardCard(int playernum, playerCard card)
 		if(card.value == players[playernum].cardsonhand[i].value)
 			{
 			discardPlayCard(card);
+			if (card.cardType == "Special Event"){ discardedEventCards.push_back(card); }//Added by Omer for Contigency Planner
 			players[playernum].cardsonhand[i].value = -1;
 			}
 	}
@@ -1266,7 +1337,7 @@ void PandModel::epidemicDrawn()
 
 void PandModel::discardPlayCard(playerCard discarding)
 {
-	discardPlayerDeckD.push_back(discarding);
+	if (!discarding.remove){ discardPlayerDeckD.push_back(discarding); }//Modified by Omer for contingency planner
 }
 
 
@@ -1380,7 +1451,7 @@ void PandModel::Load(int loadf){
 			savef >> temp;//savef << players[i].cardsonhand[x].value;
 			//savef << " ";
 			tempint = atoi(temp.c_str());
-			players[i].cardsonhand[x] = playerDeck[tempint];
+			if (tempint != -1){ players[i].cardsonhand[x] = playerDeck[tempint]; };
 			
 		}
 	}
@@ -1411,6 +1482,35 @@ void PandModel::Load(int loadf){
 		tempint = atoi(temp.c_str());
 		discardPlayerDeckD.push_back(playerDeck[tempint]);
 	}
+	discardedEventCards.clear();
+	savef >> temp; //DiscardedEventCards
+	savef >> temp; 
+	decksize = atoi(temp.c_str());
+	for (int i = 0; i < decksize; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		discardedEventCards.push_back(playerDeck[tempint]);
+	}
+
+	savef >> temp; //Has extra:
+	for (int i = 0; i < numberOfPlayers; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		players[i].extracardFlag = tempint;
+
+	}
+
+	savef >> temp; //Extras:
+	for (int i = 0; i < numberOfPlayers; i++){
+		savef >> temp;
+		tempint = atoi(temp.c_str());
+		if (temp != "-1"){ players[i].extracard = playerDeck[tempint]; }
+
+
+	}
+	
+
+
 
 	savef.close();
 
@@ -1573,6 +1673,43 @@ void PandModel::Save(int savefile , string sfname, int turn){
 			discardPlayerDeckD.push_back(copyPC.back());
 			copyPC.pop_back();
 		}
+
+		savef << "DiscardedEvent:";
+		savef << " ";
+		savef << discardedEventCards.size();
+		savef << " ";
+		copyPC.clear();
+
+		tempint = discardedEventCards.size();
+		for (int i = 0; i < tempint; i++){
+			copyPC.push_back(discardedEventCards.back());
+			savef << discardedEventCards.back().value;
+			discardedEventCards.pop_back();
+			savef << " ";
+		}
+
+
+		//RELOADING THE DISCARDED EVENT CARDS
+		for (int i = 0; i < tempint; i++){
+			discardedEventCards.push_back(copyPC.back());
+			copyPC.pop_back();
+		}
+
+		savef << "Has Extra:";
+		savef << " ";
+		for (int i = 0; i < numberOfPlayers; i++){
+			savef << players[i].extracardFlag;
+			savef << " ";
+		}
+
+		savef << "Extras:";
+		savef << " ";
+		for (int i = 0; i < numberOfPlayers; i++){
+			if (players[i].extracardFlag) { savef << players[i].extracard.value; }
+			else { savef << -1; }
+			savef << " ";
+		}
+
 
 
 
@@ -2033,7 +2170,38 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 			hfile << players[pno].cardsonhand[x].value;
 			hfile << " ";
 		}
-		hfile.close();
+		if (players[pno].extracardFlag){ hfile << players[pno].extracard.value; }
+		else { hfile << "-1"; hfile << " "; }
+
+		hfile << numberOfPlayers;
+		hfile << " ";
+		for (int i = 0; i < numberOfPlayers; i++){
+			hfile << players[i].location;
+			hfile << " ";
+		}
+
+	hfile.close();
+
+	fstream savef;
+	savef.open("C:\\Pand\\citydetails.txt");
+	std::ofstream("C:\\Pand\\citydetails.txt", std::ios::out).close();
+
+	for (int i = 0; i < 48; i++){
+			savef << getCityColor(i);
+			savef << " ";
+			savef << getRCenter(i);
+			savef << " ";
+			savef << getDiseaseCubes(i, 0);
+			savef << " ";
+			savef << getDiseaseCubes(i, 1);
+			savef << " ";
+			savef << getDiseaseCubes(i, 2);
+			savef << " ";
+			savef << getDiseaseCubes(i, 3);
+			savef << " ";
+			savef << endl;
+
+		}
 
 
 

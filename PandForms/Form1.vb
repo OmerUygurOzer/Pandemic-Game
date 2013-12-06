@@ -4,8 +4,10 @@ Imports System.IO
 
 Public Class Form1
     Public activeThread As Boolean = False
-    Dim cards(8) As Integer
+    Dim cards(14) As Integer
     Dim playername As String = "Name"
+    Dim nP As Integer = 0
+    Dim locP(4) As Integer
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         activeThread = True
@@ -25,6 +27,7 @@ Public Class Form1
             line = My.Computer.FileSystem.ReadAllText("C:\Pand\hfile.txt") 'PIPED DATA IS READ
             If line.Length > 0 Then
                 For index As Integer = 0 To line.Length - 1
+
                     If Not line(index) = " " Then temp = temp + line(index)
                     If line(index) = " " Then
                         If count = 0 Then
@@ -33,11 +36,18 @@ Public Class Form1
                             count = count + 1
                         Else
                             cards(count - 1) = Convert.ToInt16(temp)
+                            'MsgBox(cards(count - 1))
                             temp = ""
                             count = count + 1
                         End If
                     End If
                 Next
+                nP = cards(9)
+                locP(0) = cards(10)
+                locP(1) = cards(11)
+                locP(2) = cards(12)
+                locP(3) = cards(13)
+
                 Try
 
                     If cards(0) < -1 Then RoleBox.Image = My.Resources.qm1
@@ -55,7 +65,7 @@ Public Class Form1
 
 
 
-                For cardindex = 1 To 7
+                For cardindex = 1 To 8
                     'CITY
                     Try
                         If cardindex = 1 Then tempP = PictureBox2
@@ -65,6 +75,7 @@ Public Class Form1
                         If cardindex = 5 Then tempP = PictureBox6
                         If cardindex = 6 Then tempP = PictureBox7
                         If cardindex = 7 Then tempP = PictureBox8
+                        If cardindex = 8 Then tempP = Extra
 
                         If cards(cardindex) = -1 Then tempP.Image = My.Resources.qm1
 
@@ -143,4 +154,5 @@ Public Class Form1
     Private Sub NameUpdate_Tick(sender As Object, e As EventArgs) Handles NameUpdate.Tick
         Pname.Text = playername
     End Sub
+
 End Class
