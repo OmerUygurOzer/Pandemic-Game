@@ -2170,7 +2170,7 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 			hfile << players[pno].cardsonhand[x].value;
 			hfile << " ";
 		}
-		if (players[pno].extracardFlag){ hfile << players[pno].extracard.value; }
+		if (players[pno].extracardFlag){ hfile << players[pno].extracard.value << " "; }
 		else { hfile << "-1"; hfile << " "; }
 
 		hfile << numberOfPlayers;
@@ -2187,21 +2187,21 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 	std::ofstream("C:\\Pand\\citydetails.txt", std::ios::out).close();
 
 	for (int i = 0; i < 48; i++){
-			savef << getCityColor(i);
-			savef << " ";
-			savef << getRCenter(i);
-			savef << " ";
-			savef << getDiseaseCubes(i, 0);
-			savef << " ";
-			savef << getDiseaseCubes(i, 1);
-			savef << " ";
-			savef << getDiseaseCubes(i, 2);
-			savef << " ";
-			savef << getDiseaseCubes(i, 3);
-			savef << " ";
-			savef << endl;
-
+		if (getCityColor(i) == 'G'){ savef << "1"; }
+		if (getCityColor(i) == 'R'){ savef << "2"; }
+		if (getCityColor(i) == 'Y'){ savef << "3"; }
+		if (getCityColor(i) == 'B'){ savef << "4"; }
 		}
+	for (int i = 0; i < 48; i++){
+		if (getCityColor(i) == 'G'){ savef << getDiseaseCubes(i,1); }
+		if (getCityColor(i) == 'R'){ savef << getDiseaseCubes(i, 0); }
+		if (getCityColor(i) == 'Y'){ savef << getDiseaseCubes(i, 3); }
+		if (getCityColor(i) == 'B'){ savef << getDiseaseCubes(i, 2); }
+	}
+	for (int i = 0; i < 48; i++){
+		savef << getRCenter(i);
+	}
+
 
 
 
