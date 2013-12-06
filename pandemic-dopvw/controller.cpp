@@ -269,6 +269,7 @@ into:
 				//The amount of cities vary.. should we just assume the player will make the correct input?
 				GameInstance.setPlayerLocation(charnum, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
 				cout << string(10, '\n');
+				GameInstance.updateHandsFile(charnum);
 			}
 			
 			/////////////Use Card/////////////////////////////
@@ -358,6 +359,8 @@ into:
 					GameInstance.setResilientPlayed(false);//reset
 				}
 
+				GameInstance.updateHandsFile(charnum);
+
 			}
 
 			if(ans == "3") // treat city
@@ -371,10 +374,13 @@ into:
 					cin >> cubecolor;
 				}
 				GameInstance.treatCity(GameInstance.getPlayerLocation(charnum), cubecolor, GameInstance.getPlayerRole(charnum));
+				GameInstance.updateHandsFile(charnum);
 			}
 
 			if(ans == "4")//shuttleFlight
-			{GameInstance.ShuttleFlight(charnum);}
+			{
+				GameInstance.ShuttleFlight(charnum); GameInstance.updateHandsFile(charnum);
+			}
 
 
 			//Added to the below function, we can remove this one
@@ -420,11 +426,13 @@ into:
 				else
 					cout<<"Research successful \n";
 				system("pause");
+				GameInstance.updateHandsFile(charnum);
 			}
 
 			if(ans == "7")
 			{
 				GameInstance.ShareKnowledge(charnum,GameInstance.getnumberOfPlayers() );
+				GameInstance.updateHandsFile(charnum);
 			}
 
 			if (ans == "9")//game save
@@ -566,6 +574,7 @@ into:
 				if (GameInstance.getPlayerRole(charnum) == 5){//"Researcher"
 
 				}
+				GameInstance.updateHandsFile(charnum);
 
 			}
 			if (ans == "b"){ ///////////////////// ====AND HERE
@@ -588,6 +597,7 @@ into:
 					cin >> moveto;
 					GameInstance.setPlayerLocation(pick+1, newScreen.getNeighbor(temploc.location, moveto - 1));//set player location to new location.
 				}
+				GameInstance.updateHandsFile(charnum);
 
 			}
 
@@ -604,6 +614,7 @@ into:
 
 			GameInstance.cleanHand(charnum);
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
+			GameInstance.updateHandsFile(charnum);
 			
 		}//end of player turn
 		if(!GameInstance.GameOver())

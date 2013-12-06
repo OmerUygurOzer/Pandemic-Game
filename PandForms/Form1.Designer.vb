@@ -23,9 +23,9 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Pname = New System.Windows.Forms.Label()
-        Me.PlayerHandThread = New System.ComponentModel.BackgroundWorker()
         Me.RoleBox = New System.Windows.Forms.PictureBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
@@ -86,8 +86,7 @@ Partial Class Form1
         Me.Tokyo = New System.Windows.Forms.Label()
         Me.Tehran = New System.Windows.Forms.Label()
         Me.Taipei = New System.Windows.Forms.Label()
-        Me.DrawTimer = New System.Windows.Forms.Timer(Me.components)
-        Me.Refresher = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         CType(Me.RoleBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -121,9 +120,6 @@ Partial Class Form1
         Me.Pname.TabIndex = 1
         Me.Pname.Text = "PlayerName"
         '
-        'PlayerHandThread
-        '
-        '
         'RoleBox
         '
         Me.RoleBox.Location = New System.Drawing.Point(6, 67)
@@ -146,7 +142,7 @@ Partial Class Form1
         '
         'PictureBox2
         '
-        Me.PictureBox2.Location = New System.Drawing.Point(135, 510)
+        Me.PictureBox2.Location = New System.Drawing.Point(135, 525)
         Me.PictureBox2.Name = "PictureBox2"
         Me.PictureBox2.Size = New System.Drawing.Size(100, 150)
         Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -155,7 +151,7 @@ Partial Class Form1
         '
         'PictureBox3
         '
-        Me.PictureBox3.Location = New System.Drawing.Point(241, 510)
+        Me.PictureBox3.Location = New System.Drawing.Point(241, 525)
         Me.PictureBox3.Name = "PictureBox3"
         Me.PictureBox3.Size = New System.Drawing.Size(100, 150)
         Me.PictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -164,7 +160,7 @@ Partial Class Form1
         '
         'PictureBox4
         '
-        Me.PictureBox4.Location = New System.Drawing.Point(347, 510)
+        Me.PictureBox4.Location = New System.Drawing.Point(347, 525)
         Me.PictureBox4.Name = "PictureBox4"
         Me.PictureBox4.Size = New System.Drawing.Size(100, 150)
         Me.PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -173,7 +169,7 @@ Partial Class Form1
         '
         'PictureBox5
         '
-        Me.PictureBox5.Location = New System.Drawing.Point(453, 510)
+        Me.PictureBox5.Location = New System.Drawing.Point(453, 525)
         Me.PictureBox5.Name = "PictureBox5"
         Me.PictureBox5.Size = New System.Drawing.Size(100, 150)
         Me.PictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -182,7 +178,7 @@ Partial Class Form1
         '
         'PictureBox6
         '
-        Me.PictureBox6.Location = New System.Drawing.Point(559, 510)
+        Me.PictureBox6.Location = New System.Drawing.Point(559, 525)
         Me.PictureBox6.Name = "PictureBox6"
         Me.PictureBox6.Size = New System.Drawing.Size(100, 150)
         Me.PictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -191,7 +187,7 @@ Partial Class Form1
         '
         'PictureBox7
         '
-        Me.PictureBox7.Location = New System.Drawing.Point(665, 510)
+        Me.PictureBox7.Location = New System.Drawing.Point(665, 525)
         Me.PictureBox7.Name = "PictureBox7"
         Me.PictureBox7.Size = New System.Drawing.Size(100, 150)
         Me.PictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -200,7 +196,7 @@ Partial Class Form1
         '
         'PictureBox8
         '
-        Me.PictureBox8.Location = New System.Drawing.Point(771, 510)
+        Me.PictureBox8.Location = New System.Drawing.Point(771, 525)
         Me.PictureBox8.Name = "PictureBox8"
         Me.PictureBox8.Size = New System.Drawing.Size(100, 150)
         Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -209,7 +205,7 @@ Partial Class Form1
         '
         'Extra
         '
-        Me.Extra.Location = New System.Drawing.Point(951, 510)
+        Me.Extra.Location = New System.Drawing.Point(951, 525)
         Me.Extra.Name = "Extra"
         Me.Extra.Size = New System.Drawing.Size(100, 150)
         Me.Extra.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -221,7 +217,7 @@ Partial Class Form1
         Me.Label2.AutoSize = True
         Me.Label2.BackColor = System.Drawing.Color.Red
         Me.Label2.Font = New System.Drawing.Font("AcmeFont", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(974, 489)
+        Me.Label2.Location = New System.Drawing.Point(974, 504)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(48, 18)
         Me.Label2.TabIndex = 12
@@ -229,6 +225,7 @@ Partial Class Form1
         '
         'NameUpdate
         '
+        Me.NameUpdate.Interval = 10
         '
         'Algiers
         '
@@ -710,19 +707,16 @@ Partial Class Form1
         Me.Taipei.TabIndex = 61
         Me.Taipei.Text = "Taipei"
         '
-        'DrawTimer
+        'Timer1
         '
-        Me.DrawTimer.Interval = 10
-        '
-        'Refresher
-        '
-        Me.Refresher.Interval = 1000
+        Me.Timer1.Enabled = True
+        Me.Timer1.Interval = 5000
         '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackgroundImage = Global.PandForms.My.Resources.Resources._10_world_map
+        Me.BackgroundImage = CType(resources.GetObject("$this.BackgroundImage"), System.Drawing.Image)
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(1175, 697)
         Me.Controls.Add(Me.Taipei)
@@ -805,7 +799,6 @@ Partial Class Form1
     End Sub
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents Pname As System.Windows.Forms.Label
-    Friend WithEvents PlayerHandThread As System.ComponentModel.BackgroundWorker
     Friend WithEvents RoleBox As System.Windows.Forms.PictureBox
     Friend WithEvents Label3 As System.Windows.Forms.Label
     Friend WithEvents PictureBox2 As System.Windows.Forms.PictureBox
@@ -866,7 +859,6 @@ Partial Class Form1
     Friend WithEvents Tokyo As System.Windows.Forms.Label
     Friend WithEvents Tehran As System.Windows.Forms.Label
     Friend WithEvents Taipei As System.Windows.Forms.Label
-    Friend WithEvents DrawTimer As System.Windows.Forms.Timer
-    Friend WithEvents Refresher As System.Windows.Forms.Timer
+    Friend WithEvents Timer1 As System.Windows.Forms.Timer
 
 End Class
