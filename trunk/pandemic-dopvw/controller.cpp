@@ -211,7 +211,8 @@ start:
 
 
 	//while(game not ended yet) //STUB
-	while(charnum != -1) //Temp infinite loop - Insert a bool here to check if the game has ended
+//	while(charnum != -1) //Temp infinite loop - Insert a bool here to check if the game has ended
+	while(!GameInstance.GameOver() )
 	{
 
 
@@ -405,8 +406,7 @@ into:
 
 			if(ans == "7")
 			{
-				cout << "Share knowledge not implemented! Returning action" << endl;
-				GameInstance.setActionsLeft(charnum, 1);
+				GameInstance.ShareKnowledge(charnum,GameInstance.getnumberOfPlayers() );
 			}
 
 			if (ans == "9")//game save
