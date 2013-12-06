@@ -64,9 +64,10 @@ int main()
 	//PIPING DATA TO WINDOWS FORM
 	system("mkdir C:\\Pand");
 	std::ofstream("C:\\Pand\\hfile.txt", std::ios::out).close();
+	std::ofstream("C:\\Pand\\citydetails.txt", std::ios::out).close();
 	fstream tempfile;
 	tempfile.open("C:\\Pand\\hfile.txt");
-	tempfile << "Name -1 -1 -1 -1 -1 -1 -1 -1 ";
+	tempfile << "Name -1 -1 -1 -1 -1 -1 -1 -1 -1 0 ";
 	tempfile.close();
 	//PIPING DONE
 	
@@ -237,7 +238,7 @@ start:
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
 into:
-			//system("CLS");
+			system("CLS");
 			GameInstance.updateHandsFile(charnum);//used to display in form
 			//cout << string(50, '\n'); //Screen clearer.
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
@@ -484,6 +485,11 @@ into:
 
 			if (ans == "a"){ ////////////////////// ===ACTIVE ROLE ABILITES SHOULD BE CALLED HERE
 				if (GameInstance.getPlayerRole(charnum) == 0){//"Contingency Plan"
+
+					GameInstance.pickEvent(charnum);
+
+
+
 
 				}
 				if (GameInstance.getPlayerRole(charnum) == 1){//"Dispatcher"
