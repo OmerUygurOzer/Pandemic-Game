@@ -33,6 +33,8 @@ public:
 	void printResearchCenters();
 	void dispatcherloc(int playernum);
 	void showDiscardedInfect();//use for resilient population
+	void showGameOverResult();
+	void showMapInfo();
 };
 
 PandView::PandView()
@@ -358,4 +360,27 @@ void PandView::showDiscardedInfect()//use for resilient population
 		cout<<i<<": " << temp[i].cardDescription<<endl;
 }
 
+void PandView::showGameOverResult()
+{
+	if(model.retallCures())
+		cout<<"All cures found \n";
+	if(model.retoutbreakTooHigh())
+		cout<<"Outbreak level too high \n";
+	if(model.retoutOfCards())
+		cout<<"Out of player cards \n";
+	if(model.retoutOfCubes())
+		cout<<"Not enough infection cubes \n";
+	if(model.returnGamewin())
+		cout<<"Congratulations, your team has nullified the threat! \n";
+	if(model.returnGamelose())
+		cout<<"Sorry, the diseases have erradicated all human life \n";
+}
+
+void PandView::showMapInfo()
+{
+	int outlvl = model.getoutbreakLevel();
+	cout<<"Outbreak Level: "<<outlvl<<endl;
+	int infrate = model.getInfectionRate();
+	cout<<"Infection Rate: " << infrate<<endl;
+}
 #endif

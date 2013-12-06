@@ -249,7 +249,9 @@ into:
 			Playerchar temp = GameInstance.getPlayerInfo(charnum);
 			city tempcity = GameInstance.getCityInfo(temp.location);//integer in getCityInfo should be the int of the city the player is in.
 			newScreen.showPlayerInfo(charnum);
+			newScreen.showMapInfo();
 			newScreen.showCityInfo(temp.location);
+			
 
 			newScreen.showActionMenu(temp.profession);
 			string ans;
@@ -353,6 +355,7 @@ into:
 					int chosen;
 					cin>>chosen;
 					GameInstance.removeDiscardInfect(chosen);//remove a card from infection deck
+					GameInstance.setResilientPlayed(false);//reset
 				}
 
 			}
@@ -603,45 +606,47 @@ into:
 			GameInstance.setActionsLeft(charnum, -1); //Subtracts one action
 			
 		}//end of player turn
-
-		//draw 2 player cards
-		cout<<"Draw 2 player cards \n";
-		for(int i = 0; i < 2; i++)
+		if(!GameInstance.GameOver())
 		{
-			playerCard drawn = GameInstance.drawPlayerCard();//draw from deck
-			PandView newCards(GameInstance);
-			newCards.showPlayCard(drawn);//display play card drawn
-			//if epidemic card
-			if(drawn.value > 47 && drawn.value < 54)//if epidemic card
-				GameInstance.epidemicDrawn();//call epidemic function
+			//draw 2 player cards
+			cout<<"Draw 2 player cards \n";
+			for(int i = 0; i < 2; i++)
+			{
+				playerCard drawn = GameInstance.drawPlayerCard();//draw from deck
+				PandView newCards(GameInstance);
+				newCards.showPlayCard(drawn);//display play card drawn
+				//if epidemic card
+				if(drawn.value > 47 && drawn.value < 54)//if epidemic card
+					GameInstance.epidemicDrawn();//call epidemic function
 
-			else{
-			//else store in hand
-			cout << "Debug: You are player #" << charnum << endl << endl;
-			GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
-			newCards.showHowManyPlayerCardsLeft();
+				else{
+				//else store in hand
+				cout << "Debug: You are player #" << charnum << endl << endl;
+				GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
+				newCards.showHowManyPlayerCardsLeft();
+				}
 			}
-		}
-		system("pause");
+			system("pause");
 
-		if(!GameInstance.ReturnQuietNight())
-		{
-		//draw 2-4 infection cards. How many drawn depends on infection rate.
-		cout<<"Draw " << GameInstance.getInfectionRate() << " infection cards\n";
-		for(int i = 0; i < GameInstance.getInfectionRate(); i++)
-		{
-			infectionCard tempInfectCard = GameInstance.drawInfectionCard();
-			PandView newCards(GameInstance);
-			newCards.showInfectCard(tempInfectCard);//display infection card drawn
-			GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color);//if 3 cubes already exist, if so, dont add 3 but cause outbreak. Done in model
+			if(!GameInstance.ReturnQuietNight())
+			{
+			//draw 2-4 infection cards. How many drawn depends on infection rate.
+			cout<<"Draw " << GameInstance.getInfectionRate() << " infection cards\n";
+			for(int i = 0; i < GameInstance.getInfectionRate(); i++)
+			{
+				infectionCard tempInfectCard = GameInstance.drawInfectionCard();
+				PandView newCards(GameInstance);
+				newCards.showInfectCard(tempInfectCard);//display infection card drawn
+				GameInstance.addDiseaseCubes(tempInfectCard.city, tempInfectCard.color);//if 3 cubes already exist, if so, dont add 3 but cause outbreak. Done in model
+			}
+			}
+			else
+			{
+				cout<<"One Quiet Night Played \n";
+				GameInstance.setQuietNightPlayed(false);//reset
+			}
+			system("pause");
 		}
-		}
-		else
-		{
-			cout<<"One Quiet Night Played \n";
-			GameInstance.setQuietNightPlayed(false);//reset
-		}
-		system("pause");
 
 		//Next Player
 		if(charnum != (numberofplayers-1) ) //If last player, go to first player
@@ -655,7 +660,8 @@ into:
 
 		//system("CLS");
 	}
-
+	PandView gameover(GameInstance);
+	gameover.showGameOverResult();//display ending
 
 	system("pause");
 	return 0;

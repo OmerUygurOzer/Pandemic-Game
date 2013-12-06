@@ -89,6 +89,10 @@ class PandModel
 	bool gameWin;
 	bool gameLose;
 	bool cureMarkers[4]; //color of the cure (0,1,2,3 = (R)red,(G)black,(B)blue,(Y)yellow)
+	bool outOfCubes;
+	bool outOfCards;
+	bool outbreakTooHigh;
+	bool allCures;
 
 	//SAVE-LOAD VARIABLES////////////////////////////
 	string availability[6]; //availabilty of the files
@@ -131,14 +135,20 @@ public:
 	void epidemicDrawn(); // call when an epidemic card is drawn
 	bool GameOver();
 
-
+	//event cards
 	void setForecastPlayed(int value){ForecastPlayed = value;}
 	void setQuietNightPlayed(bool value){QuietNightPlayed = value;}
 	void setResilientPlayed(bool value){ResilientPlayed = value;}
 	int ReturnForecast(){return ForecastPlayed;}
 	bool ReturnQuietNight(){return QuietNightPlayed;}
 	bool returnResilient(){return ResilientPlayed;}
-
+	//game over funcs
+	bool returnGamewin(){return gameWin;}
+	bool returnGamelose(){return gameLose;}
+	bool retoutOfCubes(){return outOfCubes;}
+	bool retoutOfCards(){return outOfCards;}
+	bool retoutbreakTooHigh(){return outbreakTooHigh;}
+	bool retallCures(){return allCures;}
 	
 	playerCard drawPlayerCard();//will draw from playerDeckD and return card on top of deck+
 	playerCard getPlayerCard(int num){return playerDeck[num];}//used for testing
@@ -243,6 +253,12 @@ PandModel::PandModel()//constructor
 	ForecastPlayed = 0;
 	QuietNightPlayed = false;
 	ResilientPlayed = false;
+	gameLose = false;
+	gameWin = false;
+	outOfCubes = false;
+	outOfCards = false;
+	outbreakTooHigh = false;
+	allCures = false;
 	playerturn = 0; //turn indicator
 	loadflag = false;
 
@@ -1223,7 +1239,7 @@ void PandModel::buildResearchCenter(int playernum)
 			}
 		if(cities[citychosen].researchcenter == false)
 			{
-				int decideRemove;
+				int decideRemove = 0;
 				if( countNumResearchCenters() >= 6)
 				{
 				cout << "Hit max limit of Research Centers!" << endl;
@@ -1280,10 +1296,22 @@ void PandModel::performRoleActions(int playernum, int actionNo, int loc){
 
 playerCard PandModel::drawPlayerCard()
 {
-	playerCard temp;
-	temp = PlayerDeckD.front();//from the top
-	PlayerDeckD.pop_front();//remove top card
-	return temp; 
+	if(!PlayerDeckD.empty())
+	{
+		playerCard temp;
+		temp = PlayerDeckD.front();//from the top
+		PlayerDeckD.pop_front();//remove top card
+		return temp; 
+	}
+	else
+	{
+		playerCard temp;
+		temp.value = 0; //Holds the card's number
+		temp.cardType = "none";
+		temp.cardDescription = "none";
+		temp.color = 'n';
+		return temp;
+	}
 }
 
 infectionCard PandModel::drawInfectionCard()//will draw from the top of the deck
@@ -2212,22 +2240,37 @@ void PandModel::updateHandsFile(int pno){ //PIPE DATA UPDATE
 }
 bool PandModel::GameOver()
 {
-	// case 1
+	// case 1 game won, all cures
 	if (cureMarkers[0] == true && cureMarkers[1] == true && cureMarkers[2] == true && cureMarkers[3] == true)
+	{
+		gameWin = true;
+		allCures = true;
 		return true;
-	else return false;
-	// case 2
-	if (outbreakLevel == 8)
+	}
+
+	// case 2 game loss outbreak level
+	else if (outbreakLevel == 8)
+	{
+		gameLose = true;
+		outbreakTooHigh = true;
 		return true;
-	else return false;
-	// case 3: as a temp I would just check to see if available cubes does not equal 0
-	if (diseaseCubes[0] == 0 ||diseaseCubes[1] == 0 ||diseaseCubes[2] == 0 ||diseaseCubes[3] == 0)
+	}
+
+	// case 3:game loss as a temp I would just check to see if available cubes does not equal 0
+	else if (diseaseCubes[0] == 0 ||diseaseCubes[1] == 0 ||diseaseCubes[2] == 0 ||diseaseCubes[3] == 0)
+	{
+		gameLose = true;
+		outOfCubes = true;
 		return true;
-	else return false;
-	// case 4: 
-	getNumPlayCardsLeft();
-	if (PlayerDeckD.size() < 2)
+	}
+
+	// case 4: game loss
+	else if (PlayerDeckD.size() < 2)
+	{
+		gameLose = true;
+		outOfCards = true;
 		return true;
+	}
 	else return false;
 }
 
