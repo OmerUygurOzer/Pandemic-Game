@@ -722,7 +722,8 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackgroundImage = Global.PandForms.My.Resources.Resources._10_world_map1
+        Me.BackgroundImage = Global.PandForms.My.Resources.Resources._10_world_map
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.ClientSize = New System.Drawing.Size(1175, 697)
         Me.Controls.Add(Me.Taipei)
         Me.Controls.Add(Me.Tehran)
