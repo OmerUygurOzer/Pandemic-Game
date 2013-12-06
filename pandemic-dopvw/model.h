@@ -42,7 +42,7 @@ struct infectionCard
 
 struct Playerchar  //Probably want to change to a class when we do the cards in hand data
 {
-	std::string playerName;
+	string playerName;
 	int profession; //Player's profession will be designated by a value. Something else will transfer the value to
 	//the data holding all of the professions and all of their effects
 	std::string profName; //The name of their profession
@@ -192,7 +192,7 @@ public:
 				players[playernum].numOfCards++;}
 			}
 		return players[playernum].numOfCards;}
-
+	void ShareKnowledge(int playernum, int numofplayers);
 	int countNumResearchCenters();
 	void abilityCharterFlight(int playernum);
 
@@ -330,7 +330,7 @@ PandModel::PandModel()//constructor
 
 	 playerDeck[57].cardType = "Special Event";
 	 playerDeck[57].cardDescription = "One Quiet Night: The next player to begin the Playing the Infector phase of their turn may skip that phase entirely \n";
-	 playerDeck[56].value = 57;
+	 playerDeck[57].value = 57;
 
 	 playerDeck[58].cardType = "Special Event";
 	 playerDeck[58].cardDescription = "Resilient Population: Take a card from the Infection Discard Pile and remove it from the game \n";
@@ -841,7 +841,7 @@ void PandModel::handOverdraw(int playernum)
 
 				if(choice == 1){PlayEventCard(playernum, players[playernum].cardsonhand[cardchoose]);}
 				if(choice == 2){discardCard(playernum, players[playernum].cardsonhand[cardchoose]);}
-				choice == 0;
+				choice = 0;
 			}
 			numcards = cardcount(playernum);
 			cleanHand(playernum);
@@ -957,6 +957,158 @@ void PandModel::abilityCharterFlight(int playernum)
 			players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << endl << "You have moved to : " << cities[newlocation].cityName << endl << endl;
 			
+}
+
+void PandModel::ShareKnowledge(int playernum, int numofplayers)
+{
+	cout << "Sharing Knowledge allows you to give or take a City card from another player" << endl;
+	cout << "The card must match the city you are in, and both players must be in the same city" << endl;
+	cout << "The Researcher is able to give a city card without it having to match." << endl << endl;
+
+	cout << "Current player locations:" << endl;
+	for(int i = 0; i < numofplayers; i++)
+	{
+		cout << i+1 << "  ";
+		getPlayerName(playernum);
+		cout << "  ";
+		getCityName(players[i].location);
+		cout << endl;
+	}
+
+	int chooseplayer;
+	cout << "Choose a player (1 - " << numofplayers << ") : ";
+	cin >> chooseplayer;
+
+	chooseplayer--;
+
+	if(chooseplayer == playernum)
+	{
+		cout << "You don't need to Share Knowledge with yourself." << endl;
+		setActionsLeft(playernum,1);
+	}
+	else if(players[playernum].location != players[chooseplayer].location)
+	{
+		cout << "This player is not in the same location as you." << endl;
+		setActionsLeft(playernum,1);
+	}
+
+
+	else if(players[playernum].location == players[chooseplayer].location && playernum != chooseplayer)
+	{
+		cout << "Sharing knowledge with ";
+		getPlayerName(chooseplayer);
+		cout << endl << "Now displaying both players' cards..." << endl;
+
+			for(int i = 0; i < 9; i++)
+			{
+				if(players[playernum].cardsonhand[i].value != -1){
+					cout << "#" << i+1 << "    ";
+					cout << players[playernum].cardsonhand[i].color << " || ";
+					cout << players[playernum].cardsonhand[i].cardType << " || ";
+					cout << players[playernum].cardsonhand[i].cardDescription << endl;}}
+			cout << endl << endl;
+			getPlayerName(chooseplayer);
+			cout << "'s cards:" << endl;
+			for(int i = 0; i < 9; i++)
+			{
+				if(players[chooseplayer].cardsonhand[i].value != -1){
+					cout << "#" << i+1 << "    ";
+					cout << players[chooseplayer].cardsonhand[i].color << " || ";
+					cout << players[chooseplayer].cardsonhand[i].cardType << " || ";
+					cout << players[chooseplayer].cardsonhand[i].cardDescription << endl;}}
+
+			cout << "Give one of your cards or take a card?" << endl;
+			cout << "1. Give" << endl << "2. Take" << endl;
+			int giveOrTake;
+			cin >> giveOrTake;
+
+			int currentplayerrole = getPlayerRole(playernum);
+			int chooseplayerrole = getPlayerRole(chooseplayer);
+
+
+			if(giveOrTake == 1)
+				{
+				cout << "Choose which card to give (1 - 7) : ";
+				int choosecard;
+				cin >> choosecard;
+
+
+				if( (players[playernum].cardsonhand[choosecard].value < 48) && (players[playernum].cardsonhand[choosecard].value >= 0) )
+				{
+					if(currentplayerrole == 5)
+					{
+						ReceiveCard(chooseplayer, players[playernum].cardsonhand[choosecard]);
+						players[playernum].cardsonhand[choosecard].value = -1;
+					}
+
+					if(currentplayerrole != 5)
+					{
+						if(players[playernum].cardsonhand[choosecard].value != players[playernum].location)
+						{
+							cout << "This card does not match the current city you are in." << endl;
+							setActionsLeft(playernum, 1);
+						}
+
+						if(players[playernum].cardsonhand[choosecard].value == players[playernum].location)
+						{
+							ReceiveCard(chooseplayer, players[playernum].cardsonhand[choosecard]);
+							players[playernum].cardsonhand[choosecard].value = -1;
+						}
+					}
+				}
+
+				if(players[playernum].cardsonhand[choosecard].value < 0 || players[playernum].cardsonhand[choosecard].value >= 48)
+					{
+					cout << "Cannot share event cards!" << endl;
+					setActionsLeft(playernum, 1);
+					}
+
+					}
+
+				else if(giveOrTake == 2)
+				{
+					cout << "Choose which card to take (1 - 7) : ";
+					int choosecard;
+					cin >> choosecard;
+					if(players[chooseplayer].cardsonhand[choosecard].value < 48 && players[chooseplayer].cardsonhand[choosecard].value >= 0)
+					{
+						if(chooseplayerrole == 5)
+						{
+							ReceiveCard(playernum, players[chooseplayer].cardsonhand[choosecard]);
+							players[playernum].cardsonhand[choosecard].value = -1;
+						}
+						if(chooseplayerrole != 5)
+						{
+							if(players[chooseplayer].cardsonhand[choosecard].value != players[playernum].location)
+							{
+								cout << "This card does not match the current city you are in." << endl;
+								setActionsLeft(playernum, 1);
+							}
+
+							if(players[chooseplayer].cardsonhand[choosecard].value == players[playernum].location)
+							{
+								ReceiveCard(playernum, players[chooseplayer].cardsonhand[choosecard]);
+								players[chooseplayer].cardsonhand[choosecard].value = -1;
+							}
+						}
+					}
+					if(players[chooseplayer].cardsonhand[choosecard].value < 0 || players[chooseplayer].cardsonhand[choosecard].value >= 48)
+					{
+						cout << "Event cards cannot be shared." << endl;
+						setActionsLeft(playernum, 1);
+					}
+				cleanHand(playernum);
+				cleanHand(chooseplayer);
+			}
+			else
+			{
+				cout << "Invalid Input." << endl;
+				setActionsLeft(playernum, 1);
+			}
+
+	}
+
+
 }
 
 int PandModel::countNumResearchCenters(){
