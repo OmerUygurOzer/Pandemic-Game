@@ -1871,8 +1871,7 @@ void PandModel::mergeInfectionDecks(deque<infectionCard> &deckA, deque<infection
 
 void PandModel::treatCity(int city, int cubecolor, int role) // remove 1 cube of cubecolor from city, all cubes of cubecolor if medic
 {
-
-	if(role == 2) // if medic
+	if (role == 2 && cities[city].diseasecubes[cubecolor] > 0) // if medic
 	{
 		cities[city].diseasecubes[cubecolor] = 0; // remove all cubes
 	}
@@ -1884,18 +1883,34 @@ void PandModel::treatCity(int city, int cubecolor, int role) // remove 1 cube of
 
 void PandModel::addDiseaseCubes(int cityNum, char cubeColr)
 {
+	bool isMedic = false; // is medic on city T/F
+	bool isQuarantine = false;  // is quarantine specialist on city T/F
+
+	for (int i = 0; i < getnumberOfPlayers(); i++)
+	{
+		if (players[i].profession == 1 && players[i].location == cityNum) // if player is a medic and on the city
+		{
+			isMedic = true;
+		}
+		else if (players[i].profession == 2 && players[i].location == cityNum) // if player is quarantine spec. and on the city
+		{
+			isQuarantine = true;
+		}
+	}
+	
 	//(0,1,2,3 = red,black,blue,yellow)
 	int cubeIndex;
 	if(cubeColr = 'R') cubeIndex = 0;
 	if(cubeColr = 'G') cubeIndex = 1;
 	if(cubeColr = 'B') cubeIndex = 2;
-	if(cubeColr = 'Y') cubeIndex = 3;
-	if(cities[cityNum].diseasecubes[cubeIndex] + 1 > 3)//if city already has 3 cubes of that color
+	if (cubeColr = 'Y') cubeIndex = 3;
+	
+	if(cities[cityNum].diseasecubes[cubeIndex] + 1 > 3 && !isMedic && !isQuarantine)//if city already has 3 cubes of that color and no medic and no quarantine spec.
 	{
 		outbreak(cityNum);//cause an outbreak
 		cout<<"Outbreak! \n";
 	}
-	else
+	else if (!isMedic && !isQuarantine) // otherwise if there is no medic and no quarantine specialist
 		cities[cityNum].diseasecubes[cubeIndex] = cities[cityNum].diseasecubes[cubeIndex] + 1;
 
 }
