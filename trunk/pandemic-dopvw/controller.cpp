@@ -496,7 +496,7 @@ into:
 
 					if(expertchoice == 2)
 					{
-						newScreen.printCityColumns();
+					//	newScreen.printCityColumns();
 						GameInstance.abilityCharterFlight(charnum);
 					}
 
