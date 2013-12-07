@@ -176,6 +176,7 @@ start:
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
 into:
+			system("pause");
 			system("CLS");
 			GameInstance.updateHandsFile(charnum);//used to display in form
 			//cout << string(50, '\n'); //Screen clearer.
@@ -204,7 +205,9 @@ into:
 				//need a way to determine if the input is valid
 				//The amount of cities vary.. should we just assume the player will make the correct input?
 				GameInstance.setPlayerLocation(charnum, newScreen.getNeighbor(temp.location, moveto-1));//set player location to new location.
-				cout << string(10, '\n');
+				cout << string(5, '\n');
+				cout << "You have moved to " << GameInstance.getCityName(GameInstance.getPlayerLocation(charnum));
+				cout << string(5, '\n');
 				GameInstance.updateHandsFile(charnum);
 			}
 			
@@ -314,7 +317,7 @@ into:
 				GameInstance.ShuttleFlight(charnum); GameInstance.updateHandsFile(charnum);
 			}
 
-			if(ans == "5") //Tester: This prints all the cities in 3 columns, no additional info.
+			if(ans == "5")//list city data
 			{
 				int printchoice;
 				cout << "1. Cities only" << endl;
@@ -330,7 +333,7 @@ into:
 				if(printchoice ==3)
 				{newScreen.printResearchCenters();}
 				GameInstance.setActionsLeft(charnum,1);
-				system("pause");
+			//	system("pause");
 			}
 
 			//research cure
@@ -351,10 +354,16 @@ into:
 				GameInstance.updateHandsFile(charnum);
 			}
 
-			if(ans == "7")
+			if(ans == "7") //share knowledge
 			{
 				GameInstance.ShareKnowledge(charnum,GameInstance.getnumberOfPlayers() );
 				GameInstance.updateHandsFile(charnum);
+			}
+
+			if(ans == "8") //play any event card
+			{
+				GameInstance.allEventCard(GameInstance.getnumberOfPlayers() );
+				GameInstance.setActionsLeft(charnum, 1);
 			}
 
 			if (ans == "9")//game save

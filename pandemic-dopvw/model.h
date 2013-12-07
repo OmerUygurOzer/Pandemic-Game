@@ -189,6 +189,7 @@ public:
 
 	void PlayCard(int playernum);
 	void PlayEventCard(int playernum, playerCard eventcard);
+	void allEventCard(int numofplayers);
 	int CheckHand(int playernum) {	//If player has non-blank card, return 1
 		int z = 0;
 		for(int i = 0; i < 9; i++)
@@ -587,7 +588,7 @@ void PandModel::ReceiveCard(int playernum, playerCard card)
 		}
 		
 	}
-	handOverdraw(playernum);
+	handOverdraw(playernum); //checks if you already hit max num of cards
 }
 
 void PandModel::pickEvent(int playernum){
@@ -713,8 +714,6 @@ void PandModel::PlayCard(int playernum)
 			if(cities[players[playernum].cardsonhand[cardchoose].value].researchcenter == false)
 			{
 			buildResearchCenter(playernum);
-		//	addResearchCenter(players[playernum].cardsonhand[cardchoose].value);
-		//	cout << "A Research Center has been constructed in " << cities[players[playernum].cardsonhand[cardchoose].value].cityName;
 			if(cities[players[playernum].location].researchcenter == true)
 			{
 				discardPlayCard(players[playernum].cardsonhand[cardchoose]);
@@ -755,6 +754,45 @@ extra:
 		PlayEventCard(playernum, playerDeck[players[playernum].extracard.value]);
 		players[playernum].extracardFlag = false;
 	}
+}
+
+void PandModel::allEventCard(int numofplayers)
+{
+	cout << "Which player wanted to play his/her event card?" << endl;
+	for(int i = 0; i < numofplayers; i++)
+	{
+		cout << i+1 << " " << players[i].playerName << endl;
+	}
+
+	int playernum;
+	cin >> playernum;
+	playernum--;
+
+	int choosecard;
+
+	for(int i = 0; i < 9; i++)
+	{
+		if(players[playernum].cardsonhand[i].value != -1)
+		{
+			cout << "#" << i+1 << "    ";
+			cout << players[playernum].cardsonhand[i].color << " || ";
+			cout << players[playernum].cardsonhand[i].cardType << " || ";
+			cout << players[playernum].cardsonhand[i].cardDescription << endl;
+		}
+	}
+
+	cout << endl << "Select an event card to play (0 - 7) : ";
+	cin >> choosecard;
+
+	if(players[playernum].cardsonhand[choosecard].value >= 54 && players[playernum].cardsonhand[choosecard].value <= 58)
+	{
+		PlayEventCard(playernum, players[playernum].cardsonhand[choosecard]); //if event card, play
+	}
+	else
+	{
+		cout << "Not a valid choice." << endl;
+	}
+
 }
 
 void PandModel::PlayEventCard(int playernum, playerCard eventcard)
@@ -1066,10 +1104,8 @@ void PandModel::ShareKnowledge(int playernum, int numofplayers)
 	cout << "Current player locations:" << endl;
 	for(int i = 0; i < numofplayers; i++)
 	{
-		cout << i+1 << "  ";
-		getPlayerName(playernum);
-		cout << "  ";
-		getCityName(players[i].location);
+		cout << i+1 << "  " << getPlayerName(i);
+		cout << "  " << getCityName(players[i].location);
 		cout << endl;
 	}
 
@@ -1096,7 +1132,7 @@ void PandModel::ShareKnowledge(int playernum, int numofplayers)
 		cout << "Sharing knowledge with ";
 		getPlayerName(chooseplayer);
 		cout << endl << "Now displaying both players' cards..." << endl;
-
+		cout << endl << "Your cards:" << endl;
 			for(int i = 0; i < 9; i++)
 			{
 				if(players[playernum].cardsonhand[i].value != -1){
@@ -1105,8 +1141,7 @@ void PandModel::ShareKnowledge(int playernum, int numofplayers)
 					cout << players[playernum].cardsonhand[i].cardType << " || ";
 					cout << players[playernum].cardsonhand[i].cardDescription << endl;}}
 			cout << endl << endl;
-			getPlayerName(chooseplayer);
-			cout << "'s cards:" << endl;
+			cout << getPlayerName(chooseplayer) << "'s cards:" << endl;
 			for(int i = 0; i < 9; i++)
 			{
 				if(players[chooseplayer].cardsonhand[i].value != -1){
@@ -1129,6 +1164,7 @@ void PandModel::ShareKnowledge(int playernum, int numofplayers)
 				cout << "Choose which card to give (1 - 7) : ";
 				int choosecard;
 				cin >> choosecard;
+				choosecard--;
 
 
 				if( (players[playernum].cardsonhand[choosecard].value < 48) && (players[playernum].cardsonhand[choosecard].value >= 0) )
@@ -1155,7 +1191,7 @@ void PandModel::ShareKnowledge(int playernum, int numofplayers)
 					}
 				}
 
-				if(players[playernum].cardsonhand[choosecard].value < 0 || players[playernum].cardsonhand[choosecard].value >= 48)
+				if(players[playernum].cardsonhand[choosecard].value >=54 && players[playernum].cardsonhand[choosecard].value <= 58)
 					{
 					cout << "Cannot share event cards!" << endl;
 					setActionsLeft(playernum, 1);
@@ -1168,6 +1204,7 @@ void PandModel::ShareKnowledge(int playernum, int numofplayers)
 					cout << "Choose which card to take (1 - 7) : ";
 					int choosecard;
 					cin >> choosecard;
+					choosecard--;
 					if(players[chooseplayer].cardsonhand[choosecard].value < 48 && players[chooseplayer].cardsonhand[choosecard].value >= 0)
 					{
 						if(chooseplayerrole == 5)
@@ -1190,7 +1227,7 @@ void PandModel::ShareKnowledge(int playernum, int numofplayers)
 							}
 						}
 					}
-					if(players[chooseplayer].cardsonhand[choosecard].value < 0 || players[chooseplayer].cardsonhand[choosecard].value >= 48)
+				if(players[chooseplayer].cardsonhand[choosecard].value >= 54 && players[chooseplayer].cardsonhand[choosecard].value <= 58)
 					{
 						cout << "Event cards cannot be shared." << endl;
 						setActionsLeft(playernum, 1);
