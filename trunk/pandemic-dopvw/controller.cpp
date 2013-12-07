@@ -290,15 +290,22 @@ into:
 
 			if(ans == "3") // treat city
 			{
-				int cubecolor;
-				cout << "What color cube would you like to treat?(r, g ,b , y)\n";
+				char cubecolor;
+				cout << "What color cube would you like to treat?(R, G ,B , Y)\n";
 				cin >> cubecolor;
-				while (cubecolor != 'r' && cubecolor != 'g' && cubecolor != 'b' && cubecolor != 'y')
+				cubecolor = toupper(cubecolor);
+				while (cubecolor != 'R' && cubecolor != 'G' && cubecolor != 'B' && cubecolor != 'Y')
 				{
-					cout << "Please enter valid cube color: r, g, b, or y\n";
+					cout << "Please enter valid cube color: R, G, B, or Y\n";
 					cin >> cubecolor;
+					cubecolor = toupper(cubecolor);
 				}
-				GameInstance.treatCity(GameInstance.getPlayerLocation(charnum), cubecolor, GameInstance.getPlayerRole(charnum));
+				int type;
+				if(cubecolor == 'R') type = 0;
+				if(cubecolor == 'G') type = 1;
+				if(cubecolor == 'B') type = 2;
+				if(cubecolor == 'Y') type = 3;
+				GameInstance.treatCity(GameInstance.getPlayerLocation(charnum), type, GameInstance.getPlayerRole(charnum));
 				GameInstance.updateHandsFile(charnum);
 			}
 
@@ -547,7 +554,6 @@ into:
 
 				else{
 				//else store in hand
-				cout << "Debug: You are player #" << charnum << endl << endl;
 				GameInstance.ReceiveCard(charnum, drawn);//draw card and store in hand
 				newCards.showHowManyPlayerCardsLeft();
 				}

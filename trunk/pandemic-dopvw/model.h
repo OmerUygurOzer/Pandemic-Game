@@ -1871,6 +1871,7 @@ void PandModel::mergeInfectionDecks(deque<infectionCard> &deckA, deque<infection
 
 void PandModel::treatCity(int city, int cubecolor, int role) // remove 1 cube of cubecolor from city, all cubes of cubecolor if medic
 {
+
 	if(role == 2) // if medic
 	{
 		cities[city].diseasecubes[cubecolor] = 0; // remove all cubes
