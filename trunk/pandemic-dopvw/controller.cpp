@@ -212,7 +212,7 @@ into:
 			}
 			
 			/////////////Use Card/////////////////////////////
-			if(ans == "2")
+			else	if(ans == "2")
 			{
 				if(GameInstance.CheckHand(charnum) == 0)
 				{
@@ -291,7 +291,7 @@ into:
 
 			}
 
-			if(ans == "3") // treat city
+			else	if(ans == "3") // treat city
 			{
 				char cubecolor;
 				cout << "What color cube would you like to treat?(R, G ,B , Y)\n";
@@ -312,12 +312,12 @@ into:
 				GameInstance.updateHandsFile(charnum);
 			}
 
-			if(ans == "4")//shuttleFlight
+			else if(ans == "4")//shuttleFlight
 			{
 				GameInstance.ShuttleFlight(charnum); GameInstance.updateHandsFile(charnum);
 			}
 
-			if(ans == "5")//list city data
+			else if(ans == "5")//list city data
 			{
 				int printchoice;
 				cout << "1. Cities only" << endl;
@@ -337,7 +337,7 @@ into:
 			}
 
 			//research cure
-			if(ans == "6")
+			else if(ans == "6")
 			{
 				newScreen.showPlayerHand(charnum);
 				
@@ -354,19 +354,19 @@ into:
 				GameInstance.updateHandsFile(charnum);
 			}
 
-			if(ans == "7") //share knowledge
+			else if(ans == "7") //share knowledge
 			{
 				GameInstance.ShareKnowledge(charnum,GameInstance.getnumberOfPlayers() );
 				GameInstance.updateHandsFile(charnum);
 			}
 
-			if(ans == "8") //play any event card
+			else if(ans == "8") //play any event card
 			{
 				GameInstance.allEventCard(GameInstance.getnumberOfPlayers() );
 				GameInstance.setActionsLeft(charnum, 1);
 			}
 
-			if (ans == "9")//game save
+			else if (ans == "9")//game save
 			{
 			save:	
 				string sfname;
@@ -433,13 +433,13 @@ into:
 
 			}
 
-			if (ans == "10")
+			else if (ans == "10")
 			{
 				goto load;
 			}
 			// Only these role have active abilities: "Contingency Plan", "Dispatcher","Operations Expert","Researcher"
 
-			if (ans == "a"){ ////////////////////// ===ACTIVE ROLE ABILITES SHOULD BE CALLED HERE
+			else if (ans == "a"){ ////////////////////// ===ACTIVE ROLE ABILITES SHOULD BE CALLED HERE
 				if (GameInstance.getPlayerRole(charnum) == 0){//"Contingency Plan"
 
 					GameInstance.pickEvent(charnum);
@@ -508,7 +508,7 @@ into:
 				GameInstance.updateHandsFile(charnum);
 
 			}
-			if (ans == "b"){ ///////////////////// ====AND HERE
+			else if (ans == "b"){ ///////////////////// ====AND HERE
 				if (GameInstance.getPlayerRole(charnum) == 1){//"Dispatcher"
 					for (int i = 0; i < GameInstance.getnumberOfPlayers(); i++){
 						if (charnum != i)cout << i << ")" << GameInstance.getPlayerName(i) << " @ " << GameInstance.getCityName(GameInstance.getPlayerLocation(i))<< endl;
@@ -536,9 +536,10 @@ into:
 
 
 			////////////Exit Function//////////////////////
-			if(ans == "11")
+			else
 			{
-				charnum = -2; //Will add up to -1 and cause while loop to end. Kind of just crashes the program
+				cout << "Input was not valid." << endl;
+				GameInstance.setActionsLeft(charnum,1);
 			}
 
 			
