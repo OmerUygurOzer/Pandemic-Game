@@ -1888,11 +1888,11 @@ void PandModel::addDiseaseCubes(int cityNum, char cubeColr)
 
 	for (int i = 0; i < getnumberOfPlayers(); i++)
 	{
-		if (players[i].profession == 1 && players[i].location == cityNum && cureMarkers[colorToInt(cubeColr)]) // if player is a medic and on the city and disease cured
+		if (players[i].profession == 2 && players[i].location == cityNum && cureMarkers[colorToInt(cubeColr)]) // if player is a medic and on the city and disease cured
 		{
 			isMedic = true;
 		}
-		else if (players[i].profession == 2 && players[i].location == cityNum) // if player is quarantine spec. and on the city
+		else if (players[i].profession == 4 && players[i].location == cityNum) // if player is quarantine spec. and on the city
 		{
 			isQuarantine = true;
 		}
