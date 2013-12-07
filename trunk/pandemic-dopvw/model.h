@@ -1883,12 +1883,12 @@ void PandModel::treatCity(int city, int cubecolor, int role) // remove 1 cube of
 
 void PandModel::addDiseaseCubes(int cityNum, char cubeColr)
 {
-	bool isMedic = false; // is medic on city T/F
+	bool isMedic = false; // is medic on city and disease cured T/F
 	bool isQuarantine = false;  // is quarantine specialist on city T/F
 
 	for (int i = 0; i < getnumberOfPlayers(); i++)
 	{
-		if (players[i].profession == 1 && players[i].location == cityNum) // if player is a medic and on the city
+		if (players[i].profession == 1 && players[i].location == cityNum && cureMarkers[colorToInt(cubeColr)]) // if player is a medic and on the city and disease cured
 		{
 			isMedic = true;
 		}
