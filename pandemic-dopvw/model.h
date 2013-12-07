@@ -1918,10 +1918,12 @@ void PandModel::treatCity(int city, int cubecolor, int role) // remove 1 cube of
 {
 	if (role == 2 && cities[city].diseasecubes[cubecolor] > 0) // if medic
 	{
+		diseaseCubes[cubecolor] += cities[city].diseasecubes[cubecolor]; // put them back into the remaining pile
 		cities[city].diseasecubes[cubecolor] = 0; // remove all cubes
 	}
-	else if(cities[city].diseasecubes[cubecolor] > 0)  // if not medic and there are cubes on the city
+	else if (cities[city].diseasecubes[cubecolor] > 0)  // if not medic and there are cubes on the city
 	{
+		diseaseCubes[cubecolor]++; // add cube back to remaining pile
 		cities[city].diseasecubes[cubecolor]--; // remove one cube
 	}
 }
