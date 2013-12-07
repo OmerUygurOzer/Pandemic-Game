@@ -649,7 +649,7 @@ void PandModel::PlayCard(int playernum)
 	}
 	temp++; temp++; //this isn't a bug
 
-	if (players[playernum].extracardFlag){//Added by omer for contingency planner
+	if (players[playernum].extracardFlag == true){//Added by omer for contingency planner
 
 		cout << "Your Extra Card:" << endl;
 
@@ -659,101 +659,136 @@ void PandModel::PlayCard(int playernum)
 		cout << players[playernum].extracard.cardDescription << endl;
 	}
 	////////////////Hand print end////////////////////////////////
-
+	char playornot = '0';
+//	int cardchoose;
 	int cardchoose;
+	cout << "1. Play Card" << endl;
+	cout << "2. Do not play card" << endl;
+	cin >> playornot;
+	cout << endl << endl;
+if(playornot == '1')
+{
 	cout << "Choose your card: ";
 	cin >> cardchoose;
 
-	while(cardchoose < 0 || cardchoose > 9)//had to chang it for contigency planner
+	int cardchosenvalue = -1;
+	if(cardchoose >= 0 && cardchoose <= 9)
 	{
-		cout << "Invalid choice! Please choose again: ";
-		cin >> cardchoose;
+		if(players[playernum].cardsonhand[cardchoose-1].value != -1)
+		{
+		cardchosenvalue = players[playernum].cardsonhand[cardchoose-1].value;
+		}
 	}
+
+
 	cout << endl << endl;
 
-	if (cardchoose == temp){ 
-		skipped = true;
-		goto extra; }
+	
 
-	cardchoose = cardchoose - 1; //Player displays cards as 1 to 7. If select 1, we need to access deck[0]
+		if (cardchoose == temp && players[playernum].extracardFlag == true)
+		{ 
+			skipped = true;
+			goto extra; }
+
+		cardchoose--; //Player displays cards as 1 to 7. If select 1, we need to access deck[0]
 
 
 
-	if(players[playernum].cardsonhand[cardchoose].value < 48 && players[playernum].cardsonhand[cardchoose].value >= 0)
-	{
-		if(players[playernum].location == players[playernum].cardsonhand[cardchoose].value)
-		{
-			cout << "Card matches current city." << endl;
-			cout << "1. Charter Flight" << endl;
-			cout << "2. Build a research station" << endl;
-			int choice = 0;
-			cout << "Selection: ";
-			cin >> choice;
-			cout << string(10, '\n');
-
-			if(choice == 1)
+		if(cardchosenvalue <= 47 && cardchosenvalue >= 0) //if city
 			{
-			cout << "Charter Flight!   Choose your new location: ";
-			int newlocation;
-			cin >>newlocation;
-
-			players[playernum].location = newlocation;
-			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-			players[playernum].cardsonhand[cardchoose].value = -1;
-			cout << endl << "You have moved to : " << cities[newlocation].cityName << endl << endl;
-			}
-
-			if(choice ==2)
+			if(players[playernum].location == players[playernum].cardsonhand[cardchoose].value)
 			{
-			if(cities[players[playernum].cardsonhand[cardchoose].value].researchcenter == true)
-			{
+				cout << "Card matches current city." << endl;
+				cout << "1. Charter Flight" << endl;
+				cout << "2. Build a research station" << endl;
+				int choice = 0;
+				cout << "Selection: ";
+				cin >> choice;
+				cout << string(10, '\n');
+
+				if(choice == 1)
+				{
+					cout << "Charter Flight!   Choose your new location: ";
+					int newlocation;
+				cin >>newlocation;
+
+				players[playernum].location = newlocation;
+				discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+				players[playernum].cardsonhand[cardchoose].value = -1;
+				cout << endl << "You have moved to : " << cities[newlocation].cityName << endl << endl;
+				}
+
+				if(choice ==2)
+				{
+					if(cities[players[playernum].cardsonhand[cardchoose].value].researchcenter == true)
+				{
 				cout << "This city already has a research center!" << endl << endl;
 				setActionsLeft(playernum, 1);
 				system("pause");
 			}
 			if(cities[players[playernum].cardsonhand[cardchoose].value].researchcenter == false)
-			{
-			buildResearchCenter(playernum);
-			if(cities[players[playernum].location].researchcenter == true)
-			{
-				discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-				players[playernum].cardsonhand[cardchoose].value = -1;
-			}
+				{
+				buildResearchCenter(playernum);
+				if(cities[players[playernum].location].researchcenter == true)
+					{
+					discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+					players[playernum].cardsonhand[cardchoose].value = -1;
+				}
 			cout << string(5, '\n');
 			}
 
 
 			}
 
+			}
+			else
+			{
+			cout << "City Card chosen, you have been moved to: " << players[playernum].cardsonhand[cardchoose].cardDescription << endl;
+			players[playernum].location = players[playernum].cardsonhand[cardchoose].value;
+			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
+			players[playernum].cardsonhand[cardchoose].value = -1;
+			cout << endl << endl;
+			}
+		}
+
+
+
+	//if EVENT CARD
+		else if(cardchosenvalue >= 54 && cardchosenvalue <= 58)
+		{
+			setActionsLeft(playernum, 1); //Event card takes up no turns
+			cout << "Playing an event card: ";
+			PlayEventCard(playernum, players[playernum].cardsonhand[cardchoose]);
 		}
 		else
 		{
-		cout << "City Card chosen, you have been moved to: " << players[playernum].cardsonhand[cardchoose].cardDescription << endl;
-		players[playernum].location = players[playernum].cardsonhand[cardchoose].value;
-		discardPlayCard(players[playernum].cardsonhand[cardchoose]);
-		players[playernum].cardsonhand[cardchoose].value = -1;
-		cout << endl << endl;
+		cout << "Choice was not valid" << endl;
+		setActionsLeft(playernum, 1);
 		}
-	}
 
-	int cardchosenvalue;
-	cardchosenvalue = players[playernum].cardsonhand[cardchoose].value; //I should've did this sooner -Vu
 
-	//if EVENT CARD
-	if(cardchosenvalue >=54 && cardchosenvalue <= 58)
-	{
-		setActionsLeft(playernum, 1); //Event card takes up no turns
-		cout << "Playing an event card: ";
-		PlayEventCard(playernum, players[playernum].cardsonhand[cardchoose]);
+
+
+
 	}
+	else
+		{
+		cout << "Returning to main menu." << endl;
+		setActionsLeft(playernum, 1);
+		}
+
 
 extra:
-	if (skipped){
+	if (skipped == true){
 		setActionsLeft(playernum, 1); //Event card takes up no turns
 		cout << "Playing an event card: ";
-		PlayEventCard(playernum, playerDeck[players[playernum].extracard.value]);
+		//PlayEventCard(playernum, playerDeck[players[playernum].extracard.value]);
+		PlayEventCard(playernum, players[playernum].extracard);
 		players[playernum].extracardFlag = false;
 	}
+
+
+
 }
 
 void PandModel::allEventCard(int numofplayers)
@@ -783,7 +818,7 @@ void PandModel::allEventCard(int numofplayers)
 
 	cout << endl << "Select an event card to play (0 - 7) : ";
 	cin >> choosecard;
-
+	choosecard--;
 	if(players[playernum].cardsonhand[choosecard].value >= 54 && players[playernum].cardsonhand[choosecard].value <= 58)
 	{
 		PlayEventCard(playernum, players[playernum].cardsonhand[choosecard]); //if event card, play
