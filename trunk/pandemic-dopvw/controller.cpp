@@ -212,7 +212,7 @@ into:
 			}
 			
 			/////////////Use Card/////////////////////////////
-			else	if(ans == "2")
+			else if(ans == "2")
 			{
 				if(GameInstance.CheckHand(charnum) == 0)
 				{
@@ -291,7 +291,7 @@ into:
 
 			}
 
-			else	if(ans == "3") // treat city
+			else if(ans == "3") // treat city
 			{
 				char cubecolor;
 				cout << "What color cube would you like to treat?(R, G ,B , Y)\n";
@@ -538,7 +538,7 @@ into:
 			////////////Exit Function//////////////////////
 			else
 			{
-				cout << "Input was not valid." << endl;
+				cout << "Input was not valid" << endl;
 				GameInstance.setActionsLeft(charnum,1);
 			}
 
