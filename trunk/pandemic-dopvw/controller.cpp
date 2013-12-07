@@ -9,55 +9,6 @@
 using namespace std;
 
 
-string delSpaces(string &str);
-
-PandController::PandController(PandModel m, PandView v){
-	model = m;
-	view = v;
-	updateView(); // updates the interface with starting information from model
-}
-
-void PandController::updateView(){
-	/* Will update view from information from model
-		and prompt current player for his action
-	*/
-	int playerchoice, currentplayer;
-
-	currentplayer = currentPlayer(); // sets current player
-
-	// Show menu and prompt player for action (4 actions) 
-	for(int i = 0; i < 4; i++){
-		view.showActionMenu(model.getPlayerRole(i));  // display the action menu 
-		cin >> playerchoice;
-		cout << "Player " << currentplayer << " has chosen action " << playerchoice << ".";
-		// will have a call to the model here depending on action
-	}
-
-	NextTurn(); // starts next players turn
-
-}
-
-int PandController::whereIsPlayer(){
-	// not done yet
-	return 0;
-}
-
-int PandController::currentPlayer(){
-	// not done yet
-	return 0;
-}
-
-void PandController::setPlayerLocation(int player){
-	// not done yet
-}
-
-void PandController::setPlayerMoves(int player){
-	// not done yet
-}
-
-void PandController::NextTurn(){
-	// not done yet
-}
 
 int main()
 {
@@ -129,7 +80,6 @@ int main()
 	Screens.askPlayerNumber();
 
 	// Number of players input and validation
-	//cin >> numberofplayers;
 	bool validPlayer;
 	validPlayer = false;
 
@@ -167,7 +117,7 @@ int main()
 start:
 	int charnum; //temp variable
 	charnum = GameInstance.getTurn();
-	// debug cout << charnum << endl;
+
 
 
 
@@ -193,10 +143,7 @@ start:
 				GameInstance.ReceiveCard(i,tempCard);//need to modify RecieveCard to take in an object of playercard. and store it on hand
 		}
 	}
-	playerCard tempCard = GameInstance.getPlayerCard(58);//resilient test
-	GameInstance.ReceiveCard(0,tempCard);
-	tempCard = GameInstance.getPlayerCard(57);//quiet night test
-	GameInstance.ReceiveCard(0,tempCard);
+
 	/////Hardcoded Cards for testing
 
 	/*  Please do not remove /////////////////
@@ -213,8 +160,7 @@ start:
 	///////////////////////////////
 
 
-	//while(game not ended yet) //STUB
-//	while(charnum != -1) //Temp infinite loop - Insert a bool here to check if the game has ended
+	//while(game not ended yet) 
 	while(!GameInstance.GameOver() )
 	{
 
@@ -224,18 +170,8 @@ start:
 			GameInstance.setloadflag(0);
 		}
 		else{
-			//if player = special profession
-			//GameInstance.setActionsLeft(charnum, #)
-			//else
 			GameInstance.setActionsLeft(charnum, 4);//default 4 actions per turn
-			
 			} 
-		//Change the second argument here for base # of moves
-		//Default: Set to 3 for quicker play while debugging
-
-
-		//DEBUG cout << "Debug actionsleft:" << GameInstance.getActionsLeft(charnum) << endl << endl;
-		//Prints out actions left directly to see how many turns you have before anything happens
 
 		while(GameInstance.getActionsLeft(charnum) != 0 ) //while player is not out of actions
 		{
@@ -244,7 +180,7 @@ into:
 			GameInstance.updateHandsFile(charnum);//used to display in form
 			//cout << string(50, '\n'); //Screen clearer.
 			cout << "Actions Remaining: " << GameInstance.getActionsLeft(charnum) << endl;
-			//GameInstance.loadActionsLeft(charnum, GameInstance.getActionsLeft(charnum) - 1);
+
 			PandView newScreen(GameInstance);//will refresh when it goes through loop
 			Playerchar temp = GameInstance.getPlayerInfo(charnum);
 			city tempcity = GameInstance.getCityInfo(temp.location);//integer in getCityInfo should be the int of the city the player is in.
@@ -289,7 +225,6 @@ into:
 				if(GameInstance.ReturnForecast() == 1)
 				{
 					cout << "Forecast is being played!  Drawing 6 cards..." << endl;
-					//cout << "Not implemented yet!" << endl << endl;
 					int cardplace;
 					infectionCard rearrange[6];
 
@@ -310,8 +245,7 @@ into:
 						{
 							if(rearrange[i].color != -1)
 							{cout << i+1 << ". " << "Infection:  " << rearrange[i].cardDescription << endl;}
-							//DEBUG : Test to see if flags for card already used is set
-							//cout << "DEBUG #" << i+1 << " = " << rearrange[i].color << endl;
+
 						}
 						cout << "Choose which card to place on top of the deck (1-6): ";
 						cin >> cardplace;
@@ -326,8 +260,6 @@ into:
 						}
 						else{cout << "Card already chosen!" << endl;}
 
-
-						//Loop had issues.. trying the long way  -  Tested and it works.
 						if(rearrange[0].color == -1 && rearrange[1].color == -1 && rearrange[2].color == -1 && 
 							rearrange[3].color == -1 && rearrange[4].color == -1 && rearrange[5].color == -1)
 						{doneYet = 1;}
@@ -335,15 +267,8 @@ into:
 					}
 
 					GameInstance.setForecastPlayed(0); //Forecast has been played and ended
-					//DEBUG////////////
-					/*
-					cout << "DEBUG: DRAWING TOP CARD (should be last card you put in)" << endl;
-					infectionCard tempInfectCard = GameInstance.drawInfectionCard();
-					PandView newCards(GameInstance);
-					newCards.showInfectCard(tempInfectCard);//display infection card drawn
-					*/
 					cout << endl << endl;
-					//////////////////
+
 				}
 				//Resilient population
 				if(GameInstance.returnResilient())
@@ -381,16 +306,6 @@ into:
 			{
 				GameInstance.ShuttleFlight(charnum); GameInstance.updateHandsFile(charnum);
 			}
-
-
-			//Added to the below function, we can remove this one
-			//if(ans == "5")
-			//{
-			//	newScreen.showCubeLocations();
-			//	GameInstance.setActionsLeft(charnum, 1);
-			//}
-
-
 
 			if(ans == "5") //Tester: This prints all the cities in 3 columns, no additional info.
 			{
@@ -677,16 +592,7 @@ into:
 	system("pause");
 	return 0;
 }
-// Does not work. So irritated :D supposed to return the same string with all the spaces replaced with underscores
-string delSpaces(string &str)
-{
-	int size = str.length();
-	for (int j = 0; j < size; j++)
-	{
-		if (isspace(str[j])){ str.replace(j, 1, "_"); }
-	}
-	return str;
-}
+
 
 
 
