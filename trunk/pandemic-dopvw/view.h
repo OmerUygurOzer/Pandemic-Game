@@ -105,15 +105,15 @@ void PandView::showActionMenu(int p)
 	std::cout << "4. Shuttle Flight            ||"; std::cout << listActions(p, 3) << std::endl;
 	std::cout << "5. List City Data            ||"; std::cout << listActions(p, 4) << std::endl;
 	std::cout<<  "6. Research Cure             ||" << std::endl;//expansion for later
-	std::cout<<  "7. Share Knowledge " << std::endl;
+	std::cout<<  "7. Share Knowledge           ||" << std::endl;
 
 	//listActions(p); //additional actions that are unique to each player are being shown here
 	//I think have the above line print if the player chooses to in Use Profession Ability
-	std::cout<<"8. List other things         ||" << std::endl;
+	std::cout<<"8. Use Event Card(any player)||" << std::endl;
 
 	std::cout << "9. Save current game         ||" << std::endl;
 	std::cout << "10. Load a different game    ||" << std::endl;
-	std::cout<<"12.______________ " << std::endl;
+	std::cout<<"12. ________ " << std::endl;
 	std::cout<<"What would you like to do: ";
 	
 }
