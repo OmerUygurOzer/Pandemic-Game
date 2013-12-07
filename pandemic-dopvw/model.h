@@ -708,6 +708,15 @@ if(playornot == '1')
 
 				if(choice == 1)
 				{
+						for(int i = 0; i < 16; i++)
+						{
+						cout << left << setw(3) << i    << "  " << setw(20) << getCityName(i);
+						cout << left << setw(3) << i+16 << "  " << setw(20) << getCityName(i+16);
+						cout << left << setw(3) << i+32 << "  " << setw(20) << getCityName(i+32) << endl;
+						}
+						cout << endl;
+
+
 					cout << "Charter Flight!   Choose your new location: ";
 					int newlocation;
 				cin >>newlocation;
@@ -1118,6 +1127,20 @@ void PandModel::abilityCharterFlight(int playernum)
 	cout << endl << endl;
 
 	cardchoose = cardchoose - 1;
+	
+
+
+
+	if(players[playernum].cardsonhand[cardchoose].value >= 0 && players[playernum].cardsonhand[cardchoose].value <= 47)
+	{
+
+			for(int i = 0; i < 16; i++)
+		{
+		cout << left << setw(3) << i    << "  " << setw(20) << getCityName(i);
+		cout << left << setw(3) << i+16 << "  " << setw(20) << getCityName(i+16);
+		cout << left << setw(3) << i+32 << "  " << setw(20) << getCityName(i+32) << endl;
+		}
+		cout << endl;
 
 			cout << "Charter Flight!   Choose your new location: ";
 			int newlocation;
@@ -1127,6 +1150,12 @@ void PandModel::abilityCharterFlight(int playernum)
 			discardPlayCard(players[playernum].cardsonhand[cardchoose]);
 			players[playernum].cardsonhand[cardchoose].value = -1;
 			cout << endl << "You have moved to : " << cities[newlocation].cityName << endl << endl;
+	}
+	else
+	{
+		cout << "Not a valid card choice" << endl;
+		setActionsLeft(playernum, 1);
+	}
 			
 }
 
