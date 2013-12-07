@@ -1918,9 +1918,11 @@ void PandModel::addDiseaseCubes(int cityNum, char cubeColr)
 		outbreak(cityNum);//cause an outbreak
 		cout<<"Outbreak! \n";
 	}
-	else if (!isMedic && !isQuarantine) // otherwise if there is no medic and no quarantine specialist
+	else if (!isMedic && !isQuarantine)
+	{// otherwise if there is no medic and no quarantine specialist
 		cities[cityNum].diseasecubes[cubeIndex] = cities[cityNum].diseasecubes[cubeIndex] + 1;
-
+		diseaseCubes[cubeIndex]--; // remove a cube from remaining pile
+	}
 }
 void PandModel::outbreak(int cityNum)//
 {
