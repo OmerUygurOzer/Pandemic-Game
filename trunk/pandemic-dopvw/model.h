@@ -551,6 +551,14 @@ void PandModel::setPlayerName(int playernum, std::string name)
 void PandModel::setPlayerLocation(int playernum, int location)
 {
 	players[playernum].location = location;
+	if (players[playernum].profession == 2) // if player is medic
+	{
+		for (int i = 0; i < 4; i++) // cycle through cureMarkers
+		{
+			if (cureMarkers[i]) // if disease is cured
+				cities[location].diseasecubes[i] = 0; // remove all disease cubes of that color from city
+		}
+	}
 }
 
 void PandModel::setActionsLeft(int playernum, int addAction)
