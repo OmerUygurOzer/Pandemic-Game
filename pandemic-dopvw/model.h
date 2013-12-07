@@ -1944,12 +1944,6 @@ void PandModel::outbreak(int cityNum)//
 		
 		i++;
 	
-		
-	//Then place 1 disease cube of the same color on every city connected to that city where outbreak originates.
-		//(phat)found city with 3 cubes, infect neighbors if not already infected. Check through array
-	//except do not add to cities that have already had an outbreak or chain outbreak.
-		//(phat)keep track of cities that have already been infected maybe with an array of already infected cities.
-	//cities can have up to 3 diseasce cubes of each color.
 	}
 	//needs to happen after the outbreak is complete. When complete, we should have a completed already infected list.
 		while (chainThese.size()>0)
