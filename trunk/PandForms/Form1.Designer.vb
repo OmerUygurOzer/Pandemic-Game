@@ -86,7 +86,6 @@ Partial Class Form1
         Me.Tokyo = New System.Windows.Forms.Label()
         Me.Tehran = New System.Windows.Forms.Label()
         Me.Taipei = New System.Windows.Forms.Label()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         CType(Me.RoleBox, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -707,11 +706,6 @@ Partial Class Form1
         Me.Taipei.TabIndex = 61
         Me.Taipei.Text = "Taipei"
         '
-        'Timer1
-        '
-        Me.Timer1.Enabled = True
-        Me.Timer1.Interval = 5000
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -859,6 +853,5 @@ Partial Class Form1
     Friend WithEvents Tokyo As System.Windows.Forms.Label
     Friend WithEvents Tehran As System.Windows.Forms.Label
     Friend WithEvents Taipei As System.Windows.Forms.Label
-    Friend WithEvents Timer1 As System.Windows.Forms.Timer
 
 End Class
