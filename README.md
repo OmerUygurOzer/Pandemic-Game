@@ -1,4 +1,4 @@
-# Pandemic-Game By Omer Ozer Phat Ly & Vu Huynh & William Overell
+# Pandemic-Game By Omer Ozer & Phat Ly & Vu Huynh & William Overell
 
 ##Created using C++ and .Net
 
